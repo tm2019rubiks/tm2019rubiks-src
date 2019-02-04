@@ -44,7 +44,19 @@ public class RCube {
         this.faces[rotatedFaceIndex] = rotatedFace;
          
         //TODO: other faces whose parts also get rotated
+        //one for suffices since we only have 1 parameter that has to be iterated over
+        //the other one (index of the face) is not a value that cahnges regularly
+        //so a for loop isn't needed
         
+        for(int i = 0; i < 3; i ++){
+           //for the 4 faces that get rotated:
+           //change each element with the next face
+           
+           //TODO: data struct that lets you easily define which parts of which faces get
+           //rotated
+           //tip; try defining how the faces of the cube(matrixes) link up with each other 
+           //and then maybe its possible to autogen the rotated parts
+        }
         
     }
     

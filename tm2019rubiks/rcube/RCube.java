@@ -22,7 +22,10 @@ public class RCube {
         
         this.faces = new RFace[]{front, right, back, left, up, down};
     }
-    //ex : D2 b, D', U , 
+    
+    //you have to pass it a Move() object, and the rcube makes modifications on itself
+    //based on the move
+    //the faces change
     public void applyMove(Move move) throws Exception{
         
         int[] moveParams = move.getMoveParams();

@@ -10,18 +10,25 @@ public class Move {
                       turns;
     //final private int[][]
 
+    //designs one of the 12 manips possible on the rcube
     
     public Move(int faceIndex, int direction, int turns) throws Exception{
         this.faceIndex = faceIndex;
         this.direction = direction;
         this.turns = turns;
+        
+        //rcube moves need to have a face which is rotated(U D L R F B), so if the index is
+        //not in the good range, it throws an error
         if(faceIndex < 0 || faceIndex > 5){
             throw new Exception("face of rotation not valid" + String.valueOf(faceIndex));
         }
+        
         if(direction != -1 && direction != 1){
             throw new Exception("direction of rotation not valid" + String.valueOf(direction));
         }
     }
+    //constructor used with strings ( just plug in the standard notation name of the move
+    //and it initializes a move which corresponds to the string
     public Move(String moveString) throws Exception{
         char[] symbols = moveString.toCharArray();
         int faceIndex, direction, turns;
@@ -47,6 +54,10 @@ public class Move {
             default:
                 throw new Exception("unsupported move " + symbols[0]);
         }
+        
+        // ' means anti-clockwise
+        // 2 means half-turn
+        //   means nothing
         switch (symbols[1]) {
             case '\'':
                 direction = -1;

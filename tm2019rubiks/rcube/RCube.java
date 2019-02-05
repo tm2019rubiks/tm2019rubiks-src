@@ -56,6 +56,24 @@ public class RCube {
            //rotated
            //tip; try defining how the faces of the cube(matrixes) link up with each other 
            //and then maybe its possible to autogen the rotated parts
+           
+           
+           //U:
+           /*
+           up rotated, every element from face[0] from 0 to 3 goes to face face[0][i+1]
+           
+           */
+           
+           //D:
+           /*
+           down ratated, same thing as for up ,except zts face[2]
+           */
+           
+           // R
+           /*
+           R gets rotated
+           D-> F -> U -//> B ->> D
+           */
         }
         
     }

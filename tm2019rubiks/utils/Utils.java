@@ -10,7 +10,7 @@ public class Utils {
     
     
     //1 clockwise, -1 anti-clockwise
-    public static int[][] rotate(int[][] toRotate, int direction) throws Exception{
+    public static int[][] rotate(int[][] toRotate, int direction){
         int[][] newMatrix = {{-1, -1, -1},{-1, -1, -1},{-1, -1, -1}};
         //iterating throug each element of the matrix and placing them to the right spot
         //only works for 3x3 matrixes
@@ -30,11 +30,21 @@ public class Utils {
         for(int[] line : newMatrix){
             for(int value : line){
                 if(value == -1){
-                    throw new Exception("something went wrong during rotation (-1 left in array)" + Arrays.toString(line));
+                    //throw new Exception("something went wrong during rotation (-1 left in array)" + Arrays.toString(line));
+                    System.out.println("something went wrong during rotation (-1 left in array)" + Arrays.toString(line));
                 }
             }
         }
         return newMatrix;
+    }
+    public static int[][] fill(int color){
+        int[][] matrix = new int[3][3];
+        for(int i = 0; i < 3; i ++){
+            int[] line = new int[3];
+            Arrays.fill(line, color);
+            matrix[i] = line;
+        }
+        return matrix;
     }
     public static int[][] copyOf(int[][] toCopy){
         int lengthY = toCopy.length;

@@ -45,13 +45,15 @@ public class RFace {
     //an RFace() is a wrapper for a matrix of ints denoting indexes
     //these indexes indicate the colors of the face
     
-    public RFace(int[][] colors) throws Exception{
+    public RFace(int[][] colors){
         if(colors.length != 3){
-            throw new Exception("cant create face with line number other than 3");
+            //throw new Exception("cant create face with line number other than 3");
+            System.out.println("cant create face with line number other than 3");
         }
         for(int[] line : colors){
             if(colors.length != 3){
-                throw new Exception("cant create face row with element number other than 3");
+                //throw new Exception("cant create face row with element number other than 3");
+                System.out.println("cant create face row with element number other than 3");
             } 
         }
         this.colors = colors;
@@ -59,10 +61,11 @@ public class RFace {
         
     }
     public void twist(int direction, int turns) throws Exception{
-        int[][] newColors = Utils.copyOf(colors);
+        int[][] newColors = Utils.copyOf(this.colors);
         for(int i = 0; i < turns; i ++){
-            newColors = Utils.rotate(colors, direction);
+            newColors = Utils.rotate(this.colors, direction);
         }
+        this.colors = newColors;
     }
     public int[][] getColors() {
         return colors;

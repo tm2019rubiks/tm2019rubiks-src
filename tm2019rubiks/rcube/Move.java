@@ -59,7 +59,7 @@ public class Move {
         // 2 means half-turn
         //   means nothing
         switch (symbols[1]) {
-            case '\'':
+            case 'p':
                 direction = -1;
                 turns = 1;
                 break;
@@ -67,11 +67,13 @@ public class Move {
                 direction = 1;
                 turns = 2;
                 break;
-            case ' ':
+            case 'n':
                 direction = 1;
                 turns = 1;
+                break;
             default:
                 throw new Exception("more operators found than expected: " + String.valueOf(symbols));
+                //System.out.println("more operators found than expected: " + String.valueOf(symbols));
         }
         this.faceIndex = faceIndex;
         this.direction = direction;

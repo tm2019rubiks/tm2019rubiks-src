@@ -34,14 +34,9 @@ public class RCube {
         int turns = moveParams[2];
         
         RFace toRotate = this.faces[rotatedFaceIndex];
-        int[][] colors = toRotate.getColors();
-        int[][] rotatedColors = Utils.copyOf(colors);
-        for(int i = 0; i < turns; i ++){
-            rotatedColors = Utils.rotate(rotatedColors, direction);
-        }
-                
-        RFace rotatedFace = new RFace(rotatedColors);
-        this.faces[rotatedFaceIndex] = rotatedFace;
+        toRotate.twist(direction, turns);
+        
+        
          
         //TODO: other faces whose parts also get rotated
         //one for suffices since we only have 1 parameter that has to be iterated over

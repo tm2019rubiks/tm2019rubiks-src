@@ -1,6 +1,7 @@
 package tm2019rubiks.rcube;
 
 import java.util.HashMap;
+import tm2019rubiks.utils.Utils;
 
 /**
  *
@@ -57,7 +58,12 @@ public class RFace {
         this.colorIndex = colors[1][1];
         
     }
-
+    public void twist(int direction, int turns) throws Exception{
+        int[][] newColors = Utils.copyOf(colors);
+        for(int i = 0; i < turns; i ++){
+            newColors = Utils.rotate(colors, direction);
+        }
+    }
     public int[][] getColors() {
         return colors;
     }

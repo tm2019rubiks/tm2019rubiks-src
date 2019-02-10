@@ -50,10 +50,7 @@ public class RCube {
         
         
          
-        //TODO: other faces whose parts also get rotated
-        //one for suffices since we only have 1 parameter that has to be iterated over
-        //the other one (index of the face) is not a value that cahnges regularly
-        //so a for loop isn't needed
+        
         
         
         //rotating ccw is the same as 3 cw rotations
@@ -67,25 +64,7 @@ public class RCube {
             rotations = 3;
         }
         
-        //for the 4 faces that get rotated:
-        //change each element with the next face
-        //TODO: data struct that lets you easily define which parts of which faces get
-        //rotated
-        //tip; try defining how the faces of the cube(matrixes) link up with each other
-        //and then maybe its possible to autogen the rotated parts
-        //U:
-        /*
-        up rotated, every element from face[0] from 0 to 3 goes to face face[0][i+1]
-         */
-        //D:
-        /*
-        down ratated, same thing as for up ,except zts face[2]
-         */
-        // R
-        /*
-        R gets rotated
-        D-> F -> U -//> B ->> D
-         */
+        
         
         
         

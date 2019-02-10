@@ -6,11 +6,20 @@ import tm2019rubiks.rcube.RFace;
 
 public class RCube3D {
     private RCube cube;
+    private int currIter;
     
 
     public RCube3D(RCube cube) {
         this.cube = cube;
     }
+
+    public RCube getCube() {
+        return cube;
+    }
+    public void startRot(){
+        //TODO: make rotation animation
+    }
+    
     public void draw(GL2 gl){
         gl.glBegin (GL2.GL_QUADS);
         

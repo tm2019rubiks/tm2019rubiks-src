@@ -20,7 +20,7 @@ public class Main implements GLEventListener {
     static int rotIters = 0;
     private static RCube3D cube3d;
     private static int frames;
-    private static boolean start = false, m = false;
+    private static boolean start = false;
     public static float currRotY, currRotX;
     
     @Override
@@ -86,7 +86,7 @@ public class Main implements GLEventListener {
         cube = RCube.BASE;
         cube3d = new RCube3D(cube);
         
-        RCubeMover cubeMover = new RCubeMover(cube);
+        RCubeMover cubeMover = new RCubeMover(cube3d);
         
         
         final GLProfile gp = GLProfile.get(GLProfile.GL2);

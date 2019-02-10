@@ -15,16 +15,17 @@ import tm2019rubiks.rcube.RCube;
  * @author estok
  */
 public class RCubeMover implements KeyListener {
-    private RCube cube;
+    private RCube3D cube3d;
 
-    public RCubeMover(RCube toMove) {
-        this.cube = toMove;
+    public RCubeMover(RCube3D toMove) {
+        this.cube3d = toMove;
     }
     
     
     
     @Override
     public void keyTyped(KeyEvent e) {
+        RCube cube = this.cube3d.getCube();
         if(e.getKeyChar() == KeyEvent.VK_SPACE){
             
         }

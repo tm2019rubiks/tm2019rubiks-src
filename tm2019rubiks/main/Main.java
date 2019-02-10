@@ -5,21 +5,23 @@ import javax.swing.JFrame;
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.FPSAnimator;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import tm2019rubiks.rcube.Move;
+import tm2019rubiks.gui.RCube3D;
+import tm2019rubiks.gui.RCubeMover;
 import tm2019rubiks.rcube.RCube;
-import tm2019rubiks.rcube.RFace;
-import tm2019rubiks.utils.Utils;
 
 
 
-public class Main implements GLEventListener, KeyListener {
+public class Main implements GLEventListener {
     private static RCube cube;
+    static int rotIters = 0;
+    private static RCube3D cube3d;
     private static int frames;
     private static boolean start = false, m = false;
+    public static float currRotY, currRotX;
     
     @Override
     public void init(GLAutoDrawable obj) {
@@ -33,108 +35,39 @@ public class Main implements GLEventListener, KeyListener {
         gl.glClear (GL2.GL_COLOR_BUFFER_BIT |  GL2.GL_DEPTH_BUFFER_BIT );
         gl.glEnable(GL2.GL_DEPTH_TEST);
         
-        gl.glBegin (GL2.GL_QUADS);
+        cube3d.draw(gl);
         
-        
-        for(RFace face : cube.getFaces()){
-            int[][] colors = face.getColors();
-            int index = colors[1][1];
-            
-            switch(index){
-                case RFace.INDEX_FACE_RED:
-                    for(int y = 0; y < 3; y ++){
-                        for(int x = 0; x < 3; x ++){
-                            float r, g, b;
-                            float[] color = RFace.COLORS_BY_INDEX[face.getColors()[y][x]];
-                            r = color[0]; g = color[1]; b = color[2];
-                            gl.glColor3f(r,g,b);
-                            gl.glVertex3f(-0.6f + x*0.4f, 0.6f - y* 0.4f, -0.6f);
-                            gl.glVertex3f(-0.2f + x*0.4f, 0.6f - y* 0.4f, -0.6f);
-                            gl.glVertex3f(-0.2f + x*0.4f, 0.2f - y* 0.4f, -0.6f);
-                            gl.glVertex3f(-0.6f + x*0.4f, 0.2f - y* 0.4f, -0.6f);
-                        }
-                    }
-                    break;
-                case RFace.INDEX_FACE_ORANGE:
-                    for(int y = 0; y < 3; y ++){
-                        for(int x = 0; x < 3; x ++){
-                            float r, g, b;
-                            float[] color = RFace.COLORS_BY_INDEX[face.getColors()[y][x]];
-                            r = color[0]; g = color[1]; b = color[2];
-                            gl.glColor3f(r,g,b);
-                            gl.glVertex3f(0.6f - x*0.4f, 0.6f - y* 0.4f, 0.6f);
-                            gl.glVertex3f(0.2f - x*0.4f, 0.6f - y* 0.4f, 0.6f);
-                            gl.glVertex3f(0.2f - x*0.4f, 0.2f - y* 0.4f, 0.6f);
-                            gl.glVertex3f(0.6f - x*0.4f, 0.2f - y* 0.4f, 0.6f);
-                        }
-                    }
-                    break;
-                case RFace.INDEX_FACE_GREEN:
-                    for(int y = 0; y < 3; y ++){
-                        for(int x = 0; x < 3; x ++){
-                            float r, g, b;
-                            float[] color = RFace.COLORS_BY_INDEX[face.getColors()[y][x]];
-                            r = color[0]; g = color[1]; b = color[2];
-                            gl.glColor3f(r,g,b);
-                            gl.glVertex3f(0.6f, 0.6f - y* 0.4f, -0.6f+ x * 0.4f);
-                            gl.glVertex3f(0.6f, 0.6f - y* 0.4f, -0.2f+ x * 0.4f);
-                            gl.glVertex3f(0.6f, 0.2f - y* 0.4f, -0.2f+ x * 0.4f);
-                            gl.glVertex3f(0.6f, 0.2f - y* 0.4f, -0.6f+ x * 0.4f);
-                        }
-                    }
-                    break;
-                case RFace.INDEX_FACE_BLUE:
-                    for(int y = 0; y < 3; y ++){
-                        for(int x = 0; x < 3; x ++){
-                            float r, g, b;
-                            float[] color = RFace.COLORS_BY_INDEX[face.getColors()[y][x]];
-                            r = color[0]; g = color[1]; b = color[2];
-                            gl.glColor3f(r,g,b);
-                            gl.glVertex3f(-0.6f, 0.6f - y* 0.4f, +0.6f- x * 0.4f);
-                            gl.glVertex3f(-0.6f, 0.6f - y* 0.4f, +0.2f- x * 0.4f);
-                            gl.glVertex3f(-0.6f, 0.2f - y* 0.4f, +0.2f- x * 0.4f);
-                            gl.glVertex3f(-0.6f, 0.2f - y* 0.4f, +0.6f- x * 0.4f);
-                        }
-                    }
-                    break;
-                case RFace.INDEX_FACE_YELLOW:
-                    for(int y = 0; y < 3; y ++){
-                        for(int x = 0; x < 3; x ++){
-                            float r, g, b;
-                            float[] color = RFace.COLORS_BY_INDEX[face.getColors()[y][x]];
-                            r = color[0]; g = color[1]; b = color[2];
-                            gl.glColor3f(r,g,b);
-                            gl.glVertex3f(-0.6f + x* 0.4f, 0.6f, 0.6f- y * 0.4f);
-                            gl.glVertex3f(-0.2f + x* 0.4f, 0.6f, 0.6f- y * 0.4f);
-                            gl.glVertex3f(-0.2f + x* 0.4f, 0.6f, 0.2f- y * 0.4f);
-                            gl.glVertex3f(-0.6f + x* 0.4f, 0.6f, 0.2f- y * 0.4f);
-                        }
-                    }
-                    break;
-            }
-        }
-        
-        
-        
-        
-        
-        
-        
-        
-        gl.glEnd();
         gl.glFlush();
         long time2 = System.currentTimeMillis();
         if(time2 == time1){
             time2 += 1;
         }
+        int x, y;
+        Point mouse = MouseInfo.getPointerInfo().getLocation();
+        x = mouse.x;
+        y = mouse.y;
+        float xrot = 200- x/4;
+        float yrot = 200- y/4;
         if(!start){
             start = true;
-            gl.glRotatef(-45, 1, 0, 0);
+            gl.glRotatef(22.5f, 1, 0, 0);
+            
+        } 
+        gl.glRotatef(xrot-currRotX, 0, 1, 0);
+        if(currRotY- yrot != 0){
+            gl.glRotatef(-currRotX, 0, 1, 0);
+            gl.glRotatef(yrot-currRotY, 1, 0, 0);
+            gl.glRotatef(currRotX, 0, 1, 0);
+            currRotY = yrot;
         }
-        gl.glRotatef(0.2f, 0, 1, 0);
-//System.out.println(1000/(time2-time1));
-frames += 1;
-
+        currRotX = xrot;
+        
+        
+        
+        
+        //System.out.println(1000/(time2-time1));
+        frames += 1;
+        
     }
     
     @Override
@@ -150,6 +83,12 @@ frames += 1;
     public static void main(String[] args) {
         frames = 0;
         
+        cube = RCube.BASE;
+        cube3d = new RCube3D(cube);
+        
+        RCubeMover cubeMover = new RCubeMover(cube);
+        
+        
         final GLProfile gp = GLProfile.get(GLProfile.GL2);
         GLCapabilities cap = new GLCapabilities(gp);
         
@@ -158,10 +97,9 @@ frames += 1;
         Main af = new Main();
         gc.addGLEventListener(af);
         gc.setSize(350, 350);
-        gc.addKeyListener(af);
+        gc.addKeyListener(cubeMover);
         
-        //Now creating a frame using Frame class of AWT
-        final JFrame frame = new JFrame ("AWT Frame");
+        final JFrame frame = new JFrame ("tm2019rubiks");
         
         
         frame.add(gc);
@@ -173,59 +111,11 @@ frames += 1;
         animator.start();
         
         
-        cube = RCube.BASE;
-        Move r = null, u = null, rp = null, up = null;
-        try {
-            r = new Move("Rn");
-            u = new Move("Un");
-            rp = new Move("Rp");
-            up = new Move("Up");
-            System.out.println(cube);
-            
-            for(int i = 0; i < 100; i ++){
-                while(!m){
-                    Thread.sleep(30);
-                    
-                }
-                m = false;
-                
-                cube.applyMove(r);
-                Thread.sleep(200);
-                cube.applyMove(u);
-                Thread.sleep(200);
-                cube.applyMove(rp);
-                Thread.sleep(200);
-                cube.applyMove(up);
-                Thread.sleep(200);
-                //cube.applyMove(u);
-                //cube.applyMove(rp);
-                //cube.applyMove(up);
-//                cube.applyMove(rp);
-//                cube.applyMove(up);
-System.out.println("___________\n"+cube);
-            }
-            System.out.println("___________\n"+cube);
-        } catch (Exception ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
+        
         
     }
     
-    @Override
-    public void keyTyped(KeyEvent e) {
-        if(e.getKeyChar() == KeyEvent.VK_SPACE){
-            m = true;
-        }
-    }
     
-    @Override
-    public void keyPressed(KeyEvent e) {
-        
-    }
-    
-    @Override
-    public void keyReleased(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
 }

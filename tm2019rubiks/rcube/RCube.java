@@ -38,7 +38,7 @@ public class RCube {
     //you have to pass it a Move() object, and the rcube makes modifications on itself
     //based on the move
     //the faces change
-    public void applyMove(Move move) throws Exception{
+    public void applyMove(Move move) {
         
         int[] moveParams = move.getMoveParams();
         int rotatedFaceIndex = moveParams[0];
@@ -152,8 +152,8 @@ public class RCube {
                             int temp = facesRotated[1].getColors()[i][0];
                             facesRotated[1].getColors()[i][0] = facesRotated[0].getColors()[i][0];
                             facesRotated[0].getColors()[i][0] = facesRotated[3].getColors()[2-i][2];
-                            facesRotated[3].getColors()[2-i][2] = facesRotated[2].getColors()[2-i][0];
-                            facesRotated[2].getColors()[2-i][0] = temp;
+                            facesRotated[3].getColors()[2-i][2] = facesRotated[2].getColors()[i][0];
+                            facesRotated[2].getColors()[i][0] = temp;
                         }
                     }       break; 
                 }

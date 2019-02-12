@@ -57,12 +57,18 @@ public class RCube {
         
         //consider ternary
         int rotations;
-        if(direction == 1){
-            rotations = 1;
+        if(turns != 2){
+            if(direction == 1){
+                rotations = 1;
+            }
+            else{
+                rotations = 3;
+            }
         }
         else{
-            rotations = 3;
+            rotations = 2;
         }
+        
         
         
         

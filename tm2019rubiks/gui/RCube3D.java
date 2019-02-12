@@ -19,15 +19,16 @@ public class RCube3D {
     public void startRot(){
         //TODO: make rotation animation
     }
-    
+    //basically all of the vertices are drawn in the method
+    //the colors are determined by the colors of the RCube object
     public void draw(GL2 gl){
         gl.glBegin (GL2.GL_QUADS);
         
         
         for(RFace face : this.cube.getFaces()){
             int[][] colors = face.getColors();
-            int index = colors[1][1];
-            
+            int index = face.getColorIndex();
+            // a switch is needed because 
             switch(index){
                 case RFace.INDEX_FACE_RED:
                     for(int y = 0; y < 3; y ++){
@@ -114,8 +115,21 @@ public class RCube3D {
                     }
                     break;
             }
+            
         }        
         gl.glEnd();
+        
+        //TODO: finish code for lines between faces
+        gl.glBegin(GL2.GL_LINES);
+        gl.glColor3f(1f, 1f, 1f);
+        for(int y = 0; y < 4; y ++){
+            gl.glVertex3f(-0.6f + y*0.4f, 0.6f, -0.6f);
+            gl.glVertex3f(-0.6f + y*0.4f, -0.6f, -0.6f);
+            
+        }
+        gl.glEnd();
+        
+        
     }
     
     

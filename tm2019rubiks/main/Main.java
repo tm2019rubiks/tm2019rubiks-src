@@ -3,6 +3,8 @@ package tm2019rubiks.main;
 import com.jogamp.opengl.GLEventListener;
 import javax.swing.JFrame;
 import com.jogamp.opengl.*;
+import com.jogamp.opengl.glu.gl2.GLUgl2;
+import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.FPSAnimator;
 import java.awt.MouseInfo;
@@ -21,7 +23,7 @@ public class Main implements GLEventListener {
     private static RCube3D cube3d;
     private static int frames;
     private static boolean start = false;
-    public static float currRotY, currRotX;
+    public static float currRotY, currRotX, rotIter;
     
     @Override
     public void init(GLAutoDrawable obj) {
@@ -34,6 +36,8 @@ public class Main implements GLEventListener {
         final GL2 gl = obj.getGL().getGL2();
         gl.glClear (GL2.GL_COLOR_BUFFER_BIT |  GL2.GL_DEPTH_BUFFER_BIT );
         gl.glEnable(GL2.GL_DEPTH_TEST);
+        //GLU g = GLU.createGLU(gl);
+        
         
         cube3d.draw(gl);
         
@@ -54,11 +58,19 @@ public class Main implements GLEventListener {
             
         } 
         gl.glRotatef(xrot-currRotX, 0, 1, 0);
-        if(currRotY- yrot != 0){
+        if(y < 540 && currRotY  != 45){
+            System.out.println("moving");
             gl.glRotatef(-currRotX, 0, 1, 0);
-            gl.glRotatef(yrot-currRotY, 1, 0, 0);
+            gl.glRotatef(45, 1, 0, 0);
             gl.glRotatef(currRotX, 0, 1, 0);
-            currRotY = yrot;
+            currRotY = 45;
+        }
+        if(y > 540 && currRotY != -45){
+            gl.glRotatef(-currRotX, 0, 1, 0);
+            gl.glRotatef(-45, 1, 0, 0);
+            gl.glRotatef(currRotX, 0, 1, 0);
+            currRotY = -45;
+            
         }
         currRotX = xrot;
         

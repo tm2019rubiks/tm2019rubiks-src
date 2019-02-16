@@ -35,7 +35,7 @@ public class RCubeMover implements KeyListener {
                 cube.applyMove(Move.R);
                 break;
             case 'R':
-                cube.applyMove(Move.R2);
+                cube.applyMove(Move.RP);
                 break;
             case 'u':
                 cube.applyMove(Move.U);

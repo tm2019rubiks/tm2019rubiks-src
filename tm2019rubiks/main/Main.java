@@ -105,6 +105,7 @@ public class Main implements GLEventListener {
         GLCapabilities cap = new GLCapabilities(gp);
         
         
+        
         final GLCanvas gc = new GLCanvas(cap);
         Main af = new Main();
         gc.addGLEventListener(af);

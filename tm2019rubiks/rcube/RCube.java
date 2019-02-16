@@ -1,5 +1,7 @@
 package tm2019rubiks.rcube;
 
+import java.util.ArrayList;
+import java.util.Random;
 import tm2019rubiks.utils.Utils;
 
 
@@ -180,7 +182,18 @@ public class RCube {
         
         
     }
-
+    public void scramble(int depth){
+        Random rand = new Random();
+        int len = Move.MOVES.length;
+        ArrayList<Move> scrambleMoves = new ArrayList<>();
+        for(int i = 0; i < depth; i ++){
+            int index = rand.nextInt(len);
+            scrambleMoves.add(Move.MOVES[index]);
+        }
+        for(Move m : scrambleMoves){
+            this.applyMove(m);
+        }
+    }
     @Override
     public String toString() {
         String f = "";

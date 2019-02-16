@@ -1,5 +1,6 @@
 package tm2019rubiks.main;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import tm2019rubiks.gui.RCube2D;
 import tm2019rubiks.gui.RCubeMover;
@@ -26,10 +27,12 @@ public class Main  {
         
         
         final JFrame frame = new JFrame ("tm2019rubiks");
+        final JButton b = new JButton("ok");
         final RCube2D cube2d = new RCube2D(cube, 60);
         frame.addKeyListener(new RCubeMover(cube2d));
-        
+        //frame.add(b);
         frame.add(cube2d);
+        
         frame.setSize(754, 598);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

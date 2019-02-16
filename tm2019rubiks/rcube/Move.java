@@ -14,6 +14,7 @@ public class Move {
     
     
     public static final Move F, FP, F2, R, RP, R2, B, BP, B2, L, LP, L2, U, UP, U2, D, DP, D2;
+    public static final Move[] MOVES;
     
     static {
         F = new Move("Fn");
@@ -34,6 +35,7 @@ public class Move {
         D = new Move("Dn");
         DP = new Move("Dp");
         D2 = new Move("D2");
+        MOVES = new Move[]{F, FP, F2, R, RP, R2, B, BP, B2, L, LP, L2, U, UP, U2, D, DP, D2};
     }
 
     //designs one of the 12 manips possible on the rcube

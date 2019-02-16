@@ -5,7 +5,7 @@ import tm2019rubiks.rcube.RCube;
 import tm2019rubiks.rcube.RFace;
 
 public class RCube3D {
-    private RCube cube;
+    final private RCube cube;
     private int currIter;
     
 
@@ -13,7 +13,7 @@ public class RCube3D {
         this.cube = cube;
     }
 
-    public RCube getCube() {
+    public RCube getRCube() {
         return cube;
     }
     public void startRot(){

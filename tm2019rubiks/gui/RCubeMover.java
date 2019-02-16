@@ -15,17 +15,28 @@ import tm2019rubiks.rcube.RCube;
  * @author estok
  */
 public class RCubeMover implements KeyListener {
-    private RCube3D cube3d;
+    final private RCube3D cube3d;
+    final private RCube2D cube2d;
+    final private RCube cube;
+
 
     public RCubeMover(RCube3D toMove) {
         this.cube3d = toMove;
+        this.cube2d = null;
+        this.cube = cube3d.getRCube();
+    }
+    public RCubeMover(RCube2D toMove){
+        this.cube3d = null;
+        this.cube2d = toMove;
+        this.cube = toMove.getRCube();
     }
     
     
     
     @Override
     public void keyTyped(KeyEvent e) {
-        RCube cube = this.cube3d.getCube();
+        
+        
         if(e.getKeyChar() == KeyEvent.VK_SPACE){
             
         }
@@ -67,6 +78,9 @@ public class RCubeMover implements KeyListener {
             case 'D':
                 cube.applyMove(Move.DP);
                 break;
+        }
+        if(this.cube2d != null){
+            this.cube2d.repaint();
         }
     }
 

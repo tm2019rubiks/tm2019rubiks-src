@@ -35,7 +35,7 @@ public class RCube {
         this.faces = new RFace[]{front, right, back, left, up, down};
     }
     
-    //you have to pass it a Move() object, and the rcube makes modifications on itself
+    //you have to pass it a Move object, and the rcube makes modifications on itself
     //based on the move
     //the faces change
     public void applyMove(Move move) {

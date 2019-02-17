@@ -79,7 +79,7 @@ public class RCubeMover implements KeyListener {
                 cube.applyMove(Move.DP);
                 break;
             case 'S':
-                cube.scramble(10000);
+                cube.scramble(1000 );
         }
         if(this.cube2d != null){
             this.cube2d.repaint();

@@ -18,5 +18,8 @@ public class Solver {
     
     public static ArrayList<Move> beginnerMethod(RCube cube){
         ArrayList<Move> moves = new ArrayList<>();
+        
+        //TODO finish this method
+        return null;
     }
 }

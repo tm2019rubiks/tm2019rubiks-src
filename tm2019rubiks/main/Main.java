@@ -62,6 +62,20 @@ public class Main  {
         buttonD.setFocusable(false);
         buttonDP.setFocusable(false);
         
+        buttonF.setActionCommand("f");
+        buttonFP.setActionCommand("F");
+        buttonR.setActionCommand("r");
+        buttonRP.setActionCommand("R");
+        buttonB.setActionCommand("b");
+        buttonBP.setActionCommand("B");
+        buttonL.setActionCommand("l");
+        buttonLP.setActionCommand("L");
+        buttonU.setActionCommand("u");
+        buttonUP.setActionCommand("U");
+        buttonD.setActionCommand("d");
+        buttonDP.setActionCommand("D");
+        
+        
         
         
         final RCube2D cube2d = new RCube2D(cube, 60);
@@ -120,6 +134,24 @@ public class Main  {
         panel.add(buttonDP, c);
         
         cube2d.setFocusable(true);
+        
+        RCubeMover listener = new RCubeMover(cube2d);
+        
+        buttonF.addActionListener(listener);
+        buttonFP.addActionListener(listener);
+        buttonR.addActionListener(listener);
+        buttonRP.addActionListener(listener);
+        buttonB.addActionListener(listener);
+        buttonBP.addActionListener(listener);
+        buttonL.addActionListener(listener);
+        buttonLP.addActionListener(listener);
+        buttonU.addActionListener(listener);
+        buttonUP.addActionListener(listener);
+        buttonR.addActionListener(listener);
+        buttonRP.addActionListener(listener);
+        buttonD.addActionListener(listener);
+        buttonDP.addActionListener(listener);
+        
         cube2d.addKeyListener(new RCubeMover(cube2d));
         frame.setSize(1024,600);
         frame.setVisible(true);

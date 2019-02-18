@@ -5,6 +5,8 @@
  */
 package tm2019rubiks.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import tm2019rubiks.rcube.Move;
@@ -14,7 +16,7 @@ import tm2019rubiks.rcube.RCube;
  *
  * @author estok
  */
-public class RCubeMover implements KeyListener {
+public class RCubeMover implements KeyListener, ActionListener{
     final private RCube3D cube3d;
     final private RCube2D cube2d;
     final private RCube cube;
@@ -31,17 +33,8 @@ public class RCubeMover implements KeyListener {
         this.cube = toMove.getRCube();
     }
     
-    
-    
-    @Override
-    public void keyTyped(KeyEvent e) {
-        
-        
-        if(e.getKeyChar() == KeyEvent.VK_SPACE){
-            
-        }
-        System.out.println(e.getKeyChar());
-        switch(e.getKeyChar()){
+    private void processEvent(char c){
+        switch(c){
             case 'r':
                 cube.applyMove(Move.R);
                 break;
@@ -84,6 +77,15 @@ public class RCubeMover implements KeyListener {
         if(this.cube2d != null){
             this.cube2d.repaint();
         }
+        
+    }
+    
+    
+    @Override
+    public void keyTyped(KeyEvent e) {
+        
+        this.processEvent(e.getKeyChar());
+        
     }
 
     @Override
@@ -94,6 +96,12 @@ public class RCubeMover implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        char c = e.getActionCommand().charAt(0);
+        this.processEvent(c);
     }
     
     

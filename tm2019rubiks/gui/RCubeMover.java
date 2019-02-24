@@ -32,6 +32,12 @@ public class RCubeMover implements KeyListener, ActionListener{
         this.cube2d = toMove;
         this.cube = toMove.getRCube();
     }
+
+    public RCubeMover(RCube2D cube2d, RCube3D cube3d) {
+        this.cube3d = cube3d;
+        this.cube2d = cube2d;
+        this.cube = cube3d.getRCube();
+    }
     
     private void processEvent(char c){
         switch(c){
@@ -73,10 +79,13 @@ public class RCubeMover implements KeyListener, ActionListener{
                 break;
             case 'S':
                 cube.scramble(1000 );
+                break;
+            
         }
         if(this.cube2d != null){
             this.cube2d.repaint();
         }
+        System.out.println(c);
         
     }
     
@@ -90,12 +99,56 @@ public class RCubeMover implements KeyListener, ActionListener{
 
     @Override
     public void keyPressed(KeyEvent e) {
-        
+        switch(e.getKeyCode()){
+            case KeyEvent.VK_LEFT:
+                if(this.cube3d != null){
+                    this.cube3d.setTurningRight(false);
+                    this.cube3d.setTurningLeft(true);
+                }
+                break;
+            case KeyEvent.VK_RIGHT:
+                if(this.cube3d != null){
+                    this.cube3d.setTurningRight(true);
+                    this.cube3d.setTurningLeft(false);
+                }
+                break;
+            case KeyEvent.VK_UP:
+                if(this.cube3d != null){
+                    this.cube3d.setTurningUp(true);
+                    this.cube3d.setTurningDown(false);
+                }
+                break;
+            case KeyEvent.VK_DOWN:
+                if(this.cube3d != null){
+                    this.cube3d.setTurningDown(true);
+                    this.cube3d.setTurningUp(false);
+                }
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        
+        switch(e.getKeyCode()){
+            case KeyEvent.VK_LEFT:
+                if(this.cube3d != null){
+                    this.cube3d.setTurningLeft(false);
+                }
+                break;
+            case KeyEvent.VK_RIGHT:
+                if(this.cube3d != null){
+                    this.cube3d.setTurningRight(false);
+                }
+                break;
+            case KeyEvent.VK_UP:
+                if(this.cube3d != null){
+                    this.cube3d.setTurningUp(false);
+                }
+                break;
+            case KeyEvent.VK_DOWN:
+                if(this.cube3d != null){
+                    this.cube3d.setTurningDown(false);
+                }
+        }
     }
 
     @Override

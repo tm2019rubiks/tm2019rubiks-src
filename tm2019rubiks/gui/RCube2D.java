@@ -46,7 +46,6 @@ public class RCube2D extends JPanel{
         RFace[] sidefaces = Arrays.copyOfRange(faces, 0, 4);
         int faceSize = size*3;
         for(int i = 0; i < 4; i ++){
-            System.out.println("in i for");
             for(int y = 0; y < 3; y ++){
                 for(int x = 0; x < 3; x ++){
                     g.setColor(this.getColor(sidefaces[i].getColors()[y][x]));

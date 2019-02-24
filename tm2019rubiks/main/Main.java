@@ -23,7 +23,7 @@ import tm2019rubiks.rcube.RCube;
 
 public class Main  {
     private static RCube cube;
-    private static boolean on3d;
+    private static boolean on3d, inited3d;
     
     
     
@@ -37,17 +37,13 @@ public class Main  {
         GridBagLayout g = new GridBagLayout();
         
         final JFrame frame = new JFrame ("tm2019rubiks");
+        
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
         final JPanel panel = new JPanel(g);
         GridBagConstraints c = new GridBagConstraints();
         
@@ -103,7 +99,16 @@ public class Main  {
         
         
         
-        final RCube3D cube3d = new RCube3D(cube);
+        RCube3D cube3d = null;
+        
+        try {
+            cube3d = new RCube3D(cube);
+            inited3d = true;
+        }
+        catch(InternalError e){
+            inited3d = false;
+            button3D.hide();
+        }
         final RCube2D cube2d = new RCube2D(cube, 60);
         
         c.gridx = 0;
@@ -115,7 +120,10 @@ public class Main  {
         panel.add(rcubeGUI, c);
         
         rcubeGUI.add(cube2d, "2D");
-        rcubeGUI.add(cube3d, "3D");
+        if(cube3d != null){
+            rcubeGUI.add(cube3d, "3D");
+        }
+        
         
         
         
@@ -171,7 +179,10 @@ public class Main  {
         panel.add(button3D, c);
         
         cube2d.setFocusable(false);
-        cube3d.setFocusable(false);
+        if(cube3d != null){
+            cube3d.setFocusable(false);
+        }
+        
         
         RCubeMover listener = new RCubeMover(cube2d, cube3d);
         

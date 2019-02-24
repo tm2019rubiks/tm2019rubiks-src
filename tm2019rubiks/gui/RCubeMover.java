@@ -36,7 +36,7 @@ public class RCubeMover implements KeyListener, ActionListener{
     public RCubeMover(RCube2D cube2d, RCube3D cube3d) {
         this.cube3d = cube3d;
         this.cube2d = cube2d;
-        this.cube = cube3d.getRCube();
+        this.cube = cube2d.getRCube();
     }
     
     private void processEvent(char c){

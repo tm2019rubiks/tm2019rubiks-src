@@ -10,56 +10,48 @@ public class RFace {
     
     //serves as index for the colors, and since colors on middle-pieces don't get rotated
     //they also denote which face of the rcube we are dealing with
-    public static final int INDEX_FACE_RED = 0,
-                            INDEX_FACE_GREEN = 1,
-                            INDEX_FACE_ORANGE = 2,
-                            INDEX_FACE_BLUE = 3,
-                            INDEX_FACE_YELLOW = 4,
-                            INDEX_FACE_BLACK = 5,
+    public static final int INDEX_FACE_FRONT = 0,
+                            INDEX_FACE_RIGHT = 1,
+                            INDEX_FACE_BACK = 2,
+                            INDEX_FACE_LEFT = 3,
+                            INDEX_FACE_UP = 4,
+                            INDEX_FACE_DOWN = 5,
                             INDEX_FACE_UNASSIGNED = 6;
     
-    public static final float[] RGB_COLOR_RED = {1.0f, 0.0f, 0.0f},
-                                RGB_COLOR_GREEN = {0.0f, 1.0f, 0.0f},
-                                RGB_COLOR_ORANGE = {1.0f, 0.5f, 0.0f},
-                                RGB_COLOR_BLUE = {0.0f, 0.0f, 1.0f},
-                                RGB_COLOR_YELLOW = {1.0f, 1.0f, 0.0f},
-                                RGB_COLOR_BLACK = {0.0f, 0.0f, 0.0f},
+    public static final float[] RGB_COLOR_FRONT = {1.0f, 0.0f, 0.0f},
+                                RGB_COLOR_RIGHT = {0.0f, 1.0f, 0.0f},
+                                RGB_COLOR_BACK = {1.0f, 0.5f, 0.0f},
+                                RGB_COLOR_LEFT = {0.0f,  0.0f, 1.0f},
+                                RGB_COLOR_UP = {1.0f, 1.0f, 0.0f},
+                                RGB_COLOR_DOWN = {0.0f, 0.0f, 0.0f},
                                 RGB_COLOR_UNASSIGNED = {0.5f, 0.5f, 0.5f};
     
     
     //to make it easy to get the colors for the rendering
     public static final float[][] COLORS_BY_INDEX =
-                                {{1.0f, 0.0f, 0.0f},
-                                {0.0f, 1.0f, 0.0f},
-                                {1.0f, 0.5f, 0.0f},
-                                {0.0f, 0.0f, 1.0f},
-                                {1.0f, 1.0f, 0.0f},
-                                {0.0f, 0.0f, 0.0f}};
+                                {RGB_COLOR_FRONT,
+                                RGB_COLOR_RIGHT,
+                                RGB_COLOR_BACK,
+                                RGB_COLOR_LEFT,
+                                RGB_COLOR_UP,
+                                RGB_COLOR_DOWN};
                                 
     
     private int colorIndex;
     private int[][] colors;
     
     
-    //an RFace() is a wrapper for a matrix of ints denoting indexes
+    //an RFace is a wrapper for a matrix of ints denoting indexes
     //these indexes indicate the colors of the face
     
-    public RFace(int[][] colors){
-        if(colors.length != 3){
-            //throw new Exception("cant create face with line number other than 3");
-            System.out.println("cant create face with line number other than 3");
-        }
-        for(int[] line : colors){
-            if(colors.length != 3){
-                //throw new Exception("cant create face row with element number other than 3");
-                System.out.println("cant create face row with element number other than 3");
-            } 
-        }
+    protected RFace(int[][] colors){
         this.colors = colors;
         this.colorIndex = colors[1][1];
         
     }
-    public void twist(int direction, int turns){
+    //called only when a move is applied to the cube.
+    //calling this out of context will corrupt the cube, if the face is part of it
+    protected void twist(int direction, int turns){
         int[][] newColors = Utils.copyOf(this.colors);
         for(int i = 0; i < turns; i ++){
             newColors = Utils.rotate(newColors, direction);

@@ -25,16 +25,6 @@ public class Utils {
                 
             }
         }
-        //checking if there's no -1 left in the matrix (because it's the def value)
-        //if there's some, it's probably an error
-        for(int[] line : newMatrix){
-            for(int value : line){
-                if(value == -1){
-                    //throw new Exception("something went wrong during rotation (-1 left in array)" + Arrays.toString(line));
-                    System.out.println("something went wrong during rotation (-1 left in array)" + Arrays.toString(line));
-                }
-            }
-        }
         return newMatrix;
     }
     public static int[][] fill(int color){

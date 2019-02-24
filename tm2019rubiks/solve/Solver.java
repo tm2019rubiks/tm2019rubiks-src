@@ -19,6 +19,13 @@ public class Solver {
     public static ArrayList<Move> beginnerMethod(RCube cube){
         ArrayList<Move> moves = new ArrayList<>();
         
+        //step1: black edges facing up
+        
+        //step2 : black edges facing down, aligned with center
+        
+        //step3 : place black corners
+        
+        //step4 : place middle edges
         
         
         

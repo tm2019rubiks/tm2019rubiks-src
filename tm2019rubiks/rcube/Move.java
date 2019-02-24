@@ -45,17 +45,6 @@ public class Move {
         this.direction = direction;
         this.turns = turns;
         
-        //rcube moves need to have a face which is rotated(U D L R F B), so if the index is
-        //not in the good range, it throws an error
-        if(faceIndex < 0 || faceIndex > 5){
-            //throw new Exception("face of rotation not valid" + String.valueOf(faceIndex));
-            System.out.println("face of rotation not valid" + String.valueOf(faceIndex));
-        }
-        
-        if(direction != -1 && direction != 1){
-            //throw new Exception("direction of rotation not valid" + String.valueOf(direction));
-            System.out.println("direction of rotation not valid" + String.valueOf(direction));
-        }
     }
     //constructor used with strings ( just plug in the standard notation name of the move
     //and it initializes a move which corresponds to the string
@@ -64,27 +53,26 @@ public class Move {
         int faceIndex, direction, turns;
         switch(symbols[0]){
             case 'F':
-                faceIndex = RFace.INDEX_FACE_RED;
+                faceIndex = RFace.INDEX_FACE_FRONT;
                 break;
             case 'R':
-                faceIndex = RFace.INDEX_FACE_GREEN;
+                faceIndex = RFace.INDEX_FACE_RIGHT;
                 break;
             case 'B':
-                faceIndex = RFace.INDEX_FACE_ORANGE;
+                faceIndex = RFace.INDEX_FACE_BACK;
                 break;
             case 'L':
-                faceIndex = RFace.INDEX_FACE_BLUE;
+                faceIndex = RFace.INDEX_FACE_LEFT;
                 break;
             case 'U':
-                faceIndex = RFace.INDEX_FACE_YELLOW;
+                faceIndex = RFace.INDEX_FACE_UP;
                 break;
             case 'D':
-                faceIndex = RFace.INDEX_FACE_BLACK;
+                faceIndex = RFace.INDEX_FACE_DOWN;
                 break;
             default:
-                //throw new Exception("unsupported move " + symbols[0]);
                 System.out.println("unsupported move " + symbols[0]);
-                faceIndex = RFace.INDEX_FACE_BLACK;
+                faceIndex = RFace.INDEX_FACE_DOWN;
         }
         
         // ' means anti-clockwise 
@@ -104,7 +92,6 @@ public class Move {
                 turns = 1;
                 break;
             default:
-                //throw new Exception("more operators found than expected: " + String.valueOf(symbols));
                 System.out.println("more operators found than expected: " + String.valueOf(symbols));
                 direction = 1;
                 turns = 4;

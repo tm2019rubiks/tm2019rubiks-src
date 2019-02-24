@@ -1,6 +1,5 @@
 package tm2019rubiks.rcube;
 
-import java.util.ArrayList;
 import java.util.Random;
 import tm2019rubiks.utils.Utils;
 
@@ -11,21 +10,24 @@ import tm2019rubiks.utils.Utils;
  */
 public class RCube {
     
+    //RCube is a representation of a rubiks cube.
+    //Each of its six faces (RFace objects) has 9 facelet colors.
+    //The cube can be moved via the applyMove(Move m) function
     
     
+    //array of its faces
+    final private RFace[] faces;
     
-    private RFace[] faces;
-    public static final RCube BASE;
-    
-    static {
+    //the solved state of the cube
+    public RCube(){
         RFace red, green, orange, blue, yellow, black;
-        red = new RFace(Utils.fill(RFace.INDEX_FACE_RED));
-        green = new RFace(Utils.fill(RFace.INDEX_FACE_GREEN));
-        orange = new RFace(Utils.fill(RFace.INDEX_FACE_ORANGE));
-        blue = new RFace(Utils.fill(RFace.INDEX_FACE_BLUE));
-        yellow = new RFace(Utils.fill(RFace.INDEX_FACE_YELLOW));
-        black = new RFace(Utils.fill(RFace.INDEX_FACE_BLACK));
-        BASE = new RCube(red, green, orange, blue, yellow, black);
+        red = new RFace(Utils.fill(RFace.INDEX_FACE_FRONT));
+        green = new RFace(Utils.fill(RFace.INDEX_FACE_RIGHT));
+        orange = new RFace(Utils.fill(RFace.INDEX_FACE_BACK));
+        blue = new RFace(Utils.fill(RFace.INDEX_FACE_LEFT));
+        yellow = new RFace(Utils.fill(RFace.INDEX_FACE_UP));
+        black = new RFace(Utils.fill(RFace.INDEX_FACE_DOWN));
+        this.faces = new RFace[]{red, green, orange, blue, yellow, black};
     }
     
     public RCube(RFace[] faces){
@@ -39,14 +41,17 @@ public class RCube {
     
     //you have to pass it a Move object, and the rcube makes modifications on itself
     //based on the move
-    //the faces change
     public void applyMove(Move move) {
         
+        //parameter of the move, including which face is turned
+        //the direction (1 = CW, -1 = CCW)
+        //and the number of turns
         int[] moveParams = move.getMoveParams();
         int rotatedFaceIndex = moveParams[0];
         int direction = moveParams[1];
         int turns = moveParams[2];
         
+        //the twisted face is turned with the number of turns
         RFace toRotate = this.faces[rotatedFaceIndex];
         toRotate.twist(direction, turns);
         
@@ -55,9 +60,10 @@ public class RCube {
         
         
         
-        //rotating ccw is the same as 3 cw rotations
-        
-        //consider ternary
+        //translate move to a number of CW turns
+        //if it's an X2 move, the numebr of CW turns is 2
+        //if it's an X move, then its 1
+        //if it's an X' move, it's 3, since 3CW = 1CCW
         int rotations;
         if(turns != 2){
             if(direction == 1){
@@ -80,12 +86,13 @@ public class RCube {
         
         //the case when the red face gets rotated
         switch (rotatedFaceIndex) {
-            case RFace.INDEX_FACE_RED:
+            case RFace.INDEX_FACE_FRONT:
                 {
-                    RFace[] facesRotated = {this.faces[RFace.INDEX_FACE_YELLOW],
-                        this.faces[RFace.INDEX_FACE_GREEN],
-                        this.faces[RFace.INDEX_FACE_BLACK],
-                        this.faces[RFace.INDEX_FACE_BLUE]};
+                    //the list of faces whose cubies change in order
+                    RFace[] facesRotated = {this.faces[RFace.INDEX_FACE_UP],
+                        this.faces[RFace.INDEX_FACE_RIGHT],
+                        this.faces[RFace.INDEX_FACE_DOWN],
+                        this.faces[RFace.INDEX_FACE_LEFT]};
                     for(int currentRotation = 0; currentRotation < rotations; currentRotation ++){
                         for(int i = 0; i < 3; i ++){
                             int temp = facesRotated[1].getColors()[i][0];
@@ -96,12 +103,12 @@ public class RCube {
                         }
                     }       break;
                 }
-            case RFace.INDEX_FACE_GREEN:
+            case RFace.INDEX_FACE_RIGHT:
                 {
-                    RFace[] facesRotated = {this.faces[RFace.INDEX_FACE_YELLOW],
-                        this.faces[RFace.INDEX_FACE_ORANGE],
-                        this.faces[RFace.INDEX_FACE_BLACK],
-                        this.faces[RFace.INDEX_FACE_RED]};
+                    RFace[] facesRotated = {this.faces[RFace.INDEX_FACE_UP],
+                        this.faces[RFace.INDEX_FACE_BACK],
+                        this.faces[RFace.INDEX_FACE_DOWN],
+                        this.faces[RFace.INDEX_FACE_FRONT]};
                     for(int currentRotation = 0; currentRotation < rotations; currentRotation ++){
                         for(int i = 0; i < 3; i ++){
                             int temp = facesRotated[1].getColors()[i][0];
@@ -112,12 +119,12 @@ public class RCube {
                         }
                     }       break;
                 }
-            case RFace.INDEX_FACE_ORANGE:
+            case RFace.INDEX_FACE_BACK:
                 {
-                   RFace[] facesRotated = {this.faces[RFace.INDEX_FACE_YELLOW],
-                        this.faces[RFace.INDEX_FACE_BLUE],
-                        this.faces[RFace.INDEX_FACE_BLACK],
-                        this.faces[RFace.INDEX_FACE_GREEN ]};
+                   RFace[] facesRotated = {this.faces[RFace.INDEX_FACE_UP],
+                        this.faces[RFace.INDEX_FACE_LEFT],
+                        this.faces[RFace.INDEX_FACE_DOWN],
+                        this.faces[RFace.INDEX_FACE_RIGHT ]};
                     for(int currentRotation = 0; currentRotation < rotations; currentRotation ++){
                         for(int i = 0; i < 3; i ++){
                             int temp = facesRotated[1].getColors()[i][0];
@@ -128,12 +135,12 @@ public class RCube {
                         }
                     }       break; 
                 }
-            case RFace.INDEX_FACE_BLUE:
+            case RFace.INDEX_FACE_LEFT:
                 {
-                   RFace[] facesRotated = {this.faces[RFace.INDEX_FACE_YELLOW],
-                        this.faces[RFace.INDEX_FACE_RED],
-                        this.faces[RFace.INDEX_FACE_BLACK],
-                        this.faces[RFace.INDEX_FACE_ORANGE ]};
+                   RFace[] facesRotated = {this.faces[RFace.INDEX_FACE_UP],
+                        this.faces[RFace.INDEX_FACE_FRONT],
+                        this.faces[RFace.INDEX_FACE_DOWN],
+                        this.faces[RFace.INDEX_FACE_BACK ]};
                     for(int currentRotation = 0; currentRotation < rotations; currentRotation ++){
                         for(int i = 0; i < 3; i ++){
                             int temp = facesRotated[1].getColors()[i][0];
@@ -144,12 +151,12 @@ public class RCube {
                         }
                     }       break; 
                 }
-            case RFace.INDEX_FACE_YELLOW:
+            case RFace.INDEX_FACE_UP:
                 {
-                   RFace[] facesRotated = {this.faces[RFace.INDEX_FACE_ORANGE],
-                        this.faces[RFace.INDEX_FACE_GREEN],
-                        this.faces[RFace.INDEX_FACE_RED],
-                        this.faces[RFace.INDEX_FACE_BLUE]};
+                   RFace[] facesRotated = {this.faces[RFace.INDEX_FACE_BACK],
+                        this.faces[RFace.INDEX_FACE_RIGHT],
+                        this.faces[RFace.INDEX_FACE_FRONT],
+                        this.faces[RFace.INDEX_FACE_LEFT]};
                     for(int currentRotation = 0; currentRotation < rotations; currentRotation ++){
                         for(int i = 0; i < 3; i ++){
                             int temp = facesRotated[1].getColors()[0][2-i];
@@ -160,12 +167,12 @@ public class RCube {
                         }
                     }       break; 
                 }
-            case RFace.INDEX_FACE_BLACK:
+            case RFace.INDEX_FACE_DOWN:
                 {
-                   RFace[] facesRotated = {this.faces[RFace.INDEX_FACE_RED],
-                        this.faces[RFace.INDEX_FACE_GREEN],
-                        this.faces[RFace.INDEX_FACE_ORANGE],
-                        this.faces[RFace.INDEX_FACE_BLUE]};
+                   RFace[] facesRotated = {this.faces[RFace.INDEX_FACE_FRONT],
+                        this.faces[RFace.INDEX_FACE_RIGHT],
+                        this.faces[RFace.INDEX_FACE_BACK],
+                        this.faces[RFace.INDEX_FACE_LEFT]};
                     for(int currentRotation = 0; currentRotation < rotations; currentRotation ++){
                         for(int i = 0; i < 3; i ++){
                             int temp = facesRotated[1].getColors()[2][i];
@@ -182,17 +189,15 @@ public class RCube {
         
         
     }
+    //depth is the number of random moves applied to the cube
     public void scramble(int depth){
         Random rand = new Random();
         int len = Move.MOVES.length;
-        ArrayList<Move> scrambleMoves = new ArrayList<>();
         for(int i = 0; i < depth; i ++){
             int index = rand.nextInt(len);
-            scrambleMoves.add(Move.MOVES[index]);
+            this.applyMove(Move.MOVES[index]);
         }
-        for(Move m : scrambleMoves){
-            this.applyMove(m);
-        }
+        
     }
     @Override
     public String toString() {
@@ -235,6 +240,16 @@ public class RCube {
 
     public RFace[] getFaces() {
         return faces;
+    }
+    //todo: return 2d array of black edges:
+    //{face, x, y}
+    public int[][] getBlackEdges(){
+        int[][] blackEdges = new int[4][3];
+        for(int i = 0; i < 6; i ++){
+            RFace face = this.faces[i];
+            
+        }
+        return null;
     }
     
 }

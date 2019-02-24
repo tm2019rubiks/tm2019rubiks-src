@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tm2019rubiks.gui;
 
 import java.awt.event.ActionEvent;
@@ -16,29 +11,39 @@ import tm2019rubiks.rcube.RCube;
  *
  * @author estok
  */
+
+//RCubeMover is a Key- and ActionListener
+//used to make a RCube, that's in an RCube2D or RCube3D move.
+
+
 public class RCubeMover implements KeyListener, ActionListener{
     final private RCube3D cube3d;
     final private RCube2D cube2d;
     final private RCube cube;
 
-
+    //constructor when using only RCube3D
     public RCubeMover(RCube3D toMove) {
         this.cube3d = toMove;
         this.cube2d = null;
         this.cube = cube3d.getRCube();
     }
+    
+    //only RCube2D
     public RCubeMover(RCube2D toMove){
         this.cube3d = null;
         this.cube2d = toMove;
         this.cube = toMove.getRCube();
     }
-
+    
+    //both used at the same time
     public RCubeMover(RCube2D cube2d, RCube3D cube3d) {
         this.cube3d = cube3d;
         this.cube2d = cube2d;
         this.cube = cube2d.getRCube();
     }
     
+    //This function processes keyStrokes, or actionCommands that are passed
+    //to it when a key or a button is pressed
     private void processEvent(char c){
         switch(c){
             case 'r':
@@ -78,26 +83,31 @@ public class RCubeMover implements KeyListener, ActionListener{
                 cube.applyMove(Move.DP);
                 break;
             case 'S':
-                cube.scramble(1000 );
+                cube.scramble(250);
                 break;
             
         }
         if(this.cube2d != null){
             this.cube2d.repaint();
         }
-        System.out.println(c);
         
     }
     
     
     @Override
+    
     public void keyTyped(KeyEvent e) {
-        
+        //passes its keyChar to the processEvent function
         this.processEvent(e.getKeyChar());
         
     }
 
     @Override
+    //this function is devoted to the 3d rotations
+    //since a RCube3D updates every frame, we have to set an internal variable in
+    //it to true, to make it turn
+    //this way, there's no need to constantly change the rotation value in RCube3D
+    //becuase it will do it itself, 60 * /s
     public void keyPressed(KeyEvent e) {
         switch(e.getKeyCode()){
             case KeyEvent.VK_LEFT:
@@ -152,6 +162,7 @@ public class RCubeMover implements KeyListener, ActionListener{
     }
 
     @Override
+    //when buttons are clicked, the actionCommands are passed to processEvent()
     public void actionPerformed(ActionEvent e) {
         char c = e.getActionCommand().charAt(0);
         this.processEvent(c);

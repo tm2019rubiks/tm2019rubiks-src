@@ -4,9 +4,6 @@ import java.awt.CardLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -19,40 +16,50 @@ import tm2019rubiks.gui.RCube3D;
 import tm2019rubiks.gui.RCubeMover;
 import tm2019rubiks.rcube.RCube;
 
-
-
+//Main program
 public class Main  {
+    
+    //the cube being displayed and manipulated
     private static RCube cube;
-    private static boolean on3d, inited3d;
+    
+    //variable that determines of the 3d view is on or off
+    private static boolean on3d;
     
     
     
     
     public static void main(String[] args) {
         
-        cube = RCube.BASE;
-        on3d = true;
+        //getting solved cube
+        cube = new RCube();
+        on3d = false;
         
-        
+        //layout for the whole frame
         GridBagLayout g = new GridBagLayout();
         
+        //create window
         final JFrame frame = new JFrame ("tm2019rubiks");
         
+        //try setting system l&f
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+        //panel that will contain all the JComponents
         final JPanel panel = new JPanel(g);
         GridBagConstraints c = new GridBagConstraints();
         
+        //panel with cardLayout to be able to switch between 3d and 2d view
         CardLayout cardLayout = new CardLayout();
         final JPanel rcubeGUI = new JPanel(cardLayout);
         
-        
+        //set panel size and add it to the window
         panel.setSize(800,600);
         frame.add(panel);
+        
+        //adding buttons
         final JButton buttonF = new JButton("F");
         final JButton buttonFP = new JButton("F'");
         final JButton buttonR = new JButton("R");
@@ -65,9 +72,11 @@ public class Main  {
         final JButton buttonUP = new JButton("U'");
         final JButton buttonD = new JButton("D");
         final JButton buttonDP = new JButton("D'");
-        final JButton button3D = new JButton("3D/2D");
+        final JButton button3D = new JButton("3D");
         
-        
+        //making them unfocusable, since only the focused object can handle keyevents
+        //so i have to make sure that the actual component with the keylistener
+        //never loses focus
         buttonF.setFocusable(false);
         buttonFP.setFocusable(false);
         buttonR.setFocusable(false);
@@ -82,7 +91,11 @@ public class Main  {
         buttonDP.setFocusable(false);
         button3D.setFocusable(false);
         panel.setFocusable(false);
+        //textField.setFocusable(false);
         
+        //setting the same action commands as the keys that you have to press
+        //for a move, so that the keyChars and ActionCommand can be processed
+        //in the same function
         buttonF.setActionCommand("f");
         buttonFP.setActionCommand("F");
         buttonR.setActionCommand("r");
@@ -98,22 +111,21 @@ public class Main  {
         
         
         
-        
+        //try initializing the RCube3D component.
+        //if it fails, the 3d/2d button will be hidden
         RCube3D cube3d = null;
         
         try {
             cube3d = new RCube3D(cube);
-            inited3d = true;
         }
         catch(InternalError e){
-            inited3d = false;
             button3D.hide();
         }
         final RCube2D cube2d = new RCube2D(cube, 60);
         
         c.gridx = 0;
         c.gridy = 0;
-        c.gridheight=6;
+        c.gridheight=7;
         c.weightx = 1;
         c.weighty = 1;
         c.fill = GridBagConstraints.BOTH;
@@ -176,16 +188,19 @@ public class Main  {
         c.gridy = 6;
         c.gridx = 1;
         c.gridwidth = 2;
+        c.weighty = 0.015;
         panel.add(button3D, c);
+        
         
         cube2d.setFocusable(false);
         if(cube3d != null){
             cube3d.setFocusable(false);
         }
         
-        
+        //create listener and add it to the buttons
         RCubeMover listener = new RCubeMover(cube2d, cube3d);
         
+        //since each has a different actionCommand, they'll behave differently
         buttonF.addActionListener(listener);
         buttonFP.addActionListener(listener);
         buttonR.addActionListener(listener);
@@ -199,33 +214,33 @@ public class Main  {
         buttonD.addActionListener(listener);
         buttonDP.addActionListener(listener);
         
-        button3D.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                
-                if(on3d){
-                    CardLayout cl = (CardLayout) rcubeGUI.getLayout();
-                    cl.show(rcubeGUI, "3D");
-                    
-                }
-                else{
-                    CardLayout cl = (CardLayout) rcubeGUI.getLayout();
-                    cl.show(rcubeGUI, "2D");
-                }
-                on3d = !on3d;
+        //set behaviour of 3d button
+        button3D.addActionListener((ActionEvent e) -> {
+            if(!on3d){
+                CardLayout cl = (CardLayout) rcubeGUI.getLayout();
+                cl.show(rcubeGUI, "3D");
+                button3D.setText("2D");
                 
             }
+            else{
+                CardLayout cl = (CardLayout) rcubeGUI.getLayout();
+                cl.show(rcubeGUI, "2D");
+                button3D.setText("3D");
+            }
+            on3d = !on3d;
         });
         
-        
+        //make it so that only the component containing the RCube2D and RCube3D
+        //views can be focused, because it's the component that has the keylistener
         rcubeGUI.setFocusable(true);
         rcubeGUI.requestFocus();
         rcubeGUI.addKeyListener(new RCubeMover(cube2d, cube3d));
-        frame.setSize(1024,600);
+        
+        //show window
+        frame.setSize(845,590);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        System.out.println(frame.getFocusOwner());
-        
+        frame.setResizable(false);
         
         
         

@@ -4,8 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import tm2019rubiks.rcube.Move;
 import tm2019rubiks.rcube.RCube;
+import tm2019rubiks.solve.Solver;
 
 /**
  *
@@ -20,6 +22,9 @@ public class RCubeMover implements KeyListener, ActionListener{
     final private RCube3D cube3d;
     final private RCube2D cube2d;
     final private RCube cube;
+    
+    int currIt = 0;
+    ArrayList<Move> m = new ArrayList<>();
 
     //constructor when using only RCube3D
     public RCubeMover(RCube3D toMove) {
@@ -83,8 +88,19 @@ public class RCubeMover implements KeyListener, ActionListener{
                 cube.applyMove(Move.DP);
                 break;
             case 'S':
-                cube.scramble(250);
+                cube.scramble(10000);
                 break;
+            case 's':
+                currIt = 0;
+                m = Solver.beginnerMethod(cube);
+                
+                break;
+            case 'M':
+                if(currIt < m.size()){
+                    cube.applyMove(m.get(currIt));
+                    currIt += 1;
+                }
+                
             
         }
         if(this.cube2d != null){

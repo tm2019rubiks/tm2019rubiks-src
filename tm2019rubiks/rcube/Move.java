@@ -10,6 +10,7 @@ public class Move {
     final private int direction,
                       faceIndex,
                       turns;
+    final String moveString;
     //final private int[][]
     
     
@@ -40,15 +41,16 @@ public class Move {
 
     //designs one of the 12 manips possible on the rcube
     
-    private Move(int faceIndex, int direction, int turns) {
+    public Move(int faceIndex, int direction, int turns) {
         this.faceIndex = faceIndex;
         this.direction = direction;
         this.turns = turns;
+        this.moveString = null;
         
     }
     //constructor used with strings ( just plug in the standard notation name of the move
     //and it initializes a move which corresponds to the string
-    private Move(String moveString) {
+    public Move(String moveString) {
         char[] symbols = moveString.toCharArray();
         int faceIndex, direction, turns;
         switch(symbols[0]){
@@ -99,6 +101,7 @@ public class Move {
         this.faceIndex = faceIndex;
         this.direction = direction;
         this.turns = turns;
+        this.moveString = moveString;
     }
 
     public int getDirection() {
@@ -115,4 +118,80 @@ public class Move {
     public int[] getMoveParams(){
         return new int[]{this.faceIndex, this.direction, this.turns};
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Move other = (Move) obj;
+        if (this.direction != other.direction) {
+            return false;
+        }
+        if (this.faceIndex != other.faceIndex) {
+            return false;
+        }
+        if (this.turns != other.turns) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        if(this.moveString != null){
+            return this.moveString;
+        }
+        else {
+            char face;
+            switch(this.faceIndex){
+                case RFace.INDEX_FACE_FRONT:
+                    face = 'F';
+                    break;
+                case RFace.INDEX_FACE_RIGHT:
+                    face = 'R';
+                    break;
+                case RFace.INDEX_FACE_BACK:
+                    face = 'B';
+                    break;
+                case RFace.INDEX_FACE_LEFT:
+                    face = 'L';
+                    break;
+                case RFace.INDEX_FACE_UP:
+                    face = 'U';
+                    break;
+                case RFace.INDEX_FACE_DOWN:
+                    face = 'D';
+                    break;
+                default:
+                    face = '?';
+            }
+            char mod;
+            if(this.direction == -1){
+                mod = 'P';
+            }
+            else if(this.turns == 2){
+                mod = '2';
+            }
+            else{
+                mod = 'n';
+            }
+            return String.valueOf(face) + String.valueOf(mod);
+        }
+        
+    }
+    
+    
 }

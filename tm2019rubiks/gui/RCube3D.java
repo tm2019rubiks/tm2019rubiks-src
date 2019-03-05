@@ -236,9 +236,7 @@ public class RCube3D extends JPanel implements GLEventListener{
         //drawing cube
         this.draw(gl);
         
-        gl.glFlush();
-//        
-        
+
         
         
         

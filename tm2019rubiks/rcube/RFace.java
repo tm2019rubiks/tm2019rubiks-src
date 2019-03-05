@@ -61,6 +61,9 @@ public class RFace {
     public int[][] getColors() {
         return colors;
     }
+    public int getColor(int[] coords){
+        return colors[coords[0]][coords[1]];
+    }
 
     public void setColors(int[][] colors) {
         this.colors = colors;

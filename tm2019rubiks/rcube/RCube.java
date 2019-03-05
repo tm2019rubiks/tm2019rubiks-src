@@ -241,15 +241,48 @@ public class RCube {
     public RFace[] getFaces() {
         return faces;
     }
-    //todo: return 2d array of black edges:
+    //todo: return 2d array of edges with same index as int index:
     //{face, x, y}
-    public int[][] getBlackEdges(){
-        int[][] blackEdges = new int[4][3];
+    public int[][] getEdges(int index){
+        final int[][] edgeCoords = {{1, 0}, {0, 1}, {1, 2}, {2, 1}};
+        int[][] edges = new int[4][3];
+        int found = 0;
         for(int i = 0; i < 6; i ++){
             RFace face = this.faces[i];
+            for(int[] coord : edgeCoords){
+                int coordY = coord[0];
+                int coordX = coord[1];
+                if(face.getColors()[coordY][coordX] == index){
+                    edges[found] = new int[]{i, coordY, coordX};
+                    found ++;
+                }
+                     
+            }
+        }
+        return edges;
+    }
+    public RCube copy(){
+        RFace[] newFaces = new RFace[6];
+        for(int i = 0; i < 6; i ++){
+            RFace face = this.faces[i];
+            int[][] colors = face.getColors();
+            int[][] newColors = new int[3][3];
+            for(int y = 0; y < 3; y ++){
+                for(int x = 0; x < 3; x ++){
+                    newColors[y][x] = colors[y][x];
+                }
+            }
+            newFaces[i] = new RFace(newColors);
+            
+            
             
         }
-        return null;
+        return new RCube(newFaces);
     }
-    
+
+    public RFace getFace(int i) {
+        
+        return this.faces[i];
+
+    }
 }

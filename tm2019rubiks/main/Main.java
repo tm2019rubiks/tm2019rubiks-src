@@ -4,6 +4,7 @@ import java.awt.CardLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -11,10 +12,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import tm2019rubiks.cv.Test;
 import tm2019rubiks.gui.RCube2D;
 import tm2019rubiks.gui.RCube3D;
 import tm2019rubiks.gui.RCubeMover;
 import tm2019rubiks.rcube.RCube;
+import tm2019rubiks.utils.Utils;
 
 //Main program
 public class Main  {
@@ -118,7 +121,7 @@ public class Main  {
         try {
             cube3d = new RCube3D(cube);
         }
-        catch(InternalError e){
+        catch(InternalError | UnsatisfiedLinkError e2){
             button3D.hide();
         }
         final RCube2D cube2d = new RCube2D(cube, 60);
@@ -242,7 +245,7 @@ public class Main  {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         
-        
+        //Test.test(cube);
         
         
     }

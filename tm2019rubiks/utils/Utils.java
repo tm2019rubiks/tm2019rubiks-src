@@ -1,6 +1,7 @@
 package tm2019rubiks.utils;
 
 import java.util.Arrays;
+import tm2019rubiks.rcube.Move;
 
 /**
  *
@@ -51,5 +52,52 @@ public class Utils {
         }
         return newArray;
         
+    }
+    public static boolean setEquals(int[] a, int[] b){
+       
+        if(a.length != b.length){
+            return false;
+        }
+        boolean same = true;
+        for(int curr : a){
+            //check if contains
+            boolean contained = false;
+            for(int currb : b){
+                if(currb == curr){
+                    contained = true;
+                }
+            }
+            if(!contained){
+                same = false;
+            }
+            
+        }
+        return same;
+        
+    }
+    public static Move[] simplifyMoves(Move[] moves){
+        return null;
+    }
+    
+    public static float[] average(float[][] items){
+        
+        int length = items[0].length;
+        
+        float[] toReturn = new float[length];
+        
+        for(int i = 0; i < items.length; i ++){
+            
+            for(int j = 0; j < length; j ++){
+                
+                toReturn[j] += items[i][j];
+                
+            }
+            
+            
+        }
+        for(int i = 0; i < length; i ++){
+            toReturn[i] /= items.length;
+        }
+        return toReturn;
     }
 }

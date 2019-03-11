@@ -18,12 +18,12 @@ public class RFace {
                             INDEX_FACE_DOWN = 5,
                             INDEX_FACE_UNASSIGNED = 6;
     
-    public static final float[] RGB_COLOR_FRONT = {1.0f, 0.0f, 0.0f},
-                                RGB_COLOR_RIGHT = {0.0f, 1.0f, 0.0f},
-                                RGB_COLOR_BACK = {1.0f, 0.5f, 0.0f},
-                                RGB_COLOR_LEFT = {0.0f,  0.0f, 1.0f},
-                                RGB_COLOR_UP = {1.0f, 1.0f, 0.0f},
-                                RGB_COLOR_DOWN = {0.0f, 0.0f, 0.0f},
+    public static final float[] RGB_COLOR_FRONT = {0.569f, 0.086f, 0.067f},
+                                RGB_COLOR_RIGHT = {0.247f, 0.655f, 0.459f},
+                                RGB_COLOR_BACK = {0.784f, 0.502f, 0.125f},
+                                RGB_COLOR_LEFT = {0.161f,  0.345f, 0.494f},
+                                RGB_COLOR_UP = {0.749f, 0.659f, 0.031f},
+                                RGB_COLOR_DOWN = {1.0f, 1.0f, 1.0f},
                                 RGB_COLOR_UNASSIGNED = {0.5f, 0.5f, 0.5f};
     
     
@@ -44,7 +44,7 @@ public class RFace {
     //an RFace is a wrapper for a matrix of ints denoting indexes
     //these indexes indicate the colors of the face
     
-    protected RFace(int[][] colors){
+    public RFace(int[][] colors){
         this.colors = colors;
         this.colorIndex = colors[1][1];
         
@@ -73,8 +73,42 @@ public class RFace {
     public int getColorIndex() {
         return colorIndex;
     }
+    public String toString() {
+        String f = "";
+        
+        
+        for(int[] line : this.getColors()){
+            for(int col : line){
+                char colorChar = 'N';
+                switch(col){
+                    case 0:
+                        colorChar = 'R';
+                        break;
+                    case 1:
+                        colorChar = 'G';
+                        break;
+                    case 2:
+                        colorChar = 'O';
+                        break;
+                    case 3:
+                        colorChar = 'B';
+                        break;
+                    case 4:
+                        colorChar = 'Y';
+                        break;
+                    case 5:
+                        colorChar = 'b';
+                        break;
+                        
+                }
+                f += String.valueOf(colorChar) + " ";
+            }
+            f += "\n";
+        }
+        f += "\n";
+        f += "\n";
+        return f;
     
-    
-    
+    }
     
 }

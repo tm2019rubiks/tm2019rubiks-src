@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Random;
 import tm2019rubiks.rcube.Move;
 import tm2019rubiks.rcube.RCube;
 import tm2019rubiks.solve.Solver;
@@ -88,11 +89,11 @@ public class RCubeMover implements KeyListener, ActionListener{
                 cube.applyMove(Move.DP);
                 break;
             case 'S':
-                cube.scramble(10000);
+                cube.scramble(1000);
                 break;
             case 's':
                 currIt = 0;
-                m = Solver.beginnerMethod(cube);
+                m = Solver.layerWiseSolution(cube);
                 
                 break;
             case 'M':
@@ -100,6 +101,7 @@ public class RCubeMover implements KeyListener, ActionListener{
                     cube.applyMove(m.get(currIt));
                     currIt += 1;
                 }
+            
                 
             
         }

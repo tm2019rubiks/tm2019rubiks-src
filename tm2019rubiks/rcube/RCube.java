@@ -16,7 +16,7 @@ public class RCube {
     
     
     //array of its faces
-    final private RFace[] faces;
+    private RFace[] faces;
     
     //the solved state of the cube
     public RCube(){
@@ -241,6 +241,10 @@ public class RCube {
     public RFace[] getFaces() {
         return faces;
     }
+    public void setFaces(RFace[] faces){
+        this.faces = faces;
+    }
+    
     //todo: return 2d array of edges with same index as int index:
     //{face, x, y}
     public int[][] getEdges(int index){

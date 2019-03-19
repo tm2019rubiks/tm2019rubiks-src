@@ -206,25 +206,25 @@ public class RCube {
             
             for(int[] line : r.getColors()){
                 for(int col : line){
-                    char colorChar = 'N';
+                    char colorChar = '?';
                     switch(col){
                         case 0:
-                            colorChar = 'R';
+                            colorChar = 'F';
                             break;
                         case 1:
-                            colorChar = 'G';
+                            colorChar = 'R';
                             break;
                         case 2:
-                            colorChar = 'O';
-                            break;
-                        case 3:
                             colorChar = 'B';
                             break;
+                        case 3:
+                            colorChar = 'L';
+                            break;
                         case 4:
-                            colorChar = 'Y';
+                            colorChar = 'U';
                             break;
                         case 5:
-                            colorChar = 'b';
+                            colorChar = 'D';
                             break;
                         
                     }

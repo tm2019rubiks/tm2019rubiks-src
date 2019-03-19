@@ -101,6 +101,12 @@ public class RCubeMover implements KeyListener, ActionListener{
                     cube.applyMove(m.get(currIt));
                     currIt += 1;
                 }
+            case 'g':
+                Move[] g1 = {Move.U2, Move.D2, Move.F, Move.R, Move.L, Move.B};
+                Random r = new Random();
+                int ind = r.nextInt(6);
+                
+                cube.applyMove(g1[ind]);
             
                 
             

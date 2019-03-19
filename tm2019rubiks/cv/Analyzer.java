@@ -7,7 +7,6 @@ package tm2019rubiks.cv;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.util.Arrays;
 import tm2019rubiks.rcube.RFace;
 import tm2019rubiks.utils.Utils;
 
@@ -29,10 +28,11 @@ public class Analyzer {
         //faces that are to be returned
         RFace[] toReturn = new RFace[3];
         
-        int i = 0;
         
         //for each face
-        for(int[][][] face: positions){
+        for(int i = 0; i < 3; i ++){
+            
+            int[][][] face = positions[i];
             
             //create a matrix containing indexes
             int[][] colorMatrix = new int[3][3];
@@ -61,18 +61,17 @@ public class Analyzer {
                         
                     }
                     
-                    //now that the array is filled, get the average rgb value
+                    //now  that the array is filled, get the average rgb value
                     float[] pixelAverage = Utils.average(pixels);
                     
                     //in the current position of the matrix, put the good color
-                    colorMatrix[y][x] = closestColor(pixelAverage);
+                    colorMatrix[y][x] = hsvClosestColor(pixelAverage);
                     
                 }
                 
                 
             }
             toReturn[i] = new RFace(colorMatrix);
-            i ++;
             
             
             
@@ -109,6 +108,95 @@ public class Analyzer {
         }
         return closestIndex;
         
+    }
+    private static int hsvClosestColor(float[] rgb){
+        
+        int r = (int) (rgb[0] * 255);
+        int g = (int) (rgb[1] * 255);
+        int b = (int) (rgb[2] * 255);
+        
+        float[] hsvComps = Color.RGBtoHSB(r, g, b, null);
+        
+        
+        float h = hsvComps[0]*360;
+        float s = hsvComps[1]*100;
+        float v = hsvComps[2]*100;
+        
+        System.out.println(h + " " + s + " " + v);
+        
+        
+        for(int treshold = 0; treshold < 20; treshold ++){
+            
+            
+            
+            
+            //face down
+            if(h < 10 + treshold || h > 340 - treshold){
+                if(s < 20 + treshold * 2){
+                    if(v > 80 - treshold){
+                        return RFace.INDEX_FACE_DOWN;
+                    }
+                }
+            }
+            
+            //face right
+            if(h < 160  + treshold && h > 90 - treshold){
+                if(s > 60 - treshold * 2){
+                    if(v > 60 - treshold * 2){
+                        return RFace.INDEX_FACE_RIGHT;
+                    }
+                }
+            }
+            //face up
+            if(h > 56 - treshold && h < 80 + treshold){
+                if(s > 60 - treshold * 2){
+                    if(v > 60 - treshold * 2){
+                        return RFace.INDEX_FACE_UP;
+                    }
+                }
+                
+                
+            }
+            //face front
+            if(h < 20 + treshold || h > 350 - treshold){
+                if(s > 60 - treshold * 2){
+                    if(v > 60 - treshold * 2){
+                        return RFace.INDEX_FACE_FRONT;
+                    }
+                }
+                
+                
+            }
+            //face left
+            if(h < 220 + treshold && h > 200 - treshold){
+                if(s > 60 - treshold * 2){
+                    if(v > 60 - treshold * 2){
+                        return RFace.INDEX_FACE_LEFT;
+                    }
+                }
+                
+                
+            }
+            //face back
+            if(h > 20 - treshold && h < 40 + treshold){
+                if(s > 60 - treshold * 2){
+                    if(v > 60 - treshold * 2){
+                        return RFace.INDEX_FACE_BACK;
+                    }
+                }
+                
+                
+            }
+            
+            
+            
+            
+            
+            
+            
+        }
+        
+        return RFace.INDEX_FACE_UNASSIGNED;
     }
     
     

@@ -17,6 +17,7 @@ import tm2019rubiks.gui.RCube2D;
 import tm2019rubiks.gui.RCube3D;
 import tm2019rubiks.gui.RCubeMover;
 import tm2019rubiks.rcube.RCube;
+import tm2019rubiks.tables.g1.GenG0;
 import tm2019rubiks.utils.Utils;
 
 //Main program
@@ -246,6 +247,7 @@ public class Main  {
         frame.setResizable(false);
         
         //Test.test(cube);
+        //GenG0.gen();
         
         
     }

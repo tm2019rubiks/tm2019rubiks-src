@@ -34,7 +34,8 @@ public class RFace {
                                 RGB_COLOR_BACK,
                                 RGB_COLOR_LEFT,
                                 RGB_COLOR_UP,
-                                RGB_COLOR_DOWN};
+                                RGB_COLOR_DOWN,
+                                RGB_COLOR_UNASSIGNED};
                                 
     
     private int colorIndex;

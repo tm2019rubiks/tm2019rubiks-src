@@ -18,6 +18,7 @@ import tm2019rubiks.gui.RCube3D;
 import tm2019rubiks.gui.RCubeMover;
 import tm2019rubiks.rcube.RCube;
 import tm2019rubiks.tables.g1.GenG0;
+import tm2019rubiks.tables.g2.GenG1;
 import tm2019rubiks.utils.Utils;
 
 //Main program
@@ -35,7 +36,7 @@ public class Main  {
     public static void main(String[] args) {
         
         //getting solved cube
-        cube = new RCube();
+        cube = new RCube(RCube.CORNER_TWIST);
         on3d = false;
         
         //layout for the whole frame
@@ -247,9 +248,9 @@ public class Main  {
         frame.setResizable(false);
         
         //Test.test(cube);
-        //GenG0.gen();
+        GenG1.gen();
         
-        
+    
     }
     
     

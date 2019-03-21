@@ -10,6 +10,12 @@ import tm2019rubiks.utils.Utils;
  */
 public class RCube {
     
+    public static final int EDGE_FLIP = 1, CORNER_TWIST = 2;
+    
+    
+    
+    
+    
     //RCube is a representation of a rubiks cube.
     //Each of its six faces (RFace objects) has 9 facelet colors.
     //The cube can be moved via the applyMove(Move m) function
@@ -29,6 +35,46 @@ public class RCube {
         black = new RFace(Utils.fill(RFace.INDEX_FACE_DOWN));
         this.faces = new RFace[]{red, green, orange, blue, yellow, black};
     }
+    public RCube(int stage){
+        if(stage == RCube.EDGE_FLIP){
+            RFace red, green, orange, blue, yellow, black;
+            red = new RFace(new int[][]{{6, 6, 6},{4, 0, 4},{6, 6, 6}});
+            green = new RFace(new int[][]{{6, 6, 6},{6, 1, 6},{6, 6, 6}});
+            orange = new RFace(new int[][]{{6, 6, 6},{4, 2, 4},{6, 6, 6}});
+            blue = new RFace(new int[][]{{6, 6, 6},{6, 3, 6},{6, 6, 6}});
+            yellow = new RFace(new int[][]{{6, 4, 6},{4, 4, 4},{6, 4, 6}});
+            black = new RFace(new int[][]{{6, 4, 6},{4, 5, 4},{6, 4, 6}});
+            this.faces = new RFace[]{red, green, orange, blue, yellow, black};
+            
+        }
+        if(stage == RCube.CORNER_TWIST){
+            RFace red, green, orange, blue, yellow, black;
+            red = new RFace(new int[][]{{6, 0, 6},{0, 0, 0},{6, 0, 6}});
+            green = new RFace(new int[][]{{6, 1, 6},{1, 1, 1},{6, 1, 6}});
+            orange = new RFace(new int[][]{{6, 2, 6},{2, 2, 2},{6, 2, 6}});
+            blue = new RFace(new int[][]{{6, 3, 6},{3, 3, 3},{6, 3, 6}});
+            yellow = new RFace(new int[][]{{4, 4, 4},{4, 4, 4},{4, 4, 4}});
+            black = new RFace(new int[][]{{5, 5, 5},{5, 5, 5},{5, 5, 5}});
+            this.faces = new RFace[]{red, green, orange, blue, yellow, black};
+            
+            
+            
+        }
+        if(stage == 6){
+            RFace red, green, orange, blue, yellow, black;
+            red = new RFace(new int[][]{{6, 0, 6},{0, 0, 0},{6, 0, 6}});
+            green = new RFace(new int[][]{{6, 1, 6},{1, 1, 1},{6, 1, 6}});
+            orange = new RFace(new int[][]{{6, 2, 6},{2, 2, 2},{6, 2, 6}});
+            blue = new RFace(new int[][]{{3, 3, 3},{3, 3, 3},{3, 3, 3}});
+            yellow = new RFace(new int[][]{{4, 4, 4},{4, 4, 4},{4, 4, 4}});
+            black = new RFace(new int[][]{{5, 5, 5},{5, 5, 5},{5, 5, 5}});
+            this.faces = new RFace[]{red, green, orange, blue, yellow, black};
+            
+            
+            
+        }
+    }
+    
     
     public RCube(RFace[] faces){
         this.faces = faces;

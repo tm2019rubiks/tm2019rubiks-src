@@ -64,11 +64,11 @@ public class RCube3D extends JPanel implements GLEventListener{
         gl.glBegin (GL2.GL_QUADS);
         
         //for each face
-        for(RFace face : this.cube.getFaces()){
+        for(int index = 0; index < 6; index ++){
+            RFace face = cube.getFace(index);
             int[][] colors = face.getColors();
             
             //facing changes based on which face it's drawing
-            int index = face.getColorIndex();
             
             //switch statement needed because the faces are not facing the same
             //direction, making it hard to find a sigle loop that can draw them all

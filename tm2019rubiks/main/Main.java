@@ -36,7 +36,7 @@ public class Main  {
     public static void main(String[] args) {
         
         //getting solved cube
-        cube = new RCube(RCube.CORNER_TWIST);
+        cube = new RCube(RCube.SQUARES_GROUP);
         on3d = false;
         
         //layout for the whole frame
@@ -248,7 +248,7 @@ public class Main  {
         frame.setResizable(false);
         
         //Test.test(cube);
-        GenG1.gen();
+        //GenG1.gen();
         
     
     }

@@ -10,7 +10,7 @@ import tm2019rubiks.utils.Utils;
  */
 public class RCube {
     
-    public static final int EDGE_FLIP = 1, CORNER_TWIST = 2;
+    public static final int EDGE_FLIP = 1, CORNER_TWIST = 2, SQUARES_GROUP = 3;
     
     
     
@@ -57,9 +57,21 @@ public class RCube {
             black = new RFace(new int[][]{{5, 5, 5},{5, 5, 5},{5, 5, 5}});
             this.faces = new RFace[]{red, green, orange, blue, yellow, black};
             
+        }
+        if(stage == RCube.SQUARES_GROUP){
+            RFace red, green, orange, blue, yellow, black;
+            red = new RFace(new int[][]{{0, 0, 0},{0, 0, 0},{0, 0, 0}});
+            green = new RFace(new int[][]{{1, 1, 1},{1, 1, 1},{1, 1, 1}});
+            orange = new RFace(new int[][]{{0, 0, 0},{0, 0, 0},{0, 0, 0}});
+            blue = new RFace(new int[][]{{1, 1, 1},{1, 1, 1},{1, 1, 1}});
+            yellow = new RFace(new int[][]{{4, 4, 4},{4, 4, 4},{4, 4, 4}});
+            black = new RFace(new int[][]{{4, 4, 4},{4, 4, 4},{4, 4, 4}});
+            this.faces = new RFace[]{red, green, orange, blue, yellow, black};
+            
             
             
         }
+        
         if(stage == 6){
             RFace red, green, orange, blue, yellow, black;
             red = new RFace(new int[][]{{6, 0, 6},{0, 0, 0},{6, 0, 6}});

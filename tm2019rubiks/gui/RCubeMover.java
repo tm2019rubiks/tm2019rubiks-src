@@ -5,10 +5,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Random;
+import tm2019rubiks.main.Main;
 import tm2019rubiks.rcube.Move;
 import tm2019rubiks.rcube.RCube;
 import tm2019rubiks.solve.Solver;
+import tm2019rubiks.tables.g4.GenG3;
+import tm2019rubiks.utils.Utils;
 
 /**
  *
@@ -20,9 +25,14 @@ import tm2019rubiks.solve.Solver;
 
 
 public class RCubeMover implements KeyListener, ActionListener{
+    
+    
+    
+    
     final private RCube3D cube3d;
     final private RCube2D cube2d;
     final private RCube cube;
+    final private Solver solv = Main.solver;
     
     int currIt = 0;
     ArrayList<Move> m = new ArrayList<>();
@@ -51,6 +61,9 @@ public class RCubeMover implements KeyListener, ActionListener{
     //This function processes keyStrokes, or actionCommands that are passed
     //to it when a key or a button is pressed
     private void processEvent(char c){
+        
+        
+        
         switch(c){
             case 'r':
                 cube.applyMove(Move.R);
@@ -93,20 +106,39 @@ public class RCubeMover implements KeyListener, ActionListener{
                 break;
             case 's':
                 currIt = 0;
-                m = Solver.layerWiseSolution(cube);
+                
+                RCube copy = cube.copy();
+                //String g2 = new RCube(copy, RCube.SQUARES_GROUP).repr();
+                
+                //System.out.println(cube.repr() + "  " + g2);
+                //System.out.println(Main.m.get(g2));
+                
+                m = solv.thistleSolution(copy);
+//                for(Move move : Utils.parseMoves(Main.m.get(g2))){
+//                    copy.applyMove(move);
+//                    m.add(move);
+//                }
+//                for(Move move : Utils.parseMoves(Main.m2.get(copy.repr()))){
+//                    
+//                    m.add(move);
+//                }
+                
+                
+                
+                System.out.println(m.size());
+                
                 
                 break;
             case 'M':
                 if(currIt < m.size()){
                     cube.applyMove(m.get(currIt));
+                    System.out.println(m.get(currIt).toString());
                     currIt += 1;
+                    
                 }
+                break;
             case 'g':
-                Move[] g1 = {Move.U2, Move.D2, Move.F, Move.R, Move.L, Move.B};
-                Random r = new Random();
-                int ind = r.nextInt(6);
-                
-                cube.applyMove(g1[ind]);
+                System.out.println(cube.repr());
             
                 
             
@@ -114,6 +146,7 @@ public class RCubeMover implements KeyListener, ActionListener{
         if(this.cube2d != null){
             this.cube2d.repaint();
         }
+        
         
     }
     

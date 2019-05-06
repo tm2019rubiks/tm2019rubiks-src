@@ -1,7 +1,12 @@
 package tm2019rubiks.utils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
+import tm2019rubiks.main.Main;
 import tm2019rubiks.rcube.Move;
+import tm2019rubiks.rcube.RCube;
+import tm2019rubiks.solve.Solver;
 
 /**
  *
@@ -99,5 +104,83 @@ public class Utils {
             toReturn[i] /= items.length;
         }
         return toReturn;
+    }
+    public static ArrayList<Move> parseMoves(String s){
+        
+        ArrayList<Move> moves = new ArrayList<>();
+        
+        if(s == null) return moves;
+        if(s.equals("")) return moves;
+        if(s.equals("-")) return moves;
+        String[] moveStrings = s.split("-");
+        for(String move : moveStrings){
+            moves.add(new Move(move));
+        }
+        return moves;
+        
+    }
+    
+    
+    //remove this tumor
+    
+    public static void thistleTest(){
+        
+        float len = 10000000;
+        Solver solv = Main.solver;
+        
+        int failed = 0;
+        
+        int movesUse = 0;
+        
+        for(int i = 0; i < len; i ++){
+            
+             
+            RCube cube = new RCube();
+            cube.scramble(200);
+            
+            RCube copy = cube.copy();
+            
+            
+            
+            ArrayList<Move> solution = solv.thistleSolution(cube);
+            
+            for(Move m : solution){
+                cube.applyMove(m);
+            }
+            movesUse += solution.size();
+            if(!cube.repr().equals(new RCube().repr())){
+                failed ++;
+                System.out.println("failed: " + copy.repr() + "  " + cube.repr());
+            }
+            
+            if((i+1) % 1000 == 0){
+                System.out.println("failed:" + failed + "/" + i + "  " + "average moves:" + movesUse/(float)i);
+            }
+            
+            
+            
+            
+            
+                
+        }
+        System.out.println("failed:" + failed + "/" + len + "  " + "average moves:" + movesUse/len);
+    }
+    public static boolean contains(int[] array, int value){
+        boolean found = false;
+        for(int i : array){
+            if(i == value){
+                found = true;
+            }
+        }
+        return found;
+    }
+    public static int indexOf(int[] array, int value){
+        int index = -1;
+        for(int i = 0; i < array.length; i ++){
+            if(array[i] == value){
+                index = i;
+            }
+        }
+        return index;
     }
 }

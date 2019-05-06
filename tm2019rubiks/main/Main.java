@@ -4,7 +4,8 @@ import java.awt.CardLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -12,17 +13,23 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import tm2019rubiks.cv.Test;
 import tm2019rubiks.gui.RCube2D;
 import tm2019rubiks.gui.RCube3D;
 import tm2019rubiks.gui.RCubeMover;
+import tm2019rubiks.rcube.Move;
 import tm2019rubiks.rcube.RCube;
-import tm2019rubiks.tables.g1.GenG0;
-import tm2019rubiks.tables.g2.GenG1;
+import tm2019rubiks.solve.Solver;
+import tm2019rubiks.tables.g3.GenG2;
+import tm2019rubiks.tables.g4.GenG3;
 import tm2019rubiks.utils.Utils;
 
 //Main program
 public class Main  {
+    
+    //there must be only one instance of this class
+    public static Solver solver;
+    
+    public static HashMap<String, String> m, m2;
     
     //the cube being displayed and manipulated
     private static RCube cube;
@@ -33,10 +40,17 @@ public class Main  {
     
     
     
+    
+    
+    
+    
     public static void main(String[] args) {
         
+        solver = new Solver();
+        
+        
         //getting solved cube
-        cube = new RCube(RCube.SQUARES_GROUP);
+        cube = new RCube();//RCube.EDGE_FLIP);
         on3d = false;
         
         //layout for the whole frame
@@ -250,7 +264,14 @@ public class Main  {
         //Test.test(cube);
         //GenG1.gen();
         
-    
+        
+        //m = GenG2.treeGen();
+        //m2 = GenG3.treeGen();
+        System.out.println("starting thistletest");
+        Utils.thistleTest();
+        
+        
+        
     }
     
     

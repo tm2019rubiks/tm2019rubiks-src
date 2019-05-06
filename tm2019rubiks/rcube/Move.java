@@ -79,12 +79,17 @@ public class Move {
         
         // ' means anti-clockwise 
         // 2 means half-turn
-        //   means nothing
+        // n means nothing
         switch (symbols[1]) {
             case 'p':
                 direction = -1;
                 turns = 1;
                 break;
+            case '\'':
+                direction = -1;
+                turns = 1;
+                break;
+                
             case '2':
                 direction = 1;
                 turns = 2;
@@ -180,7 +185,7 @@ public class Move {
             }
             char mod;
             if(this.direction == -1){
-                mod = 'P';
+                mod = 'p';
             }
             else if(this.turns == 2){
                 mod = '2';
@@ -191,6 +196,19 @@ public class Move {
             return String.valueOf(face) + String.valueOf(mod);
         }
         
+    }
+
+    public Move inverse() {
+        int invDir, invTurns, invFace;
+        invFace = this.faceIndex;
+        invTurns = this.turns;
+        if(this.turns == 2){
+            invDir = 1;
+        }
+        else{
+            invDir = this.direction * -1;
+        }
+        return new Move(invFace, invDir, invTurns);
     }
     
     

@@ -13,12 +13,16 @@ public class G1State {
     
     byte[] cornerTwist = {2, 1, 2, 1};
     
+    private static short[] powsOf3 = {2187,729,243, 81,27,9,3,1};
+    private static short[] powsOf2 ={2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1};
+    
     
     private byte[] corners = {0, 0, 0, 0, 0, 0, 0, 0};
     private boolean[] edges = {true, true, true, true, false, false, false, false, false, false, false, false};
     //u2 : no effect on orientation
     //d2 : -||- 
     //l, r, l2, r2, r', l' : no effect 
+    
     
     //corners are labeled from ufr ccw starting with U
     //
@@ -28,6 +32,31 @@ public class G1State {
     
     public G1State(){
         
+    }
+    public G1State(short edgeCoord, short cornerCoord){
+        //edges
+        
+        short coordEdge = edgeCoord, coordCorner = cornerCoord;
+        
+        boolean[] edg = new boolean[12];
+        byte[] corn = new byte[8];
+        
+        for(byte i = 0; i < 12; i ++){
+            if(coordEdge >= powsOf2[i]){
+                edg[i] = true;
+                coordEdge -= powsOf2[i];
+            }
+        }
+        for(byte i = 0; i < 8; i ++){
+            byte n = 0;
+            while(coordCorner >= powsOf3[i]){
+                n += 1;
+                coordCorner -= powsOf3[i];
+            }
+            corn[i] = n;
+        }
+        this.corners = corn;
+        this.edges = edg;
     }
     
     
@@ -67,6 +96,24 @@ public class G1State {
         
         
         
+    }
+    public short cornerCoord(){
+        short sum = 0;
+        for(byte i = 0; i < 8; i ++){
+            sum += this.corners[i] * this.powsOf3[i];
+        }
+        return sum;
+    }
+    
+    public short edgeCoord(){
+        short sum = 0;
+        for(byte i = 0; i < 12; i ++){
+            if(this.edges[i]){
+                sum += this.powsOf2[i];
+            }
+            
+        }
+        return sum;
     }
     
     public String toString(){

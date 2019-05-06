@@ -3,6 +3,7 @@ package tm2019rubiks.solve;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Scanner;
 import tm2019rubiks.rcube.Move;
 import tm2019rubiks.rcube.RCube;
 import tm2019rubiks.rcube.RFace;
@@ -12,9 +13,75 @@ import tm2019rubiks.utils.Utils;
  *
  * @author estok
  */
-public class Solver {
 
-    public static ArrayList<Move> layerWiseSolution(RCube toSolve) {
+
+
+
+public class Solver {
+    HashMap<String, String> stage1, stage2, stage3, stage4;
+    
+    
+    public Solver(){
+        
+        int i = 0;
+        stage1 = new HashMap<>();
+        Scanner scanner = new Scanner(getClass().getResourceAsStream("generated/toG1.txt"));
+        while(scanner.hasNextLine()){
+            if(i++ % 50 == 0) System.out.println("1:" + i);
+            
+            String line = scanner.nextLine();
+            String key = line.split(" ")[0];
+            String value = line.split(" ")[1];
+            
+            stage1.put(key, value);
+        }
+        scanner.close();
+        
+        stage2 = new HashMap<>();
+        scanner = new Scanner(getClass().getResourceAsStream("generated/toG2.txt"));
+        while(scanner.hasNextLine()){
+            if(i++ % 50 == 0) System.out.println("2:" + i);
+            String line = scanner.nextLine();
+            String key = line.split(" ")[0];
+            String value = line.split(" ")[1];
+            
+            stage2.put(key, value);
+        }
+        scanner.close();
+        
+        stage3 = new HashMap<>();
+        scanner = new Scanner(getClass().getResourceAsStream("generated/toG3.txt"));
+        while(scanner.hasNextLine()){
+            if(i++ % 50 == 0) System.out.println("3:" + i);
+            String line = scanner.nextLine();
+            String key = line.split(" ")[0];
+            String value = line.split(" ")[1];
+            
+            stage3.put(key, value);
+        }
+        scanner.close();
+        
+        stage4 = new HashMap<>();
+        scanner = new Scanner(getClass().getResourceAsStream("generated/toG4.txt"));
+        while(scanner.hasNextLine()){
+            
+            if(i++ % 50 == 0) System.out.println("4:" + i);
+            String line = scanner.nextLine();
+            
+            if(line.split(" ").length != 2){
+                System.out.println(line);
+            }
+            String key = line.split(" ")[0];
+            String value = line.split(" ")[1];
+            
+            
+            stage4.put(key, value);
+        }
+        scanner.close();
+    }
+    
+
+    public ArrayList<Move> layerWiseSolution(RCube toSolve) {
 
         RCube cube = toSolve.copy();
         ArrayList<Move> moves = new ArrayList<>();
@@ -319,6 +386,33 @@ public class Solver {
     
     public ArrayList<Move> thistleSolution(RCube cube){
         
+        
+        RCube copy = cube.copy();
+        
+        ArrayList<Move> totalMoves = new ArrayList<>();
+        
+        for(Move m : Utils.parseMoves(stage1.get(copy.edgeFlip()))){
+            totalMoves.add(m);
+            copy.applyMove(m);
+        }
+        
+        for(Move m : Utils.parseMoves(stage2.get(copy.stage2()))){
+            totalMoves.add(m);
+            copy.applyMove(m);
+        }
+        for(Move m : Utils.parseMoves(stage3.get(copy.stage3()))){
+            totalMoves.add(m);
+            copy.applyMove(m);
+        }
+        //System.out.println(stage4.get(copy.repr()).length());
+        for(Move m : Utils.parseMoves(stage4.get(copy.repr()))){
+            totalMoves.add(m);
+            copy.applyMove(m);
+            
+        }
+        
+        
+        
         //first step : getting into g1
         
         ////get good / bad edges
@@ -354,7 +448,7 @@ public class Solver {
         
         //g4 : 6- 500 billion
         
-        return null;
+        return totalMoves;
     
     }
 }

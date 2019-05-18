@@ -18,34 +18,41 @@ import tm2019rubiks.utils.Utils;
 
 
 public class Solver {
-    HashMap<String, String> stage1, stage2, stage3, stage4;
+    HashMap<String, String> stage3, stage4;
+    String[] stage1, stage2[];
     
     
     public Solver(){
         
         int i = 0;
-        stage1 = new HashMap<>();
+        stage1 = new String[4096];
+        
         Scanner scanner = new Scanner(getClass().getResourceAsStream("generated/toG1.txt"));
         while(scanner.hasNextLine()){
             if(i++ % 50 == 0) System.out.println("1:" + i);
             
             String line = scanner.nextLine();
             String key = line.split(" ")[0];
+            
+            int index = Integer.parseInt(key, 2);
             String value = line.split(" ")[1];
             
-            stage1.put(key, value);
+            stage1[index] = value;
         }
         scanner.close();
         
-        stage2 = new HashMap<>();
+        stage2  = new String[6561][4096];
         scanner = new Scanner(getClass().getResourceAsStream("generated/toG2.txt"));
         while(scanner.hasNextLine()){
             if(i++ % 50 == 0) System.out.println("2:" + i);
             String line = scanner.nextLine();
-            String key = line.split(" ")[0];
-            String value = line.split(" ")[1];
+            String[] lines = line.split(" ");
+            String[] keys = (lines[0]).split("_");
+            int indexBase2 = Integer.parseInt(keys[0], 2);
+            int indexBase3 = Integer.parseInt(keys[1], 3);
+            String value = lines[1];
             
-            stage2.put(key, value);
+            stage2[indexBase3][indexBase2] = value;
         }
         scanner.close();
         
@@ -386,24 +393,31 @@ public class Solver {
     
     public ArrayList<Move> thistleSolution(RCube cube){
         
-        
+        //copy we can work on, to be able to determine next stages
         RCube copy = cube.copy();
         
         ArrayList<Move> totalMoves = new ArrayList<>();
         
-        for(Move m : Utils.parseMoves(stage1.get(copy.edgeFlip()))){
+        int index = Integer.parseInt(copy.stage1(), 2);
+        for(Move m : Utils.parseMoves(stage1[index])){
             totalMoves.add(m);
             copy.applyMove(m);
         }
-        
-        for(Move m : Utils.parseMoves(stage2.get(copy.stage2()))){
+        //totalMoves.add(new Move("Xn"));
+        String[] indexes = copy.stage2().split("_");
+        int indexBase2 = Integer.parseInt(indexes[0], 2);
+        int indexBase3 = Integer.parseInt(indexes[1], 3);
+        for(Move m : Utils.parseMoves(stage2[indexBase3][indexBase2])){
             totalMoves.add(m);
             copy.applyMove(m);
         }
+        //totalMoves.add(new Move("Xn"));
         for(Move m : Utils.parseMoves(stage3.get(copy.stage3()))){
             totalMoves.add(m);
             copy.applyMove(m);
         }
+        
+        //totalMoves.add(new Move("Xn"));
         //System.out.println(stage4.get(copy.repr()).length());
         for(Move m : Utils.parseMoves(stage4.get(copy.repr()))){
             totalMoves.add(m);

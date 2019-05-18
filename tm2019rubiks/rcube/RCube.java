@@ -414,61 +414,9 @@ public class RCube {
     
     
     
-    public String edgeFlip(){
+    public String stage1(){
         
-        //on the edgeflip cube, this would be a "yellow facelet".
-        //for it to be solved, the yellow facelets must be correctly flipped
-        //see RCube.EDGE_FLIP
-        //this array represents on which side the yellow facelet of each edge would
-        //need to lie if it is a good edge
-//        int[][] goodFaceletPositions = {{0, 0, 1},{0, 2, 1},{2, 0, 1},
-//                                                {2, 2, 1},{0, 1, 0},{0, 1, 2},
-//                                                {2, 1, 0},{2, 1, 2},{4, 1, 2},
-//                                                {5, 1, 2},{5, 1, 0},{4, 1, 0}};
-//        
-//        //this array will contain which color of which edgepiece would be yellow
-//        //example : for edgepiece 0, it would be its F side
-//        int[] goodEdges = new int[12];
-//        RCube cube = new RCube();
-//        for(int i = 0; i < 12; i ++){
-//            
-//            //
-//            int[] edge = EDGE_POSITIONS[i][0];
-//            int face = edge[0], y = edge[1], x = edge[2];
-//            
-//            
-//            
-//            int goodEdgeColor = cube.getFace(face).getColor(new int[]{y, x});
-//            
-//            //now for each edge (0 - 11) we have it's "good color"
-//            goodEdges[i] = goodEdgeColor;
-//            
-//        }
-//        
-//        //now let's construct the array that holds all edge pieces in the same order
-//        //as in reference
-//        int[][] edges = new int[12][2];
-//        
-//        
-//        int i = 0;
-//        for(int[][] position : EDGE_POSITIONS){
-//            
-//            int[] firstPos = position[0];
-//            int[] secondPos = position[1];
-//            
-//            
-//            int[] faceCoords = new int[]{firstPos[1], firstPos[2]};
-//            int firstColor = cube.getFace(firstPos[0]).getColor(faceCoords);
-//            
-//            faceCoords = new int[]{secondPos[1], secondPos[2]};
-//            int secondColor = cube.getFace(secondPos[0]).getColor(faceCoords);
-//            
-//           
-//            
-//            edges[i] = new int[]{firstColor, secondColor};
-//            i ++;
-//            
-//        }
+
         
         //now we must take the list of the edges of this instance of the cube.
         int[][] thisEdges = this.getEdges();
@@ -690,6 +638,18 @@ public class RCube {
         
         
         
+    }
+    
+    public String stage4(){
+        //this representation should only be able to hold 2**4 * (4!)**3 possible
+        //states.
+        
+        //basically, 4 bits would be needed to encide the flip of the pairs.
+        //then, a permutation has to be held in a   
+        
+        
+        
+        return "";
     }
     //get the edges of the cube, in for of int[2] arrays. Same order as reference,
     //reference facelets given first (yellow facelets on edge flip cube)

@@ -125,18 +125,22 @@ public class Utils {
     
     public static void thistleTest(){
         
-        float len = 10000000;
+        float len = 100000;
         Solver solv = Main.solver;
         
-        int failed = 0;
+        int max = 0;
         
+        int failed = 0;
+        Random r = new Random();
         int movesUse = 0;
+        
+        long tbef = System.currentTimeMillis();
         
         for(int i = 0; i < len; i ++){
             
              
             RCube cube = new RCube();
-            cube.scramble(200);
+            cube.scramble(r.nextInt(100)+ 100);
             
             RCube copy = cube.copy();
             
@@ -156,6 +160,9 @@ public class Utils {
             if((i+1) % 1000 == 0){
                 System.out.println("failed:" + failed + "/" + i + "  " + "average moves:" + movesUse/(float)i);
             }
+            if(max < solution.size()){
+                max = solution.size();
+            }
             
             
             
@@ -163,7 +170,7 @@ public class Utils {
             
                 
         }
-        System.out.println("failed:" + failed + "/" + len + "  " + "average moves:" + movesUse/len);
+        System.out.println("failed:" + failed + "/" + len + "  " + "average moves:" + movesUse/len + "   " + max + "    time: " + (System.currentTimeMillis() - tbef) );
     }
     public static boolean contains(int[] array, int value){
         boolean found = false;

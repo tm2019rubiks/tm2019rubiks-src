@@ -4,6 +4,7 @@ import java.awt.CardLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
+import java.io.FileWriter;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.logging.Level;
@@ -11,6 +12,7 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import tm2019rubiks.gui.RCube2D;
@@ -37,7 +39,8 @@ public class Main  {
     //variable that determines of the 3d view is on or off
     private static boolean on3d;
     
-    
+    //static textfield where the solution is put
+    public static JTextField solutionText;
     
     
     
@@ -46,7 +49,11 @@ public class Main  {
     
     public static void main(String[] args) {
         
+  
+        
         solver = new Solver();
+        
+        Utils.thistleTest();
         
         
         //getting solved cube
@@ -92,6 +99,7 @@ public class Main  {
         final JButton buttonD = new JButton("D");
         final JButton buttonDP = new JButton("D'");
         final JButton button3D = new JButton("3D");
+        solutionText = new JTextField("hello");
         
         //making them unfocusable, since only the focused object can handle keyevents
         //so i have to make sure that the actual component with the keylistener
@@ -110,7 +118,7 @@ public class Main  {
         buttonDP.setFocusable(false);
         button3D.setFocusable(false);
         panel.setFocusable(false);
-        //textField.setFocusable(false);
+        solutionText.setFocusable(false);
         
         //setting the same action commands as the keys that you have to press
         //for a move, so that the keyChars and ActionCommand can be processed
@@ -211,6 +219,13 @@ public class Main  {
         panel.add(button3D, c);
         
         
+        c.gridy = 7;
+        c.gridx = 0;
+        c.gridwidth = 3;
+        c.weighty = 0.005;
+        panel.add(solutionText, c);
+        
+        
         cube2d.setFocusable(false);
         if(cube3d != null){
             cube3d.setFocusable(false);
@@ -256,7 +271,7 @@ public class Main  {
         rcubeGUI.addKeyListener(new RCubeMover(cube2d, cube3d));
         
         //show window
-        frame.setSize(845,590);
+        frame.setSize(845,613);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
@@ -267,13 +282,12 @@ public class Main  {
         
         //m = GenG2.treeGen();
         //m2 = GenG3.treeGen();
-        System.out.println("starting thistletest");
-        Utils.thistleTest();
+        //System.out.println("starting thistletest");
+        //Utils.thistleTest();
         
         
         
     }
-    
-    
+
     
 }

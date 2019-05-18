@@ -64,6 +64,8 @@ public class RCubeMover implements KeyListener, ActionListener{
         
         
         
+        
+        
         switch(c){
             case 'r':
                 cube.applyMove(Move.R);
@@ -146,6 +148,11 @@ public class RCubeMover implements KeyListener, ActionListener{
         if(this.cube2d != null){
             this.cube2d.repaint();
         }
+        
+        //set the solution on the textfield.
+        String solution = "";
+        for(Move m : Main.solver.thistleSolution(cube)) solution += m.toString();
+        Main.solutionText.setText(solution);
         
         
     }

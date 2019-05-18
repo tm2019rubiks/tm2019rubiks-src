@@ -130,6 +130,17 @@ public class GenG2 {
             {3, 3},
             {4, 2},//u2, d2
             {5, 2}};
+        byte[][] m0s = {
+            {1, 1},//r
+            {1, 2},
+            {1, 3},
+            
+            
+            {3, 1},//l
+            {3, 2},
+            {3, 3},
+            {4, 2},//u2, d2
+            {5, 2}                      };
         
         
         
@@ -161,6 +172,9 @@ public class GenG2 {
             for(G2State g : statesByDepth[depth-1]){
                 
                 byte[][] left_moves = moves;
+                if(depth == 1){
+                   left_moves = m0s;
+                }
                 
                 for(byte[] m : left_moves){
                     

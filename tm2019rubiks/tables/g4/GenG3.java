@@ -25,10 +25,11 @@ public class GenG3 {
         
         
         HashMap<String, String> states = new HashMap<>();
+        HashMap<String, String> validStates = new HashMap<>();
         
         
-        ArrayList<RCube>[] statesByDepth = new ArrayList[16];
-        for(int i = 0; i < 16; i ++){
+        ArrayList<RCube>[] statesByDepth = new ArrayList[30];
+        for(int i = 0; i < 30; i ++){
             statesByDepth[i] = new ArrayList<>();
         }
         
@@ -39,7 +40,7 @@ public class GenG3 {
         
         
         
-        for(byte depth = 1; depth < 16; depth ++){
+        for(byte depth = 1; depth < 29; depth ++){
             
             
             for(RCube r : statesByDepth[depth-1]){
@@ -51,16 +52,28 @@ public class GenG3 {
                     RCube copy = r.copy();
                     copy.applyMove(m);
                     
+                    //System.out.println(copy.isInStage(4));
+                    
+                    boolean a = copy.stage1().equals("111111111111");
+                    boolean b = copy.stage2().equals("111100000000_00000000");
+                    boolean c = copy.stage3().equals("11110000_00112233_1");
                     
                     if(!states.containsKey(copy.repr())){
-                        String value = m.inverse().toString() + "-" + states.get(r.repr());
-                        states.put(copy.repr(), value);
-                        statesByDepth[depth].add(copy);
+                            String value = m.inverse().toString() + "-" + states.get(r.repr());
+                            states.put(copy.repr(), value);
+                            statesByDepth[depth].add(copy);
                     }
+                    if(a &&  b && c){
+                        String value = m.inverse().toString() + "-" + states.get(r.repr());
+                        validStates.put(copy.stage4(), value);
+                    }
+                    
+                    
                     //System.out.println(states.size());
                 }
             } 
-            System.out.println(statesByDepth[depth].size());
+            System.out.println(depth + ":" + statesByDepth[depth].size());
+            System.out.println(validStates.size());
         }
         int length = 0;
         for(ArrayList h : statesByDepth){
@@ -68,7 +81,7 @@ public class GenG3 {
         }
         
         
-        return states;
+        return validStates;
     }
     
     public static void write(){
@@ -84,7 +97,7 @@ public class GenG3 {
 // 
 	fw.close();
         }catch(Exception e){
-            
+            e.printStackTrace();
         }
     }
     

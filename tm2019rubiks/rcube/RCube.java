@@ -141,6 +141,22 @@ public class RCube {
         
         this.faces = new RFace[]{front, right, back, left, up, down};
     }
+    public RCube(String repr){
+        int[][][] colorMatrix = new int[6][3][3];
+        int face = 0, row = 0, column = 0;
+        for(int i = 0; i < 54; i ++){
+            face = (int) i / 9;
+            row = (int) ((i % 9) / 3);
+            column = (i % 9) % 3;
+            colorMatrix[face][row][column] = Integer.valueOf(String.valueOf(repr.toCharArray()[i]));
+        }
+        RFace[] faces = new RFace[6];
+        for(int i = 0; i < 6; i ++){
+            faces[i] = new RFace(colorMatrix[i]);
+        }
+        this.faces = faces;
+        
+    }
     
     //you have to pass it a Move object, and the rcube makes modifications on itself
     //based on the move
@@ -649,9 +665,59 @@ public class RCube {
         
         
         
-        return "";
+        //start with the flips of the corner pairs
+        String flip = "";
+        
+        RCube ref = new RCube();
+        int[][] refCorners = ref.getCorners();
+        int[][] thisCorners = this.getCorners();
+        
+        int[][] cornerPairs = {{0, 3},{1, 2},{5,6},{7,4}};
+        
+        for(int i = 0; i < 4; i ++){
+            if(Utils.setEquals(refCorners[2*i], thisCorners[2*i])){
+                flip += "0";
+            }
+            else{
+                flip += "1";
+            }
+        }
+        //now we have the flip
+        
+        //gets the edges of the ref and the actual cube
+        int[][] refEdges = ref.getEdges();
+        int[][] thisEdges = this.getEdges();
+        
+        String edgePerm = "";
+        
+        
+        //do this for each slice (0-4, 4-8, 8-12)
+        for(int slice = 0; slice < 3; slice ++){
+            
+            //pick one edge of the reference
+            for(int edge = 0; edge < 4; edge ++){
+                
+                //and iterate through the actual cubes edges till it's found
+                for(int ind = 0; ind < 4; ind ++){
+                    if(Utils.setEquals(refEdges[4*slice + edge], thisEdges[4*slice + ind])){
+                       edgePerm += String.valueOf(ind);
+                    }
+                        
+                    
+                    
+                }
+            }
+            
+        }
+        
+        
+        
+        
+        
+        
+        return flip +"_"+ edgePerm;
     }
-    //get the edges of the cube, in for of int[2] arrays. Same order as reference,
+    //get the edges of the cube, in form of int[2] arrays. Same order as reference,
     //reference facelets given first (yellow facelets on edge flip cube)
     public int[][] getEdges(){
         int[][] thisEdges = new int[12][2];
@@ -730,6 +796,45 @@ public class RCube {
             return false;
         }
         return true;
+    }
+    public boolean isInStage(int state){
+        String stage1 = "111111111111";
+        String stage2 = "111100000000_00000000";
+        String stage3 = "11110000_00112233_1";
+        String stage4 = "0000_012301230123";
+        
+        //System.out.println(this.stage1() + "  " + this.stage2() + "  " + this.stage3() + " " + this.stage4());
+        
+        if(!this.stage1().equals(stage1)){
+            return false;
+        }
+        
+        if(state == 2){
+            return true;
+        }
+        if(!this.stage2().equals(stage2)){
+            return false;
+        }
+        
+        if(state == 3){
+            return true;
+        }
+        if(!this.stage3().equals(stage3)){
+            return false;
+        }
+        
+        if(state == 4){
+            return true;
+        }
+        if(!this.stage4().equals(stage4)){
+            return false;
+        }
+        
+        if(state == 5){
+            return true;
+        }
+        return true;
+                
     }
     
 }

@@ -7,6 +7,9 @@ import java.util.Scanner;
 import tm2019rubiks.rcube.Move;
 import tm2019rubiks.rcube.RCube;
 import tm2019rubiks.rcube.RFace;
+import tm2019rubiks.solve.generated.conv.ConvG2;
+import tm2019rubiks.solve.generated.conv.ConvG3;
+import tm2019rubiks.solve.generated.conv.ConvG4;
 import tm2019rubiks.utils.Utils;
 
 /**
@@ -18,15 +21,15 @@ import tm2019rubiks.utils.Utils;
 
 
 public class Solver {
-    HashMap<String, String> stage3, stage4;
-    String[] stage1, stage2[];
-    
+    HashMap<String, String>  stage2, stage3, stage4;
+    String[] stage1;
+    public ArrayList<String> stage4algs = new ArrayList<>();
     
     public Solver(){
         
         int i = 0;
         stage1 = new String[4096];
-        
+        //stage1 = new HashMap<>();
         Scanner scanner = new Scanner(getClass().getResourceAsStream("generated/toG1.txt"));
         while(scanner.hasNextLine()){
             if(i++ % 50 == 0) System.out.println("1:" + i);
@@ -36,28 +39,28 @@ public class Solver {
             
             int index = Integer.parseInt(key, 2);
             String value = line.split(" ")[1];
-            
+            //stage1.put(key, value);
             stage1[index] = value;
         }
         scanner.close();
         
-        stage2  = new String[6561][4096];
-        scanner = new Scanner(getClass().getResourceAsStream("generated/toG2.txt"));
+        stage2  = new HashMap<String, String>();
+        scanner = new Scanner(getClass().getResourceAsStream("generated/toG2_enc.txt"));
         while(scanner.hasNextLine()){
             if(i++ % 50 == 0) System.out.println("2:" + i);
             String line = scanner.nextLine();
             String[] lines = line.split(" ");
-            String[] keys = (lines[0]).split("_");
-            int indexBase2 = Integer.parseInt(keys[0], 2);
-            int indexBase3 = Integer.parseInt(keys[1], 3);
+            String key = lines[0];
             String value = lines[1];
+            stage2.put(key, value);
             
-            stage2[indexBase3][indexBase2] = value;
+
         }
         scanner.close();
         
+        
         stage3 = new HashMap<>();
-        scanner = new Scanner(getClass().getResourceAsStream("generated/toG3.txt"));
+        scanner = new Scanner(getClass().getResourceAsStream("generated/toG3_enc.txt"));
         while(scanner.hasNextLine()){
             if(i++ % 50 == 0) System.out.println("3:" + i);
             String line = scanner.nextLine();
@@ -69,7 +72,8 @@ public class Solver {
         scanner.close();
         
         stage4 = new HashMap<>();
-        scanner = new Scanner(getClass().getResourceAsStream("generated/toG4.txt"));
+        //scanner = new Scanner(new File("C:\\Users\\estok\\Documents\\toG4.txt"));
+        scanner = new Scanner(getClass().getResourceAsStream("generated/toG4_enc.txt"));
         while(scanner.hasNextLine()){
             
             if(i++ % 50 == 0) System.out.println("4:" + i);
@@ -85,6 +89,44 @@ public class Solver {
             stage4.put(key, value);
         }
         scanner.close();
+        
+        
+            
+//        try {
+//            ByteArrayOutputStream b = new ByteArrayOutputStream();
+//            ObjectOutputStream oos = new ObjectOutputStream(b);
+//            oos.writeObject(stage2);
+//            System.out.println("stage2: " + b.toByteArray().length);
+//        } catch (IOException ex) {
+//            Logger.getLogger(Solver.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        try {
+//            ByteArrayOutputStream b = new ByteArrayOutputStream();
+//            ObjectOutputStream oos = new ObjectOutputStream(b);
+//            oos.writeObject(stage3);
+//            System.out.println(b.toByteArray().length);
+//        } catch (IOException ex) {
+//            Logger.getLogger(Solver.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        
+//        try {
+//            ByteArrayOutputStream b = new ByteArrayOutputStream();
+//            ObjectOutputStream oos = new ObjectOutputStream(b);
+//            oos.writeObject(stage4);
+//            System.out.println(b.toByteArray().length);
+//        } catch (IOException ex) {
+//            Logger.getLogger(Solver.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        try {
+//            ByteArrayOutputStream b = new ByteArrayOutputStream();
+//            ObjectOutputStream oos = new ObjectOutputStream(b);
+//            oos.writeObject(stage1);
+//            System.out.println(b.toByteArray().length);
+//        } catch (IOException ex) {
+//            Logger.getLogger(Solver.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        System.out.println(stage4.size());
+            
     }
     
 
@@ -404,26 +446,44 @@ public class Solver {
             copy.applyMove(m);
         }
         //totalMoves.add(new Move("Xn"));
-        String[] indexes = copy.stage2().split("_");
-        int indexBase2 = Integer.parseInt(indexes[0], 2);
-        int indexBase3 = Integer.parseInt(indexes[1], 3);
-        for(Move m : Utils.parseMoves(stage2[indexBase3][indexBase2])){
+        
+        ConvG2 g2Converter = new ConvG2();
+        String state = copy.stage2();
+        String encodedState = g2Converter.encodeState(state);
+        
+        String encodedMoves = stage2.get(encodedState);
+        
+        int i = 0;
+        for(Move m : Utils.parseMoves(g2Converter.decodeMoves(encodedMoves))){
+
             totalMoves.add(m);
             copy.applyMove(m);
         }
         //totalMoves.add(new Move("Xn"));
-        for(Move m : Utils.parseMoves(stage3.get(copy.stage3()))){
+        
+        ConvG3 g3Converter = new ConvG3();
+        state = copy.stage3();
+        encodedState = g3Converter.encodeState(state);
+        encodedMoves = stage3.get(encodedState);
+        
+        for(Move m : Utils.parseMoves(g3Converter.decodeMoves(encodedMoves))){
             totalMoves.add(m);
             copy.applyMove(m);
         }
         
-        //totalMoves.add(new Move("Xn"));
-        //System.out.println(stage4.get(copy.repr()).length());
-        for(Move m : Utils.parseMoves(stage4.get(copy.repr()))){
+        
+        
+        ConvG4 g4Converter = new ConvG4();
+        state = copy.stage4();
+        encodedState = g4Converter.encodeState(state);
+        encodedMoves = stage4.get(encodedState);
+        
+        for(Move m : Utils.parseMoves(g4Converter.decodeMoves(encodedMoves))){
             totalMoves.add(m);
-            copy.applyMove(m);
             
         }
+        
+        
         
         
         

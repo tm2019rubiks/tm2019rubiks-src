@@ -4,9 +4,7 @@ import java.awt.CardLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
-import java.io.FileWriter;
 import java.util.HashMap;
-import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
@@ -18,12 +16,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 import tm2019rubiks.gui.RCube2D;
 import tm2019rubiks.gui.RCube3D;
 import tm2019rubiks.gui.RCubeMover;
-import tm2019rubiks.rcube.Move;
 import tm2019rubiks.rcube.RCube;
 import tm2019rubiks.solve.Solver;
-import tm2019rubiks.tables.g3.GenG2;
-import tm2019rubiks.tables.g4.GenG3;
-import tm2019rubiks.utils.Utils;
 
 //Main program
 public class Main  {
@@ -47,13 +41,11 @@ public class Main  {
     
     
     
-    public static void main(String[] args) {
+    public static void main(String[] args){
         
-  
-        
+       //GenG3.write();
+        //new ConvG4().conv();
         solver = new Solver();
-        
-        Utils.thistleTest();
         
         
         //getting solved cube

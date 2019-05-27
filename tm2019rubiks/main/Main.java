@@ -13,11 +13,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import org.bytedeco.javacv.FrameGrabber;
+import tm2019rubiks.cv.OpenCVTest;
 import tm2019rubiks.gui.RCube2D;
 import tm2019rubiks.gui.RCube3D;
 import tm2019rubiks.gui.RCubeMover;
 import tm2019rubiks.rcube.RCube;
 import tm2019rubiks.solve.Solver;
+import tm2019rubiks.utils.Utils;
 
 //Main program
 public class Main  {
@@ -41,11 +44,13 @@ public class Main  {
     
     
     
-    public static void main(String[] args){
+    public static void main(String[] args) throws FrameGrabber.Exception{
         
        //GenG3.write();
         //new ConvG4().conv();
         solver = new Solver();
+        //GenF2L1.treeGen();
+        //OpenCVTest.ji();
         
         
         //getting solved cube
@@ -275,7 +280,7 @@ public class Main  {
         //m = GenG2.treeGen();
         //m2 = GenG3.treeGen();
         //System.out.println("starting thistletest");
-        //Utils.thistleTest();
+        Utils.thistleTest();
         
         
         

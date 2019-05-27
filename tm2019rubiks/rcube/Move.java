@@ -7,7 +7,7 @@ package tm2019rubiks.rcube;
 public class Move {
     
     
-    final private int direction,
+    final private byte direction,
                       faceIndex,
                       turns;
     final String moveString;
@@ -41,7 +41,7 @@ public class Move {
 
     //designs one of the 12 manips possible on the rcube
     
-    public Move(int faceIndex, int direction, int turns) {
+    public Move(byte faceIndex, byte direction, byte turns) {
         this.faceIndex = faceIndex;
         this.direction = direction;
         this.turns = turns;
@@ -52,7 +52,7 @@ public class Move {
     //and it initializes a move which corresponds to the string
     public Move(String moveString) {
         char[] symbols = moveString.toCharArray();
-        int faceIndex, direction, turns;
+        byte faceIndex, direction, turns;
         switch(symbols[0]){
             case 'F':
                 faceIndex = RFace.INDEX_FACE_FRONT;
@@ -109,19 +109,19 @@ public class Move {
         this.moveString = moveString;
     }
 
-    public int getDirection() {
+    public byte getDirection() {
         return direction;
     }
 
-    public int getFaceIndex() {
+    public byte getFaceIndex() {
         return faceIndex;
     }
 
-    public int getTurns() {
+    public byte getTurns() {
         return turns;
     }
-    public int[] getMoveParams(){
-        return new int[]{this.faceIndex, this.direction, this.turns};
+    public byte[] getMoveParams(){
+        return new byte[]{this.faceIndex, this.direction, this.turns};
     }
 
     @Override
@@ -199,14 +199,14 @@ public class Move {
     }
 
     public Move inverse() {
-        int invDir, invTurns, invFace;
+        byte invDir, invTurns, invFace;
         invFace = this.faceIndex;
         invTurns = this.turns;
         if(this.turns == 2){
             invDir = 1;
         }
         else{
-            invDir = this.direction * -1;
+            invDir =(byte) - this.direction;
         }
         return new Move(invFace, invDir, invTurns);
     }

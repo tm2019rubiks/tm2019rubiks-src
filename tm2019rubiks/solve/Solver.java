@@ -72,7 +72,8 @@ public class Solver {
         scanner.close();
         
         stage4 = new HashMap<>();
-        //scanner = new Scanner(new File("C:\\Users\\estok\\Documents\\toG4.txt"));
+
+
         scanner = new Scanner(getClass().getResourceAsStream("generated/toG4_enc.txt"));
         while(scanner.hasNextLine()){
             
@@ -89,44 +90,7 @@ public class Solver {
             stage4.put(key, value);
         }
         scanner.close();
-        
-        
-            
-//        try {
-//            ByteArrayOutputStream b = new ByteArrayOutputStream();
-//            ObjectOutputStream oos = new ObjectOutputStream(b);
-//            oos.writeObject(stage2);
-//            System.out.println("stage2: " + b.toByteArray().length);
-//        } catch (IOException ex) {
-//            Logger.getLogger(Solver.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        try {
-//            ByteArrayOutputStream b = new ByteArrayOutputStream();
-//            ObjectOutputStream oos = new ObjectOutputStream(b);
-//            oos.writeObject(stage3);
-//            System.out.println(b.toByteArray().length);
-//        } catch (IOException ex) {
-//            Logger.getLogger(Solver.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        
-//        try {
-//            ByteArrayOutputStream b = new ByteArrayOutputStream();
-//            ObjectOutputStream oos = new ObjectOutputStream(b);
-//            oos.writeObject(stage4);
-//            System.out.println(b.toByteArray().length);
-//        } catch (IOException ex) {
-//            Logger.getLogger(Solver.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        try {
-//            ByteArrayOutputStream b = new ByteArrayOutputStream();
-//            ObjectOutputStream oos = new ObjectOutputStream(b);
-//            oos.writeObject(stage1);
-//            System.out.println(b.toByteArray().length);
-//        } catch (IOException ex) {
-//            Logger.getLogger(Solver.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        System.out.println(stage4.size());
-            
+   
     }
     
 
@@ -138,71 +102,74 @@ public class Solver {
         //step1: black edges facing up
         //liberateMapU is a map used to know which facelet of the U face has to
         //freed of any already placed black faces, when the algorithm wants to make a move
-        HashMap<Move, int[]> liberateMapU = new HashMap<>();
-        liberateMapU.put(Move.B, new int[]{0, 1});
-        liberateMapU.put(Move.BP, new int[]{0, 1});
-        liberateMapU.put(Move.L, new int[]{1, 0});
-        liberateMapU.put(Move.LP, new int[]{1, 0});
-        liberateMapU.put(Move.R, new int[]{1, 2});
-        liberateMapU.put(Move.RP, new int[]{1, 2});
-        liberateMapU.put(Move.F, new int[]{2, 1});
-        liberateMapU.put(Move.FP, new int[]{2, 1});
+        HashMap<Move, byte[]> liberateMapU = new HashMap<>();
+        liberateMapU.put(Move.B, new byte[]{0, 1});
+        liberateMapU.put(Move.BP, new byte[]{0, 1});
+        liberateMapU.put(Move.L, new byte[]{1, 0});
+        liberateMapU.put(Move.LP, new byte[]{1, 0});
+        liberateMapU.put(Move.R, new byte[]{1, 2});
+        liberateMapU.put(Move.RP, new byte[]{1, 2});
+        liberateMapU.put(Move.F, new byte[]{2, 1});
+        liberateMapU.put(Move.FP, new byte[]{2, 1});
 
         //construct edgeMoves
         //blackEdgeMoves is the map that converts a position of a black edge to a 
         //number of moves.
         //TODO: rewrite this to be read from a file.
         HashMap<String, Move[]> downEdgeMoves = new HashMap<>();
-        final int[][] edgeCoords = {{1, 0}, {0, 1}, {1, 2}, {2, 1}};
-        for (int i = 0; i < 4; i++) {
+        final byte[][] edgeCoords = {{1, 0}, {0, 1}, {1, 2}, {2, 1}};
+        
+        byte one = 1, mone = -1;
+        
+        for (byte i = 0; i < 4; i++) {
 
-            int front = i;
-            int left = (i >= 1) ? i - 1 : 3;
-            int right = (i <= 2) ? i + 1 : 0;
+            byte front = i;
+            byte left = (byte) ((i >= 1) ? i - 1 : 3);
+            byte right =(byte) ((i <= 2) ? i + 1 : 0);
 
             //case 1, 0
-            int[] key = {i, edgeCoords[0][0], edgeCoords[0][1]};
-            Move[] entry = {new Move(left, -1, 1)};
+            byte[] key = {i, edgeCoords[0][0], edgeCoords[0][1]};
+            Move[] entry = {new Move(left, mone, one)};
             downEdgeMoves.put(Arrays.toString(key), entry);
 
             //case 0, 1 
-            key = new int[]{i, edgeCoords[1][0], edgeCoords[1][1]};
-            entry = new Move[]{new Move(front, 1, 1), new Move(right, 1, 1)};
+            key = new byte[]{i, edgeCoords[1][0], edgeCoords[1][1]};
+            entry = new Move[]{new Move(front, one, one), new Move(right, one, one)};
             downEdgeMoves.put(Arrays.toString(key), entry);
 
             //case 1, 2
-            key = new int[]{i, edgeCoords[2][0], edgeCoords[2][1]};
-            entry = new Move[]{new Move(right, 1, 1)};
+            key = new byte[]{i, edgeCoords[2][0], edgeCoords[2][1]};
+            entry = new Move[]{new Move(right, one, one)};
             downEdgeMoves.put(Arrays.toString(key), entry);
 
             //case 2, 1
-            key = new int[]{i, edgeCoords[3][0], edgeCoords[3][1]};
-            entry = new Move[]{new Move(front, 1, 1), new Move(left, -1, 1)};
+            key = new byte[]{i, edgeCoords[3][0], edgeCoords[3][1]};
+            entry = new Move[]{new Move(front, one, one), new Move(left, mone, one)};
             downEdgeMoves.put(Arrays.toString(key), entry);
         }
-        for (int[] coord : edgeCoords) {
-            int[] key = {4, coord[0], coord[1]};
+        for (byte[] coord : edgeCoords) {
+            byte[] key = {4, coord[0], coord[1]};
             Move[] entry = {};
             downEdgeMoves.put(Arrays.toString(key), entry);
         }
 
-        downEdgeMoves.put(Arrays.toString(new int[]{5, 0, 1}), new Move[]{Move.F, Move.F});
-        downEdgeMoves.put(Arrays.toString(new int[]{5, 1, 0}), new Move[]{Move.L, Move.L});
-        downEdgeMoves.put(Arrays.toString(new int[]{5, 1, 2}), new Move[]{Move.R, Move.R});
-        downEdgeMoves.put(Arrays.toString(new int[]{5, 2, 1}), new Move[]{Move.B, Move.B});
+        downEdgeMoves.put(Arrays.toString(new byte[]{5, 0, 1}), new Move[]{Move.F, Move.F});
+        downEdgeMoves.put(Arrays.toString(new byte[]{5, 1, 0}), new Move[]{Move.L, Move.L});
+        downEdgeMoves.put(Arrays.toString(new byte[]{5, 1, 2}), new Move[]{Move.R, Move.R});
+        downEdgeMoves.put(Arrays.toString(new byte[]{5, 2, 1}), new Move[]{Move.B, Move.B});
 
         //solve the 4 edges
-        for (int i = 0; i < 4; i++) {
+        for (byte i = 0; i < 4; i++) {
 
             //after every edge solved, the cube changes
-            int[][] downEdges = cube.getEdges(RFace.INDEX_FACE_DOWN);
+            byte[][] downEdges = cube.getEdges(RFace.INDEX_FACE_DOWN);
 
             //initialize the currEdge array with null, so when there's no edge left to solve
             //the algorithm stops
-            int[] currentEdge = null;
+            byte[] currentEdge = null;
 
             //look for an edge that needs to be solved ( == not on U Face)
-            for (int[] edge : downEdges) {
+            for (byte[] edge : downEdges) {
                 if (edge[0] != RFace.INDEX_FACE_UP) {
                     currentEdge = edge;
                     break;
@@ -219,7 +186,7 @@ public class Solver {
             for (Move m : placeEdge) {
 
                 //get which position of U Face has to be freed of down edges
-                int[] pos = liberateMapU.get(m);
+                byte[] pos = liberateMapU.get(m);
 
                 //liberate the face from D edges
                 while (cube.getFaces()[4].getColors()[pos[0]][pos[1]] == RFace.INDEX_FACE_DOWN) {
@@ -238,14 +205,14 @@ public class Solver {
         //map to know which part of the U face corresponds to which other face
         //so when you have to do the S2 turns, you can know which part of U
         //needs to have the D piece
-        HashMap<Integer, int[]> upSideLinks = new HashMap<>();
-        upSideLinks.put(RFace.INDEX_FACE_LEFT, new int[]{1, 0});
-        upSideLinks.put(RFace.INDEX_FACE_BACK, new int[]{0, 1});
-        upSideLinks.put(RFace.INDEX_FACE_RIGHT, new int[]{1, 2});
-        upSideLinks.put(RFace.INDEX_FACE_FRONT, new int[]{2, 1});
+        HashMap<Byte,byte[]> upSideLinks = new HashMap<>();
+        upSideLinks.put(RFace.INDEX_FACE_LEFT, new byte[]{1, 0});
+        upSideLinks.put(RFace.INDEX_FACE_BACK, new byte[]{0, 1});
+        upSideLinks.put(RFace.INDEX_FACE_RIGHT, new byte[]{1, 2});
+        upSideLinks.put(RFace.INDEX_FACE_FRONT, new byte[]{2, 1});
 
         //for each face, you have to align the color, and then apply S2
-        for (int i = 0; i < 4; i++) {
+        for (byte i = 0; i < 4; i++) {
             RFace currFace = cube.getFace(i);
 
             //while the colors are not aligned, and the face on the up is not black, 
@@ -256,7 +223,7 @@ public class Solver {
                 moves.add(Move.U);
             }
             //when aligned, place edge down
-            Move placeEdgeDown = new Move(i, 1, 2);
+            Move placeEdgeDown = new Move(i, one, (byte)2);
             moves.add(placeEdgeDown);
             cube.applyMove(placeEdgeDown);
 
@@ -272,16 +239,16 @@ public class Solver {
         //the element at each index corresponds to the position on the U ord D
         //face of the said index
         //for example, 1 is the down right corner when looking frontally at U
-        int[][] uFaceSlots = {{2, 0}, {2, 2}, {0, 2}, {0, 0}};
-        int[][] dFaceSlots = {{0, 0}, {0, 2}, {2, 2}, {2, 0}};
+        byte[][] uFaceSlots = {{2, 0}, {2, 2}, {0, 2}, {0, 0}};
+        byte[][] dFaceSlots = {{0, 0}, {0, 2}, {2, 2}, {2, 0}};
 
         //for all corner slots, 
-        for (int i = 0; i < 4; i++) {
+        for (byte i = 0; i < 4; i++) {
 
             //determine which face is left relative to the slot that we want to fill
             //in
-            int left = (i >= 1) ? i - 1 : 3;
-            int right = i;
+            byte left = (byte)((i >= 1) ? i - 1 : 3);
+            byte right = i;
 
             //get the faces for readability
             RFace leftFace = cube.getFace(left);
@@ -291,34 +258,34 @@ public class Solver {
 
             //coordinates of the facelet to check on the side faces
             //when the inspected layer is D
-            int[] rcoords = {2, 0};
-            int[] lcoords = {2, 2};
+            byte[] rcoords = {2, 0};
+            byte[] lcoords = {2, 2};
             //when the inspected layer is U
-            int[] rucoords = {0, 0};
-            int[] lucoords = {0, 2};
+            byte[] rucoords = {0, 0};
+            byte[] lucoords = {0, 2};
 
             //for the slot i, get the colors of the piece that we want to put in 
             //that place
-            int[] cornerPieceColors = {leftFace.getColorIndex(),
+            byte[] cornerPieceColors = new byte[]{leftFace.getColorIndex(),
                 rightFace.getColorIndex(),
                 downFace.getColorIndex()};
 
             //the position of the cubie
             //0 : Face (U or D)
             //1 : the position on the U or D face according to FaceSlots
-            int[] pos = new int[2];
+            byte[] pos = new byte[2];
 
             //get position of cubie
             //look for each slot position
             //look in D layer
-            for (int search = 0; search < 4; search++) {
+            for (byte search = 0; search < 4; search++) {
 
                 //get faces relative to the slot that's being searched
-                int searchLeft = (search >= 1) ? search - 1 : 3;
-                int searchRight = search;
+                byte searchLeft = (byte) ((search >= 1) ? search - 1 : 3);
+                byte searchRight = search;
 
                 //construct the array with the colors of the corner cubie
-                int[] piece = {downFace.getColor(dFaceSlots[search]),
+                byte[] piece = {downFace.getColor(dFaceSlots[search]),
                     cube.getFace(searchLeft).getColor(lcoords),
                     cube.getFace(searchRight).getColor(rcoords)};
 
@@ -332,14 +299,14 @@ public class Solver {
 
             //look in U layer
             //same as the loop before
-            for (int search = 0; search < 4; search++) {
+            for (byte search = 0; search < 4; search++) {
 
                 //get faces relative to the slot that's being searched
-                int searchLeft = (search >= 1) ? search - 1 : 3;
-                int searchRight = search;
+                byte searchLeft = (byte)((search >= 1) ? search - 1 : 3);
+                byte searchRight = search;
 
                 //construc the array with the colors of the corner cubie
-                int[] piece = {upFace.getColor(uFaceSlots[search]),
+                byte[] piece = {upFace.getColor(uFaceSlots[search]),
                     cube.getFace(searchLeft).getColor(lucoords),
                     cube.getFace(searchRight).getColor(rucoords)};
 
@@ -370,7 +337,7 @@ public class Solver {
                         //then turn the U face until it's sitting above the slot
                         //it's supposed to go in
                         while (!Utils.setEquals(
-                                new int[]{upFace.getColor(uFaceSlots[i]),
+                                new byte[]{upFace.getColor(uFaceSlots[i]),
                                     leftFace.getColor(lucoords),
                                     rightFace.getColor(rucoords)}, cornerPieceColors)) {
                             cube.applyMove(Move.U);
@@ -394,7 +361,7 @@ public class Solver {
                     //rotate the U face until the piece is above the slot it needs to go in
 
                     while (!Utils.setEquals(
-                            new int[]{upFace.getColor(uFaceSlots[i]),
+                            new byte[]{upFace.getColor(uFaceSlots[i]),
                                 leftFace.getColor(lucoords),
                                 rightFace.getColor(rucoords)}, cornerPieceColors)) {
                         cube.applyMove(Move.U);
@@ -522,7 +489,7 @@ public class Solver {
         
         //g4 : 6- 500 billion
         
-        return totalMoves;
+        return Utils.simplifyMoves(totalMoves);
     
     }
 }

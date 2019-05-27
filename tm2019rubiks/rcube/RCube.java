@@ -11,25 +11,25 @@ import tm2019rubiks.utils.Utils;
  */
 public class RCube {
     
-    private static final int[][][] EDGE_POSITIONS = {{{0, 0, 1},{4, 2, 1}},{{0, 2, 1},{5, 0, 1}},
-                                                     {{2, 0, 1},{4, 0, 1}},{{2, 2, 1},{5, 2, 1}},
-                                                     {{0, 1, 0},{3, 1, 2}},{{0, 1, 2},{1, 1, 0}},
-                                                     {{2, 1, 0},{1, 1, 2}},{{2, 1, 2},{3, 1, 0}},
-                                                     {{4, 1, 2},{1, 0, 1}},{{5, 1, 2},{1, 2, 1}},
-                                                     {{5, 1, 0},{3, 2, 1}},{{4, 1, 0},{3, 0, 1}}};
-    private static final int[][][] CORNER_POSITIONS = {{{3, 0, 2},{0, 0, 0},{4, 2, 0}},
-                                                       {{1, 2, 0},{0, 2, 2},{5, 0, 2}},
-                                                       {{3, 2, 0},{2, 2, 2},{5, 2, 0}},
-                                                       {{1, 0, 2},{2, 0, 0},{4, 0, 2}},
-                                                       {{1, 0, 0},{4, 2, 2},{0, 0, 2}},
-                                                       {{3, 2, 2},{5, 0, 0},{0, 2, 0}},
-                                                       {{1, 2, 2},{5, 2, 2},{2, 2, 0}},
-                                                       {{3, 0, 0},{4, 0, 0},{2, 0, 2}}};
+    private static final byte[][][] EDGE_POSITIONS = {{{0, 0, 1},{4, 2, 1}},{{0, 2, 1},{5, 0, 1}},
+        {{2, 0, 1},{4, 0, 1}},{{2, 2, 1},{5, 2, 1}},
+        {{0, 1, 0},{3, 1, 2}},{{0, 1, 2},{1, 1, 0}},
+        {{2, 1, 0},{1, 1, 2}},{{2, 1, 2},{3, 1, 0}},
+        {{4, 1, 2},{1, 0, 1}},{{5, 1, 2},{1, 2, 1}},
+        {{5, 1, 0},{3, 2, 1}},{{4, 1, 0},{3, 0, 1}}};
+    private static final byte[][][] CORNER_POSITIONS = {{{3, 0, 2},{0, 0, 0},{4, 2, 0}},
+        {{1, 2, 0},{0, 2, 2},{5, 0, 2}},
+        {{3, 2, 0},{2, 2, 2},{5, 2, 0}},
+        {{1, 0, 2},{2, 0, 0},{4, 0, 2}},
+        {{1, 0, 0},{4, 2, 2},{0, 0, 2}},
+        {{3, 2, 2},{5, 0, 0},{0, 2, 0}},
+        {{1, 2, 2},{5, 2, 2},{2, 2, 0}},
+        {{3, 0, 0},{4, 0, 0},{2, 0, 2}}};
     
     
     
     
-    public static final int EDGE_FLIP = 1, CORNER_TWIST = 2, SQUARES_GROUP = 3;
+    public static final byte EDGE_FLIP = 1, CORNER_TWIST = 2, SQUARES_GROUP = 3;
     
     
     
@@ -57,34 +57,34 @@ public class RCube {
     public RCube(int stage){
         if(stage == RCube.EDGE_FLIP){
             RFace red, green, orange, blue, yellow, black;
-            red = new RFace(new int[][]{{6, 6, 6},{4, 6, 4},{6, 6, 6}});
-            green = new RFace(new int[][]{{6, 6, 6},{6, 6, 6},{6, 6, 6}});
-            orange = new RFace(new int[][]{{6, 6, 6},{4, 6, 4},{6, 6, 6}});
-            blue = new RFace(new int[][]{{6, 6, 6},{6, 6, 6},{6, 6, 6}});
-            yellow = new RFace(new int[][]{{6, 4, 6},{4, 6, 4},{6, 4, 6}});
-            black = new RFace(new int[][]{{6, 4, 6},{4, 6, 4},{6, 4, 6}});
+            red = new RFace(new byte[][]{{6, 6, 6},{4, 6, 4},{6, 6, 6}});
+            green = new RFace(new byte[][]{{6, 6, 6},{6, 6, 6},{6, 6, 6}});
+            orange = new RFace(new byte[][]{{6, 6, 6},{4, 6, 4},{6, 6, 6}});
+            blue = new RFace(new byte[][]{{6, 6, 6},{6, 6, 6},{6, 6, 6}});
+            yellow = new RFace(new byte[][]{{6, 4, 6},{4, 6, 4},{6, 4, 6}});
+            black = new RFace(new byte[][]{{6, 4, 6},{4, 6, 4},{6, 4, 6}});
             this.faces = new RFace[]{red, green, orange, blue, yellow, black};
             
         }
         if(stage == RCube.CORNER_TWIST){
             RFace red, green, orange, blue, yellow, black;
-            red = new RFace(new int[][]{{6, 0, 6},{0, 0, 0},{6, 0, 6}});
-            green = new RFace(new int[][]{{6, 1, 6},{1, 1, 1},{6, 1, 6}});
-            orange = new RFace(new int[][]{{6, 2, 6},{2, 2, 2},{6, 2, 6}});
-            blue = new RFace(new int[][]{{6, 3, 6},{3, 3, 3},{6, 3, 6}});
-            yellow = new RFace(new int[][]{{4, 4, 4},{4, 4, 4},{4, 4, 4}});
-            black = new RFace(new int[][]{{5, 5, 5},{5, 5, 5},{5, 5, 5}});
+            red = new RFace(new byte[][]{{6, 0, 6},{0, 0, 0},{6, 0, 6}});
+            green = new RFace(new byte[][]{{6, 1, 6},{1, 1, 1},{6, 1, 6}});
+            orange = new RFace(new byte[][]{{6, 2, 6},{2, 2, 2},{6, 2, 6}});
+            blue = new RFace(new byte[][]{{6, 3, 6},{3, 3, 3},{6, 3, 6}});
+            yellow = new RFace(new byte[][]{{4, 4, 4},{4, 4, 4},{4, 4, 4}});
+            black = new RFace(new byte[][]{{5, 5, 5},{5, 5, 5},{5, 5, 5}});
             this.faces = new RFace[]{red, green, orange, blue, yellow, black};
             
         }
         if(stage == RCube.SQUARES_GROUP){
             RFace red, green, orange, blue, yellow, black;
-            red = new RFace(new int[][]{{0, 0, 0},{0, 0, 0},{0, 0, 0}});
-            green = new RFace(new int[][]{{1, 1, 1},{1, 1, 1},{1, 1, 1}});
-            orange = new RFace(new int[][]{{0, 0, 0},{0, 0, 0},{0, 0, 0}});
-            blue = new RFace(new int[][]{{1, 1, 1},{1, 1, 1},{1, 1, 1}});
-            yellow = new RFace(new int[][]{{4, 4, 4},{4, 4, 4},{4, 4, 4}});
-            black = new RFace(new int[][]{{4, 4, 4},{4, 4, 4},{4, 4, 4}});
+            red = new RFace(new byte[][]{{0, 0, 0},{0, 0, 0},{0, 0, 0}});
+            green = new RFace(new byte[][]{{1, 1, 1},{1, 1, 1},{1, 1, 1}});
+            orange = new RFace(new byte[][]{{0, 0, 0},{0, 0, 0},{0, 0, 0}});
+            blue = new RFace(new byte[][]{{1, 1, 1},{1, 1, 1},{1, 1, 1}});
+            yellow = new RFace(new byte[][]{{4, 4, 4},{4, 4, 4},{4, 4, 4}});
+            black = new RFace(new byte[][]{{4, 4, 4},{4, 4, 4},{4, 4, 4}});
             this.faces = new RFace[]{red, green, orange, blue, yellow, black};
             
             
@@ -93,12 +93,12 @@ public class RCube {
         
         if(stage == 6){
             RFace red, green, orange, blue, yellow, black;
-            red = new RFace(new int[][]{{6, 0, 6},{0, 0, 0},{6, 0, 6}});
-            green = new RFace(new int[][]{{6, 1, 6},{1, 1, 1},{6, 1, 6}});
-            orange = new RFace(new int[][]{{6, 2, 6},{2, 2, 2},{6, 2, 6}});
-            blue = new RFace(new int[][]{{3, 3, 3},{3, 3, 3},{3, 3, 3}});
-            yellow = new RFace(new int[][]{{4, 4, 4},{4, 4, 4},{4, 4, 4}});
-            black = new RFace(new int[][]{{5, 5, 5},{5, 5, 5},{5, 5, 5}});
+            red = new RFace(new byte[][]{{6, 0, 6},{0, 0, 0},{6, 0, 6}});
+            green = new RFace(new byte[][]{{6, 1, 6},{1, 1, 1},{6, 1, 6}});
+            orange = new RFace(new byte[][]{{6, 2, 6},{2, 2, 2},{6, 2, 6}});
+            blue = new RFace(new byte[][]{{3, 3, 3},{3, 3, 3},{3, 3, 3}});
+            yellow = new RFace(new byte[][]{{4, 4, 4},{4, 4, 4},{4, 4, 4}});
+            black = new RFace(new byte[][]{{5, 5, 5},{5, 5, 5},{5, 5, 5}});
             this.faces = new RFace[]{red, green, orange, blue, yellow, black};
             
             
@@ -106,11 +106,11 @@ public class RCube {
         }
     }
     
-    public RCube(RCube base, int stage){
+    public RCube(RCube base, byte stage){
         RCube copy = base.copy();
         if(stage == RCube.SQUARES_GROUP){
             for(RFace face : copy.faces){
-                for(int[] row : face.getColors()){
+                for(byte[] row : face.getColors()){
                     for(int i = 0; i < 3; i ++){
                         if(row[i] == RFace.INDEX_FACE_BACK){
                             row[i] = RFace.INDEX_FACE_FRONT;
@@ -142,16 +142,16 @@ public class RCube {
         this.faces = new RFace[]{front, right, back, left, up, down};
     }
     public RCube(String repr){
-        int[][][] colorMatrix = new int[6][3][3];
-        int face = 0, row = 0, column = 0;
-        for(int i = 0; i < 54; i ++){
-            face = (int) i / 9;
-            row = (int) ((i % 9) / 3);
-            column = (i % 9) % 3;
-            colorMatrix[face][row][column] = Integer.valueOf(String.valueOf(repr.toCharArray()[i]));
+        byte[][][] colorMatrix = new byte[6][3][3];
+        byte face = 0, row = 0, column = 0;
+        for(byte i = 0; i < 54; i ++){
+            face = (byte) (i / 9);
+            row = (byte) ((i % 9) / 3);
+            column = (byte)((i % 9) % 3);
+            colorMatrix[face][row][column] = Byte.valueOf(String.valueOf(repr.toCharArray()[i]));
         }
         RFace[] faces = new RFace[6];
-        for(int i = 0; i < 6; i ++){
+        for(byte i = 0; i < 6; i ++){
             faces[i] = new RFace(colorMatrix[i]);
         }
         this.faces = faces;
@@ -166,17 +166,17 @@ public class RCube {
         //parameter of the move, including which face is turned
         //the direction (1 = CW, -1 = CCW)
         //and the number of turns
-        int[] moveParams = move.getMoveParams();
-        int rotatedFaceIndex = moveParams[0];
-        int direction = moveParams[1];
-        int turns = moveParams[2];
+        byte[] moveParams = move.getMoveParams();
+        byte rotatedFaceIndex = moveParams[0];
+        byte direction = moveParams[1];
+        byte turns = moveParams[2];
         
         //the twisted face is turned with the number of turns
         RFace toRotate = this.faces[rotatedFaceIndex];
         toRotate.twist(direction, turns);
         
         
-         
+        
         
         
         
@@ -207,102 +207,102 @@ public class RCube {
         //the case when the red face gets rotated
         switch (rotatedFaceIndex) {
             case RFace.INDEX_FACE_FRONT:
-                {
-                    //the list of faces whose cubies change in order
-                    RFace[] facesRotated = {this.faces[RFace.INDEX_FACE_UP],
-                        this.faces[RFace.INDEX_FACE_RIGHT],
-                        this.faces[RFace.INDEX_FACE_DOWN],
-                        this.faces[RFace.INDEX_FACE_LEFT]};
-                    for(int currentRotation = 0; currentRotation < rotations; currentRotation ++){
-                        for(int i = 0; i < 3; i ++){
-                            int temp = facesRotated[1].getColors()[i][0];
-                            facesRotated[1].getColors()[i][0] = facesRotated[0].getColors()[2][i];
-                            facesRotated[0].getColors()[2][i] = facesRotated[3].getColors()[2-i][2];
-                            facesRotated[3].getColors()[2-i][2] = facesRotated[2].getColors()[0][2-i];
-                            facesRotated[2].getColors()[0][2-i] = temp;
-                        }
-                    }       break;
-                }
+            {
+                //the list of faces whose cubies change in order
+                RFace[] facesRotated = {this.faces[RFace.INDEX_FACE_UP],
+                    this.faces[RFace.INDEX_FACE_RIGHT],
+                    this.faces[RFace.INDEX_FACE_DOWN],
+                    this.faces[RFace.INDEX_FACE_LEFT]};
+                for(byte currentRotation = 0; currentRotation < rotations; currentRotation ++){
+                    for(byte i = 0; i < 3; i ++){
+                        byte temp = facesRotated[1].getColors()[i][0];
+                        facesRotated[1].getColors()[i][0] = facesRotated[0].getColors()[2][i];
+                        facesRotated[0].getColors()[2][i] = facesRotated[3].getColors()[2-i][2];
+                        facesRotated[3].getColors()[2-i][2] = facesRotated[2].getColors()[0][2-i];
+                        facesRotated[2].getColors()[0][2-i] = temp;
+                    }
+                }       break;
+            }
             case RFace.INDEX_FACE_RIGHT:
-                {
-                    RFace[] facesRotated = {this.faces[RFace.INDEX_FACE_UP],
-                        this.faces[RFace.INDEX_FACE_BACK],
-                        this.faces[RFace.INDEX_FACE_DOWN],
-                        this.faces[RFace.INDEX_FACE_FRONT]};
-                    for(int currentRotation = 0; currentRotation < rotations; currentRotation ++){
-                        for(int i = 0; i < 3; i ++){
-                            int temp = facesRotated[1].getColors()[i][0];
-                            facesRotated[1].getColors()[i][0] = facesRotated[0].getColors()[2-i][2];
-                            facesRotated[0].getColors()[2-i][2] = facesRotated[3].getColors()[2-i][2];
-                            facesRotated[3].getColors()[2-i][2] = facesRotated[2].getColors()[2-i][2];
-                            facesRotated[2].getColors()[2-i][2] = temp;
-                        }
-                    }       break;
-                }
+            {
+                RFace[] facesRotated = {this.faces[RFace.INDEX_FACE_UP],
+                    this.faces[RFace.INDEX_FACE_BACK],
+                    this.faces[RFace.INDEX_FACE_DOWN],
+                    this.faces[RFace.INDEX_FACE_FRONT]};
+                for(byte currentRotation = 0; currentRotation < rotations; currentRotation ++){
+                    for(byte i = 0; i < 3; i ++){
+                        byte temp = facesRotated[1].getColors()[i][0];
+                        facesRotated[1].getColors()[i][0] = facesRotated[0].getColors()[2-i][2];
+                        facesRotated[0].getColors()[2-i][2] = facesRotated[3].getColors()[2-i][2];
+                        facesRotated[3].getColors()[2-i][2] = facesRotated[2].getColors()[2-i][2];
+                        facesRotated[2].getColors()[2-i][2] = temp;
+                    }
+                }       break;
+            }
             case RFace.INDEX_FACE_BACK:
-                {
-                   RFace[] facesRotated = {this.faces[RFace.INDEX_FACE_UP],
-                        this.faces[RFace.INDEX_FACE_LEFT],
-                        this.faces[RFace.INDEX_FACE_DOWN],
-                        this.faces[RFace.INDEX_FACE_RIGHT ]};
-                    for(int currentRotation = 0; currentRotation < rotations; currentRotation ++){
-                        for(int i = 0; i < 3; i ++){
-                            int temp = facesRotated[1].getColors()[i][0];
-                            facesRotated[1].getColors()[i][0] = facesRotated[0].getColors()[0][2-i];
-                            facesRotated[0].getColors()[0][2-i] = facesRotated[3].getColors()[2-i][2];
-                            facesRotated[3].getColors()[2-i][2] = facesRotated[2].getColors()[2][i];
-                            facesRotated[2].getColors()[2][i] = temp;
-                        }
-                    }       break; 
-                }
+            {
+                RFace[] facesRotated = {this.faces[RFace.INDEX_FACE_UP],
+                    this.faces[RFace.INDEX_FACE_LEFT],
+                    this.faces[RFace.INDEX_FACE_DOWN],
+                    this.faces[RFace.INDEX_FACE_RIGHT ]};
+                for(byte currentRotation = 0; currentRotation < rotations; currentRotation ++){
+                    for(byte i = 0; i < 3; i ++){
+                        byte temp = facesRotated[1].getColors()[i][0];
+                        facesRotated[1].getColors()[i][0] = facesRotated[0].getColors()[0][2-i];
+                        facesRotated[0].getColors()[0][2-i] = facesRotated[3].getColors()[2-i][2];
+                        facesRotated[3].getColors()[2-i][2] = facesRotated[2].getColors()[2][i];
+                        facesRotated[2].getColors()[2][i] = temp;
+                    }
+                }       break;
+            }
             case RFace.INDEX_FACE_LEFT:
-                {
-                   RFace[] facesRotated = {this.faces[RFace.INDEX_FACE_UP],
-                        this.faces[RFace.INDEX_FACE_FRONT],
-                        this.faces[RFace.INDEX_FACE_DOWN],
-                        this.faces[RFace.INDEX_FACE_BACK ]};
-                    for(int currentRotation = 0; currentRotation < rotations; currentRotation ++){
-                        for(int i = 0; i < 3; i ++){
-                            int temp = facesRotated[1].getColors()[i][0];
-                            facesRotated[1].getColors()[i][0] = facesRotated[0].getColors()[i][0];
-                            facesRotated[0].getColors()[i][0] = facesRotated[3].getColors()[2-i][2];
-                            facesRotated[3].getColors()[2-i][2] = facesRotated[2].getColors()[i][0];
-                            facesRotated[2].getColors()[i][0] = temp;
-                        }
-                    }       break; 
-                }
+            {
+                RFace[] facesRotated = {this.faces[RFace.INDEX_FACE_UP],
+                    this.faces[RFace.INDEX_FACE_FRONT],
+                    this.faces[RFace.INDEX_FACE_DOWN],
+                    this.faces[RFace.INDEX_FACE_BACK ]};
+                for(byte currentRotation = 0; currentRotation < rotations; currentRotation ++){
+                    for(byte i = 0; i < 3; i ++){
+                        byte temp = facesRotated[1].getColors()[i][0];
+                        facesRotated[1].getColors()[i][0] = facesRotated[0].getColors()[i][0];
+                        facesRotated[0].getColors()[i][0] = facesRotated[3].getColors()[2-i][2];
+                        facesRotated[3].getColors()[2-i][2] = facesRotated[2].getColors()[i][0];
+                        facesRotated[2].getColors()[i][0] = temp;
+                    }
+                }       break;
+            }
             case RFace.INDEX_FACE_UP:
-                {
-                   RFace[] facesRotated = {this.faces[RFace.INDEX_FACE_BACK],
-                        this.faces[RFace.INDEX_FACE_RIGHT],
-                        this.faces[RFace.INDEX_FACE_FRONT],
-                        this.faces[RFace.INDEX_FACE_LEFT]};
-                    for(int currentRotation = 0; currentRotation < rotations; currentRotation ++){
-                        for(int i = 0; i < 3; i ++){
-                            int temp = facesRotated[1].getColors()[0][2-i];
-                            facesRotated[1].getColors()[0][2-i] = facesRotated[0].getColors()[0][2-i];
-                            facesRotated[0].getColors()[0][2-i] = facesRotated[3].getColors()[0][2-i];
-                            facesRotated[3].getColors()[0][2-i] = facesRotated[2].getColors()[0][2-i];
-                            facesRotated[2].getColors()[0][2-i] = temp;
-                        }
-                    }       break; 
-                }
+            {
+                RFace[] facesRotated = {this.faces[RFace.INDEX_FACE_BACK],
+                    this.faces[RFace.INDEX_FACE_RIGHT],
+                    this.faces[RFace.INDEX_FACE_FRONT],
+                    this.faces[RFace.INDEX_FACE_LEFT]};
+                for(byte currentRotation = 0; currentRotation < rotations; currentRotation ++){
+                    for(byte i = 0; i < 3; i ++){
+                        byte temp = facesRotated[1].getColors()[0][2-i];
+                        facesRotated[1].getColors()[0][2-i] = facesRotated[0].getColors()[0][2-i];
+                        facesRotated[0].getColors()[0][2-i] = facesRotated[3].getColors()[0][2-i];
+                        facesRotated[3].getColors()[0][2-i] = facesRotated[2].getColors()[0][2-i];
+                        facesRotated[2].getColors()[0][2-i] = temp;
+                    }
+                }       break;
+            }
             case RFace.INDEX_FACE_DOWN:
-                {
-                   RFace[] facesRotated = {this.faces[RFace.INDEX_FACE_FRONT],
-                        this.faces[RFace.INDEX_FACE_RIGHT],
-                        this.faces[RFace.INDEX_FACE_BACK],
-                        this.faces[RFace.INDEX_FACE_LEFT]};
-                    for(int currentRotation = 0; currentRotation < rotations; currentRotation ++){
-                        for(int i = 0; i < 3; i ++){
-                            int temp = facesRotated[1].getColors()[2][i];
-                            facesRotated[1].getColors()[2][i] = facesRotated[0].getColors()[2][i];
-                            facesRotated[0].getColors()[2][i] = facesRotated[3].getColors()[2][i];
-                            facesRotated[3].getColors()[2][i] = facesRotated[2].getColors()[2][i];
-                            facesRotated[2].getColors()[2][i] = temp;
-                        }
-                    }       break; 
-                }   
+            {
+                RFace[] facesRotated = {this.faces[RFace.INDEX_FACE_FRONT],
+                    this.faces[RFace.INDEX_FACE_RIGHT],
+                    this.faces[RFace.INDEX_FACE_BACK],
+                    this.faces[RFace.INDEX_FACE_LEFT]};
+                for(byte currentRotation = 0; currentRotation < rotations; currentRotation ++){
+                    for(byte i = 0; i < 3; i ++){
+                        byte temp = facesRotated[1].getColors()[2][i];
+                        facesRotated[1].getColors()[2][i] = facesRotated[0].getColors()[2][i];
+                        facesRotated[0].getColors()[2][i] = facesRotated[3].getColors()[2][i];
+                        facesRotated[3].getColors()[2][i] = facesRotated[2].getColors()[2][i];
+                        facesRotated[2].getColors()[2][i] = temp;
+                    }
+                }       break;
+            }
             default:
                 break;
         }
@@ -324,7 +324,7 @@ public class RCube {
         String f = "";
         for(RFace r : faces){
             
-            for(int[] line : r.getColors()){
+            for(byte[] line : r.getColors()){
                 for(int col : line){
                     char colorChar = '?';
                     switch(col){
@@ -346,7 +346,7 @@ public class RCube {
                         case 5:
                             colorChar = 'D';
                             break;
-                        
+                            
                     }
                     f += String.valueOf(colorChar) + " ";
                 }
@@ -357,7 +357,7 @@ public class RCube {
         }
         return f;
     }
-
+    
     public RFace[] getFaces() {
         return faces;
     }
@@ -367,32 +367,32 @@ public class RCube {
     
     //todo: return 2d array of edges with same index as int index:
     //{face, x, y}
-    public int[][] getEdges(int index){
-        final int[][] edgeCoords = {{1, 0}, {0, 1}, {1, 2}, {2, 1}};
-        int[][] edges = new int[4][3];
-        int found = 0;
-        for(int i = 0; i < 6; i ++){
+    public byte[][] getEdges(byte index){
+        final byte[][] edgeCoords = {{1, 0}, {0, 1}, {1, 2}, {2, 1}};
+        byte[][] edges = new byte[4][3];
+        byte found = 0;
+        for(byte i = 0; i < 6; i ++){
             RFace face = this.faces[i];
-            for(int[] coord : edgeCoords){
-                int coordY = coord[0];
-                int coordX = coord[1];
+            for(byte[] coord : edgeCoords){
+                byte coordY = coord[0];
+                byte coordX = coord[1];
                 if(face.getColors()[coordY][coordX] == index){
-                    edges[found] = new int[]{i, coordY, coordX};
+                    edges[found] = new byte[]{i, coordY, coordX};
                     found ++;
                 }
-                     
+                
             }
         }
         return edges;
     }
     public RCube copy(){
         RFace[] newFaces = new RFace[6];
-        for(int i = 0; i < 6; i ++){
+        for(byte i = 0; i < 6; i ++){
             RFace face = this.faces[i];
-            int[][] colors = face.getColors();
-            int[][] newColors = new int[3][3];
-            for(int y = 0; y < 3; y ++){
-                for(int x = 0; x < 3; x ++){
+            byte[][] colors = face.getColors();
+            byte[][] newColors = new byte[3][3];
+            for(byte y = 0; y < 3; y ++){
+                for(byte x = 0; x < 3; x ++){
                     newColors[y][x] = colors[y][x];
                 }
             }
@@ -403,19 +403,19 @@ public class RCube {
         }
         return new RCube(newFaces);
     }
-
-    public RFace getFace(int i) {
+    
+    public RFace getFace(byte i) {
         
         return this.faces[i];
-
+        
     }
     
     /////solving reprs
     public String repr(){
         String repr = "";
         for(RFace face : this.faces){
-            for(int[] row : face.getColors()){
-                for(int val : row){
+            for(byte[] row : face.getColors()){
+                for(byte val : row){
                     repr += String.valueOf(val);
                 }
             }
@@ -432,43 +432,43 @@ public class RCube {
     
     public String stage1(){
         
-
+        
         
         //now we must take the list of the edges of this instance of the cube.
-        int[][] thisEdges = this.getEdges();
+        byte[][] thisEdges = this.getEdges();
         
         
         //order of priority of reference edges:
-        /*if the edge has a F or B side, 
+        /*if the edge has a F or B side,
         then its the reference,
         else its the U or D*/
         
         //this array contains the possible reference facelets of the edges
         //(the ones that get turned yellow in the edgeflip cube)
-        int[] refPriority = {0, 2, 4, 5};
+        byte[] refPriority = {0, 2, 4, 5};
         
         //array that will hold the flips of the edges (false = flipped/bad)
         boolean[] edgeFlip = new boolean[12];
-        for(int i = 0; i < 12; i ++){
+        for(byte i = 0; i < 12; i ++){
             
             //get the edge we're working on currently
-            int[] edge = thisEdges[i];
+            byte[] edge = thisEdges[i];
             
-            //based on reference priority, this will determine the reference facelet 
+            //based on reference priority, this will determine the reference facelet
             //of the edge
-            int ref = -1;
-            for(int curr : refPriority){
+            byte ref = -1;
+            for(byte curr : refPriority){
                 if(Utils.contains(edge, curr)){
                     ref = curr;
                     break;
                 }
             }
             //now we get its index in the array "edge".
-            //since this is ordered with the reference facelet first, 
+            //since this is ordered with the reference facelet first,
             //if the reference color of the facelet is in pos 0,
             //it is not flipped
             edgeFlip[i] = Utils.indexOf(edge, ref) == 0;
-         
+            
         }
         
         String s = "";
@@ -481,7 +481,7 @@ public class RCube {
     
     //stage 2
     public String stage2(){
-       
+        
         RCube cube =  new RCube();
         
         
@@ -493,32 +493,32 @@ public class RCube {
         
         
         //middle slice edges
-        int[][] middleSliceEdges = {{0, 4},{0, 5},{2, 4},{2, 5}};
+        byte[][] middleSliceEdges = {{0, 4},{0, 5},{2, 4},{2, 5}};
         
         //getting the mSlice edges positions
-        int[][] thisEdges = this.getEdges();
+        byte[][] thisEdges = this.getEdges();
         for(int i = 0; i < 12; i ++){
             boolean found = false;
-            for(int[] mSliceEdge : middleSliceEdges){
+            for(byte[] mSliceEdge : middleSliceEdges){
                 if(Utils.setEquals(thisEdges[i], mSliceEdge)){
                     found = true;
                 }
             }
             middleSlice[i] = found;
             
-        } 
+        }
         
-        int[] refPriority = {1, 3};
+        byte[] refPriority = {1, 3};
         
-        int[][] corners = this.getCorners();
+        byte[][] corners = this.getCorners();
         
-        for(int i = 0; i < 8 ; i ++){
+        for(byte i = 0; i < 8 ; i ++){
             
-            int[] corner = corners[i];
+            byte[] corner = corners[i];
             
-            int ref = -1;
+            byte ref = -1;
             
-            for(int curr : refPriority){
+            for(byte curr : refPriority){
                 if(Utils.contains(corner, curr)){
                     ref = curr;
                     break;
@@ -534,7 +534,7 @@ public class RCube {
         }
         
         String corn = "";
-        for(int c : cornerTwist){
+        for(byte c : cornerTwist){
             corn += String.valueOf(c);
         }
         
@@ -546,18 +546,18 @@ public class RCube {
         
         RCube cube = new RCube();
         
-        int[][] thisEdges = this.getEdges();
+        byte[][] thisEdges = this.getEdges();
         
         boolean[] slices = new boolean[8];
         
-        int[][] udSlice = {{0, 3},{0, 1},{2, 1},{2, 3}};
+        byte[][] udSlice = {{0, 3},{0, 1},{2, 1},{2, 3}};
         
-        for(int i = 4; i < 12; i ++){
+        for(byte i = 4; i < 12; i ++){
             
-            int[] currentEdge = thisEdges[i];
+            byte[] currentEdge = thisEdges[i];
             
             boolean isUDSlice = false;
-            for(int[] udSliceEdge : udSlice){
+            for(byte[] udSliceEdge : udSlice){
                 if(Utils.setEquals(udSliceEdge, currentEdge)){
                     isUDSlice = true;
                 }
@@ -567,38 +567,38 @@ public class RCube {
         }
         //now for the corners
         
-        int[][] thisCorners = this.getCorners();
+        byte[][] thisCorners = this.getCorners();
         
-        int[] cornerPairs = new int[8];
+        byte[] cornerPairs = new byte[8];
         
-        int[][] baseCorners = cube.getCorners();
+        byte[][] baseCorners = cube.getCorners();
         
-        for(int i = 0; i < 8; i ++){
+        for(byte i = 0; i < 8; i ++){
             
-            int[] currCorner = thisCorners[i]; 
+            byte[] currCorner = thisCorners[i];
             
-            int ind = -1;
-            for(int j = 0; j < 8; j ++){
+            byte ind = -1;
+            for(byte j = 0; j < 8; j ++){
                 if(Utils.setEquals(currCorner, baseCorners[j])){
                     ind = j;
                 }
             }
-            cornerPairs[i] = ind / 2;
+            cornerPairs[i] =(byte) (ind / 2);
             
         }
-        //NOW FOR PERMUTATION PARITY... 
+        //NOW FOR PERMUTATION PARITY...
         
-        int[] edgePerm = new int[12];
+        byte[] edgePerm = new byte[12];
         
         //first, establish the permuation
-        int[][] baseEdges = cube.getEdges();
+        byte[][] baseEdges = cube.getEdges();
         
-        for(int i = 0; i < 12; i ++){
-            int[] currEdge = thisEdges[i];
+        for(byte i = 0; i < 12; i ++){
+            byte[] currEdge = thisEdges[i];
             
-            int ind = -1;
+            byte ind = -1;
             
-            for(int j = 0; j < 12; j ++){
+            for(byte j = 0; j < 12; j ++){
                 if(Utils.setEquals(currEdge, baseEdges[j])){
                     ind = j;
                 }
@@ -606,7 +606,7 @@ public class RCube {
             edgePerm[i] = ind;
         }
         
-        int[] basePerm = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+        byte[] basePerm = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
         
         //let's start permuting the values, keeping track of the transpositions
         int trans = 0;
@@ -614,26 +614,26 @@ public class RCube {
         //run till array is in its initial state
         while(!Arrays.equals(basePerm, edgePerm)){
             
-            int index = -1;
+            byte index = -1;
             //let's find an element/index pair that's not in it's spot
-            for(int i = 0; i < 12; i ++){
+            for(byte i = 0; i < 12; i ++){
                 if(edgePerm[i] != i){
                     index = i;
                     break;
                 }
             }
-            int value = edgePerm[index];
+            byte value = edgePerm[index];
             
-            int secondIndex = value;
-            int secondValue = edgePerm[secondIndex];
+            byte secondIndex = value;
+            byte secondValue = edgePerm[secondIndex];
             
             //swapping the 2 elements:
-            int temp = value;
+            byte temp = value;
             edgePerm[index] = edgePerm[secondIndex];
             edgePerm[secondIndex] = temp;
             
             trans ++;
-
+            
         }
         boolean parity = (trans % 2) == 0;
         
@@ -643,7 +643,7 @@ public class RCube {
         }
         
         String corn = "";
-        for(int i : cornerPairs){
+        for(byte i : cornerPairs){
             corn += String.valueOf(i);
         }
         
@@ -661,7 +661,7 @@ public class RCube {
         //states.
         
         //basically, 4 bits would be needed to encide the flip of the pairs.
-        //then, a permutation has to be held in a   
+        //then, a permutation has to be held in a
         
         
         
@@ -669,12 +669,12 @@ public class RCube {
         String flip = "";
         
         RCube ref = new RCube();
-        int[][] refCorners = ref.getCorners();
-        int[][] thisCorners = this.getCorners();
+        byte[][] refCorners = ref.getCorners();
+        byte[][] thisCorners = this.getCorners();
         
-        int[][] cornerPairs = {{0, 3},{1, 2},{5,6},{7,4}};
+        byte[][] cornerPairs = {{0, 3},{1, 2},{5,6},{7,4}};
         
-        for(int i = 0; i < 4; i ++){
+        for(byte i = 0; i < 4; i ++){
             if(Utils.setEquals(refCorners[2*i], thisCorners[2*i])){
                 flip += "0";
             }
@@ -685,24 +685,24 @@ public class RCube {
         //now we have the flip
         
         //gets the edges of the ref and the actual cube
-        int[][] refEdges = ref.getEdges();
-        int[][] thisEdges = this.getEdges();
+        byte[][] refEdges = ref.getEdges();
+        byte[][] thisEdges = this.getEdges();
         
         String edgePerm = "";
         
         
         //do this for each slice (0-4, 4-8, 8-12)
-        for(int slice = 0; slice < 3; slice ++){
+        for(byte slice = 0; slice < 3; slice ++){
             
             //pick one edge of the reference
-            for(int edge = 0; edge < 4; edge ++){
+            for(byte edge = 0; edge < 4; edge ++){
                 
                 //and iterate through the actual cubes edges till it's found
-                for(int ind = 0; ind < 4; ind ++){
+                for(byte ind = 0; ind < 4; ind ++){
                     if(Utils.setEquals(refEdges[4*slice + edge], thisEdges[4*slice + ind])){
-                       edgePerm += String.valueOf(ind);
+                        edgePerm += String.valueOf(ind);
                     }
-                        
+                    
                     
                     
                 }
@@ -717,69 +717,126 @@ public class RCube {
         
         return flip +"_"+ edgePerm;
     }
+    
+  
+    
+    public byte[] edgePerm(){
+        
+        byte[][] edges = new RCube().getEdges();
+        
+        byte[][] thisEdges = this.getEdges();
+        
+        byte[] perm = new byte[12];
+        
+        
+        
+        //for each position
+        for(byte edge = 0; edge < 12; edge ++){
+            
+            //get the edge that's in that position
+            for(byte ind = 0; ind < 12; ind ++){
+                if(Utils.setEquals(edges[ind], thisEdges[edge])){
+                    perm[edge] = ind;
+                }
+            }
+        }
+        return perm;
+        
+    }
+    
+    public byte[] cornerPerm(){
+        
+        byte[][] corners = new RCube().getCorners();
+        
+        byte[][] thisCorners = this.getCorners();
+        
+        byte[] perm = new byte[8];
+        
+        
+        
+        //for each position
+        for(byte corner = 0; corner < 8; corner ++){
+            
+            //get the corner that's in that position
+            for(byte ind = 0; ind < 8; ind ++){
+                if(Utils.setEquals(corners[ind], thisCorners[corner])){
+                    perm[corner] = ind;
+                }
+            }
+        }
+        return perm;
+        
+    }
+    public String cornerTwist(){
+        return this.stage2().substring(13);
+    }
+    
+    
+    
+    
     //get the edges of the cube, in form of int[2] arrays. Same order as reference,
     //reference facelets given first (yellow facelets on edge flip cube)
-    public int[][] getEdges(){
-        int[][] thisEdges = new int[12][2];
+    public byte[][] getEdges(){
+        byte[][] thisEdges = new byte[12][2];
         
-        int i = 0;
-        for(int[][] position : EDGE_POSITIONS){
+        byte i = 0;
+        for(byte[][] position : EDGE_POSITIONS){
             
-            int[] firstPos = position[0];
-            int[] secondPos = position[1];
+            byte[] firstPos = position[0];
+            byte[] secondPos = position[1];
             
             
-            int[] faceCoords = new int[]{firstPos[1], firstPos[2]};
-            int firstColor = this.getFace(firstPos[0]).getColor(faceCoords);
+            byte[] faceCoords = new byte[]{firstPos[1], firstPos[2]};
+            byte firstColor = this.getFace(firstPos[0]).getColor(faceCoords);
             
-            faceCoords = new int[]{secondPos[1], secondPos[2]};
-            int secondColor = this.getFace(secondPos[0]).getColor(faceCoords);
+            faceCoords = new byte[]{secondPos[1], secondPos[2]};
+            byte secondColor = this.getFace(secondPos[0]).getColor(faceCoords);
             
-           
             
-            thisEdges[i] = new int[]{firstColor, secondColor};
+            
+            thisEdges[i] = new byte[]{firstColor, secondColor};
             i ++;
             
         }
         return thisEdges;
     }
     
-    public int[][] getCorners(){
-        int[][] thisCorners = new int[8][23];
+    public byte[][] getCorners(){
+        byte[][] thisCorners = new byte[8][3];
         
-        int i = 0;
-        for(int[][] position : CORNER_POSITIONS){
+        byte i = 0;
+        for(byte[][] position : CORNER_POSITIONS){
             
-            int[] firstPos = position[0];
-            int[] secondPos = position[1];
-            int[] thirdPos = position[2];
+            byte[] firstPos = position[0];
+            byte[] secondPos = position[1];
+            byte[] thirdPos = position[2];
             
             
-            int[] faceCoords = new int[]{firstPos[1], firstPos[2]};
-            int firstColor = this.getFace(firstPos[0]).getColor(faceCoords);
+            byte[] faceCoords = new byte[]{firstPos[1], firstPos[2]};
+            byte firstColor = this.getFace(firstPos[0]).getColor(faceCoords);
             
-            faceCoords = new int[]{secondPos[1], secondPos[2]};
-            int secondColor = this.getFace(secondPos[0]).getColor(faceCoords);
+            faceCoords = new byte[]{secondPos[1], secondPos[2]};
+            byte secondColor = this.getFace(secondPos[0]).getColor(faceCoords);
             
-            faceCoords = new int[]{thirdPos[1], thirdPos[2]};
-            int thirdColor = this.getFace(thirdPos[0]).getColor(faceCoords);
+            faceCoords = new byte[]{thirdPos[1], thirdPos[2]};
+            byte thirdColor = this.getFace(thirdPos[0]).getColor(faceCoords);
             
-           
             
-            thisCorners[i] = new int[]{firstColor, secondColor, thirdColor};
+            
+            thisCorners[i] = new byte[]{firstColor, secondColor, thirdColor};
             i ++;
             
         }
         return thisCorners;
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 67 * hash + Arrays.deepHashCode(this.faces);
         return hash;
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -834,7 +891,7 @@ public class RCube {
             return true;
         }
         return true;
-                
+        
     }
     
 }

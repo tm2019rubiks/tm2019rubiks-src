@@ -22,8 +22,6 @@ public class GenG3 {
         
         Move[] moves =   {Move.F2, Move.R2, Move.B2, Move.L2, Move.U2, Move.D2};
         
-        
-        
         HashMap<String, String> states = new HashMap<>();
         HashMap<String, String> validStates = new HashMap<>();
         
@@ -37,9 +35,7 @@ public class GenG3 {
         statesByDepth[0].add(new RCube());
         states.put(new RCube().repr(), "");
         
-        
-        
-        
+
         for(byte depth = 1; depth < 29; depth ++){
             
             
@@ -68,7 +64,6 @@ public class GenG3 {
                         validStates.put(copy.stage4(), value);
                     }
                     
-                    
                     //System.out.println(states.size());
                 }
             } 
@@ -87,6 +82,7 @@ public class GenG3 {
     public static void write(){
         
         try{
+            
         FileWriter fw = new FileWriter("C:\\Users\\estok\\Documents\\toG4.txt");
 //        
 	for (Map.Entry e : treeGen().entrySet()) {

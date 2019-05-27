@@ -64,9 +64,9 @@ public class RCube3D extends JPanel implements GLEventListener{
         gl.glBegin (GL2.GL_QUADS);
         
         //for each face
-        for(int index = 0; index < 6; index ++){
+        for(byte index = 0; index < 6; index ++){
             RFace face = cube.getFace(index);
-            int[][] colors = face.getColors();
+            byte[][] colors = face.getColors();
             
             //facing changes based on which face it's drawing
             
@@ -78,8 +78,8 @@ public class RCube3D extends JPanel implements GLEventListener{
                 
                 //drawing the faces
                 case RFace.INDEX_FACE_FRONT:
-                    for(int y = 0; y < 3; y ++){
-                        for(int x = 0; x < 3; x ++){
+                    for(byte y = 0; y < 3; y ++){
+                        for(byte x = 0; x < 3; x ++){
                             float r, g, b;
                             float[] color = RFace.COLORS_BY_INDEX[face.getColors()[y][x]];
                             r = color[0]; g = color[1]; b = color[2];
@@ -92,8 +92,8 @@ public class RCube3D extends JPanel implements GLEventListener{
                     }
                     break;
                 case RFace.INDEX_FACE_BACK:
-                    for(int y = 0; y < 3; y ++){
-                        for(int x = 0; x < 3; x ++){
+                    for(byte y = 0; y < 3; y ++){
+                        for(byte x = 0; x < 3; x ++){
                             float r, g, b;
                             float[] color = RFace.COLORS_BY_INDEX[face.getColors()[y][x]];
                             r = color[0]; g = color[1]; b = color[2];
@@ -106,8 +106,8 @@ public class RCube3D extends JPanel implements GLEventListener{
                     }
                     break;
                 case RFace.INDEX_FACE_RIGHT:
-                    for(int y = 0; y < 3; y ++){
-                        for(int x = 0; x < 3; x ++){
+                    for(byte y = 0; y < 3; y ++){
+                        for(byte x = 0; x < 3; x ++){
                             float r, g, b;
                             float[] color = RFace.COLORS_BY_INDEX[face.getColors()[y][x]];
                             r = color[0]; g = color[1]; b = color[2];
@@ -120,8 +120,8 @@ public class RCube3D extends JPanel implements GLEventListener{
                     }
                     break;
                 case RFace.INDEX_FACE_LEFT:
-                    for(int y = 0; y < 3; y ++){
-                        for(int x = 0; x < 3; x ++){
+                    for(byte y = 0; y < 3; y ++){
+                        for(byte x = 0; x < 3; x ++){
                             float r, g, b;
                             float[] color = RFace.COLORS_BY_INDEX[face.getColors()[y][x]];
                             r = color[0]; g = color[1]; b = color[2];
@@ -134,8 +134,8 @@ public class RCube3D extends JPanel implements GLEventListener{
                     }
                     break;
                 case RFace.INDEX_FACE_UP:
-                    for(int y = 0; y < 3; y ++){
-                        for(int x = 0; x < 3; x ++){
+                    for(byte y = 0; y < 3; y ++){
+                        for(byte x = 0; x < 3; x ++){
                             float r, g, b;
                             float[] color = RFace.COLORS_BY_INDEX[face.getColors()[y][x]];
                             r = color[0]; g = color[1]; b = color[2];
@@ -148,8 +148,8 @@ public class RCube3D extends JPanel implements GLEventListener{
                     }
                     break;
                 case RFace.INDEX_FACE_DOWN:
-                    for(int y = 0; y < 3; y ++){
-                        for(int x = 0; x < 3; x ++){
+                    for(byte y = 0; y < 3; y ++){
+                        for(byte x = 0; x < 3; x ++){
                             float r, g, b;
                             float[] color = RFace.COLORS_BY_INDEX[face.getColors()[y][x]];
                             r = color[0]; g = color[1]; b = color[2];

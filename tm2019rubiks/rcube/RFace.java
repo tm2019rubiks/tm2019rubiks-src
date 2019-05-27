@@ -10,7 +10,7 @@ public class RFace {
     
     //serves as index for the colors, and since colors on middle-pieces don't get rotated
     //they also denote which face of the rcube we are dealing with
-    public static final int INDEX_FACE_FRONT = 0,
+    public static final byte INDEX_FACE_FRONT = 0,
                             INDEX_FACE_RIGHT = 1,
                             INDEX_FACE_BACK = 2,
                             INDEX_FACE_LEFT = 3,
@@ -38,48 +38,48 @@ public class RFace {
                                 RGB_COLOR_UNASSIGNED};
                                 
     
-    private int colorIndex;
-    private int[][] colors;
+    private byte colorIndex;
+    private byte[][] colors;
     
     
     //an RFace is a wrapper for a matrix of ints denoting indexes
     //these indexes indicate the colors of the face
     
-    public RFace(int[][] colors){
+    public RFace(byte[][] colors){
         this.colors = colors;
         this.colorIndex = colors[1][1];
         
     }
     //called only when a move is applied to the cube.
     //calling this out of context will corrupt the cube, if the face is part of it
-    protected void twist(int direction, int turns){
-        int[][] newColors = Utils.copyOf(this.colors);
+    protected void twist(byte direction, byte turns){
+        byte[][] newColors = Utils.copyOf(this.colors);
         for(int i = 0; i < turns; i ++){
             newColors = Utils.rotate(newColors, direction);
         }
         this.colors = newColors;
     }
-    public int[][] getColors() {
+    public byte[][] getColors() {
         return colors;
     }
-    public int getColor(int[] coords){
+    public byte getColor(byte[] coords){
         return colors[coords[0]][coords[1]];
     }
 
-    public void setColors(int[][] colors) {
+    public void setColors(byte[][] colors) {
         this.colors = colors;
         this.colorIndex = colors[1][1];
     }
 
-    public int getColorIndex() {
+    public byte getColorIndex() {
         return colorIndex;
     }
     public String toString() {
         String f = "";
         
         
-        for(int[] line : this.getColors()){
-            for(int col : line){
+        for(byte[] line : this.getColors()){
+            for(byte col : line){
                 char colorChar = '?';
                 switch(col){
                     case 0:

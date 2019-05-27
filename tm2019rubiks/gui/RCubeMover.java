@@ -140,7 +140,7 @@ public class RCubeMover implements KeyListener, ActionListener{
                 }
                 break;
             case 'g':
-                System.out.println(cube.repr());
+                //System.out.println(Arrays.toString(cube.edgePerm()) + "  " + Arrays.toString(cube.cornerPerm()) + "  " + cube.stage1() + "  " + cube.cornerTwist());
             
                 
             

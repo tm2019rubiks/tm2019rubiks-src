@@ -92,17 +92,13 @@ public class Utils {
         
         for(int i = 1; i < moves.size(); i ++){
             
-            try{
-                finalMoves.get(finalMoves.size()-1);
-            }
-            catch(ArrayIndexOutOfBoundsException e){
-                System.out.println("MOVESIZE:" + moves.size()+ "    " + moves.get(0).toString() + "   "+ finalMoves.size());
-            }
+            
             
             if(finalMoves.isEmpty()){
                 finalMoves.add(moves.get(0));
                 i ++;
             }
+            if(i == moves.size()) return moves;
             Move before = finalMoves.get(finalMoves.size()-1);
             Move current = moves.get(i);
             
@@ -196,7 +192,7 @@ public class Utils {
         
         
         
-        float len = 100000;
+        float len = 10000;
         Solver solv = Main.solver;
         
         int max = 0;

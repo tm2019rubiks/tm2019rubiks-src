@@ -18,11 +18,11 @@ public class RFace {
                             INDEX_FACE_DOWN = 5,
                             INDEX_FACE_UNASSIGNED = 6;
     
-    public static final float[] RGB_COLOR_FRONT = {0.569f, 0.086f, 0.067f},
-                                RGB_COLOR_RIGHT = {0.247f, 0.655f, 0.459f},
-                                RGB_COLOR_BACK = {0.784f, 0.502f, 0.125f},
-                                RGB_COLOR_LEFT = {0.161f,  0.345f, 0.494f},
-                                RGB_COLOR_UP = {0.749f, 0.659f, 0.031f},
+    public static final float[] RGB_COLOR_FRONT = {1f, 0.0f, 0.0f},
+                                RGB_COLOR_RIGHT = {0.0f, 1.0f, 0.0f},
+                                RGB_COLOR_BACK = {1.0f, 0.50f, 0.0f},
+                                RGB_COLOR_LEFT = {0.0f,  0.0f, 1.0f},
+                                RGB_COLOR_UP = {1f, 1f, 0.0f},
                                 RGB_COLOR_DOWN = {1.0f, 1.0f, 1.0f},
                                 RGB_COLOR_UNASSIGNED = {0.5f, 0.5f, 0.5f};
     

@@ -23,6 +23,7 @@ import tm2019rubiks.utils.Utils;
 public class Solver {
     HashMap<String, String>  stage2, stage3, stage4;
     String[] stage1;
+    byte[] stage1Heuristics;
     public ArrayList<String> stage4algs = new ArrayList<>();
     
     public Solver(){
@@ -41,6 +42,26 @@ public class Solver {
             String value = line.split(" ")[1];
             //stage1.put(key, value);
             stage1[index] = value;
+        }
+        scanner.close();
+        
+        
+        i = 0;
+        stage1Heuristics = new byte[4096];
+        //stage1 = new HashMap<>();
+        scanner = new Scanner(getClass().getResourceAsStream("generated/toG1_heur.txt"));
+        while(scanner.hasNextLine()){
+            
+            
+            String line = scanner.nextLine();
+            if(line.equals("")){
+                stage1Heuristics[i] = -1;
+            }else{
+                stage1Heuristics[i] = Byte.parseByte(line);
+            }
+            
+            
+            i ++;
         }
         scanner.close();
         
@@ -408,10 +429,19 @@ public class Solver {
         ArrayList<Move> totalMoves = new ArrayList<>();
         
         int index = Integer.parseInt(copy.stage1(), 2);
-        for(Move m : Utils.parseMoves(stage1[index])){
+//        for(Move m : Utils.parseMoves(stage1[index])){
+//            totalMoves.add(m);
+//            copy.applyMove(m);
+//        }
+        for(Move m : this.stage1Solution(copy)){
             totalMoves.add(m);
             copy.applyMove(m);
         }
+
+        if(stage1Heuristics[index] != totalMoves.size()){
+            System.out.println(stage1Heuristics[index] + "  " + totalMoves.size());
+        }
+        
         //totalMoves.add(new Move("Xn"));
         
         ConvG2 g2Converter = new ConvG2();
@@ -491,5 +521,28 @@ public class Solver {
         
         return Utils.simplifyMoves(totalMoves);
     
+    }
+    public ArrayList<Move> stage1Solution(RCube cube){
+        
+        RCube copy = cube.copy();
+        
+        ArrayList<Move> solution = new ArrayList<>();
+        
+        while(stage1Heuristics[copy.edgeFlip()] != 0){
+            
+            
+            
+            for(Move m : Move.MOVES){
+                RCube copy2 = copy.copy();
+                copy2.applyMove(m);
+                if(stage1Heuristics[copy2.edgeFlip()] < stage1Heuristics[copy.edgeFlip()]){
+                    copy = copy2.copy();
+                    solution.add(m);
+                }
+            }
+            
+        }
+        return solution;
+        
     }
 }

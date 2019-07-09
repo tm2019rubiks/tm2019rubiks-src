@@ -16,7 +16,9 @@ public class RFace {
                             INDEX_FACE_LEFT = 3,
                             INDEX_FACE_UP = 4,
                             INDEX_FACE_DOWN = 5,
-                            INDEX_FACE_UNASSIGNED = 6;
+                            INDEX_FACE_UNASSIGNED = 6,
+                            INDEX_FACE_UNASSIGNED_2 = 7,
+                            INDEX_FACE_UNASSIGNED_3 = 8;
     
     public static final float[] RGB_COLOR_FRONT = {1f, 0.0f, 0.0f},
                                 RGB_COLOR_RIGHT = {0.0f, 1.0f, 0.0f},
@@ -24,7 +26,10 @@ public class RFace {
                                 RGB_COLOR_LEFT = {0.0f,  0.0f, 1.0f},
                                 RGB_COLOR_UP = {1f, 1f, 0.0f},
                                 RGB_COLOR_DOWN = {1.0f, 1.0f, 1.0f},
-                                RGB_COLOR_UNASSIGNED = {0.5f, 0.5f, 0.5f};
+                                RGB_COLOR_UNASSIGNED = {0.5f, 0.5f, 0.5f},
+                                RGB_COLOR_UNASSIGNED_2 = {0.48f, 0.48f, 0.48f},
+                                RGB_COLOR_UNASSIGNED_3 = {0.52f, 0.52f, 0.52f};
+    
     
     
     //to make it easy to get the colors for the rendering
@@ -35,7 +40,9 @@ public class RFace {
                                 RGB_COLOR_LEFT,
                                 RGB_COLOR_UP,
                                 RGB_COLOR_DOWN,
-                                RGB_COLOR_UNASSIGNED};
+                                RGB_COLOR_UNASSIGNED,
+                                RGB_COLOR_UNASSIGNED_2,
+                                RGB_COLOR_UNASSIGNED_3};
                                 
     
     private byte colorIndex;

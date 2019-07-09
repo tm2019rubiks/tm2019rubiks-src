@@ -10,9 +10,6 @@ import com.jogamp.opengl.glu.GLU;
 import com.jogamp.opengl.util.FPSAnimator;
 import java.util.Arrays;
 import javax.swing.JPanel;
-import tm2019rubiks.gui.piece.CenterPiece3D;
-import tm2019rubiks.gui.piece.CornerPiece3D;
-import tm2019rubiks.gui.piece.Piece;
 import tm2019rubiks.rcube.RCube;
 import tm2019rubiks.rcube.RFace;
 import tm2019rubiks.utils.Utils;
@@ -24,7 +21,7 @@ import tm2019rubiks.utils.Utils;
 public class RCube3D extends JPanel implements GLEventListener{
     final private RCube cube;
     private float desiredRotX, desiredRotY;
-    private boolean turningLeft, turningRight, turningUp, turningDown, persp, setPersp;
+    private boolean turningLeft, turningRight, turningUp, turningDown, persp = true, setPersp;
     
     
 
@@ -32,7 +29,10 @@ public class RCube3D extends JPanel implements GLEventListener{
     
     public static final float BORDER = 0.05f;
     
-    
+    //designs how the faces should be drawn by giving, for each face:
+    //the Right, Down vector (+- 1s in the array[0:4]
+    //the coordinate that doesnt change(+- 2 in the array[0:4]
+    //and if the axes should be flipped in array[0:4]
     public static final byte[][] axisMods = {{1, -1, -2, 0},
                                               {2, -1, 1, 1},
                                               {-1, -1 , 2, 0},
@@ -57,8 +57,6 @@ public class RCube3D extends JPanel implements GLEventListener{
     
     float camRad = 0.1f;
     
-    private Piece[] centers;
-    private Piece[] pieces;
     
     
     
@@ -67,8 +65,6 @@ public class RCube3D extends JPanel implements GLEventListener{
     public RCube3D(RCube cube){
         //TODO: get rid of warnings
         super();
-        this.pieces = new Piece[20];
-        this.centers = new Piece[6];
         
         //setting rotX to see F and R at 45 degrees
         this.desiredRotX = (float) (-Math.PI/4);
@@ -96,12 +92,6 @@ public class RCube3D extends JPanel implements GLEventListener{
         
         this.constructPosArray();
         
-        /////test////
-        for(byte i = 0; i < 6; i ++){
-            centers[i].addRotate(i, 1, 1);
-        }
-        
-        ////test////
         
         
     }
@@ -325,12 +315,7 @@ public class RCube3D extends JPanel implements GLEventListener{
                         }
                         
                     }
-                    if(x == 1 && y == 1){
-                        centers[index] = new CenterPiece3D(coords, bcoords, RFace.INDEX_FACE_BACK);
-                            
-                        
-                        
-                    }
+                    
                     faceletVertices[index][y][x] = coords;
                     blackVertices[index][y][x] = bcoords;
                     
@@ -372,6 +357,15 @@ public class RCube3D extends JPanel implements GLEventListener{
 
     public void setSetPersp(boolean setPersp) {
         this.setPersp = setPersp;
+    }
+    
+    //test//
+    public void printAngles(){
+        System.out.println(this.desiredRotX + "   " + this.desiredRotY);
+    }
+    public void setShotAngle(){
+        this.desiredRotX = (float) -Math.PI/4;
+        this.desiredRotY = -0.45f;
     }
     
     

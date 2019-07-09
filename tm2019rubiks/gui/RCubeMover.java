@@ -141,8 +141,10 @@ public class RCubeMover implements KeyListener, ActionListener{
                 break;
             case 'g':
                 //System.out.println(Arrays.toString(cube.edgePerm()) + "  " + Arrays.toString(cube.cornerPerm()) + "  " + cube.stage1() + "  " + cube.cornerTwist());
+                this.cube3d.setShotAngle();
+                Main.motor.send(Main.solver.thistleSolution(cube));
+                break;
             
-                
             
         }
         if(this.cube2d != null){
@@ -196,6 +198,12 @@ public class RCubeMover implements KeyListener, ActionListener{
                 if(this.cube3d != null){
                     this.cube3d.setTurningDown(true);
                     this.cube3d.setTurningUp(false);
+                }
+                break;
+            case KeyEvent.VK_SPACE:
+                if(this.cube3d != null){
+                    
+                    this.cube3d.setSetPersp(true);
                 }
         }
     }

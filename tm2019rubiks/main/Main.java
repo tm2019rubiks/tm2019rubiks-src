@@ -18,11 +18,24 @@ import tm2019rubiks.cv.OpenCVTest;
 import tm2019rubiks.gui.RCube2D;
 import tm2019rubiks.gui.RCube3D;
 import tm2019rubiks.gui.RCubeMover;
+import tm2019rubiks.motors.MotorControl;
 import tm2019rubiks.rcube.RCube;
 import tm2019rubiks.solve.Solver;
+import tm2019rubiks.tables.f2l.GenF2L;
 import tm2019rubiks.utils.Utils;
 
 //Main program
+/*
+Overview:
+
+Main has the main method, which creates a GUI, in which there will be
+-one RCube2D and one RCube3D view
+-an RCube object cube
+-buttons for controlling cube
+-a button to switch between the views
+-- all button and key presses are interpreted by the RCubeMover instance
+-a solver instance
+*/
 public class Main  {
     
     //there must be only one instance of this class
@@ -38,23 +51,19 @@ public class Main  {
     
     //static textfield where the solution is put
     public static JTextField solutionText;
+    public static MotorControl motor;
     
-    
-    
+
     
     
     
     public static void main(String[] args) throws FrameGrabber.Exception{
-        
-       //GenG3.write();
-        //new ConvG4().conv();
+
         solver = new Solver();
-        //GenF2L1.treeGen();
-        //OpenCVTest.ji();
-        
+        motor = new MotorControl();
         
         //getting solved cube
-        cube = new RCube();//RCube.EDGE_FLIP);
+        cube = new RCube();
         on3d = false;
         
         //layout for the whole frame
@@ -280,7 +289,7 @@ public class Main  {
         //m = GenG2.treeGen();
         //m2 = GenG3.treeGen();
         //System.out.println("starting thistletest");
-        Utils.thistleTest();
+        //Utils.thistleTest();
         
         
         

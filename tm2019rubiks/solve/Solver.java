@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
+import tm2019rubiks.gui.TableLoad;
 import tm2019rubiks.rcube.Move;
 import tm2019rubiks.rcube.RCube;
 import tm2019rubiks.rcube.RFace;
@@ -28,29 +29,36 @@ public class Solver {
     
     public Solver(){
         
+        TableLoad t = new TableLoad();
+        
+        t.setStage(1);
+        t.show();
+        
+        
+        
         int i = 0;
-        stage1 = new String[4096];
-        //stage1 = new HashMap<>();
-        Scanner scanner = new Scanner(getClass().getResourceAsStream("generated/toG1.txt"));
-        while(scanner.hasNextLine()){
-            if(i++ % 50 == 0) System.out.println("1:" + i);
-            
-            String line = scanner.nextLine();
-            String key = line.split(" ")[0];
-            
-            int index = Integer.parseInt(key, 2);
-            String value = line.split(" ")[1];
-            //stage1.put(key, value);
-            stage1[index] = value;
-        }
-        scanner.close();
+//        stage1 = new String[4096];
+//        //stage1 = new HashMap<>();
+//        Scanner scanner = new Scanner(getClass().getResourceAsStream("generated/toG1.txt"));
+//        while(scanner.hasNextLine()){
+//            if(i++ % 50 == 0) System.out.println("1:" + i);
+//            
+//            String line = scanner.nextLine();
+//            String key = line.split(" ")[0];
+//            
+//            int index = Integer.parseInt(key, 2);
+//            String value = line.split(" ")[1];
+//            stage1[index] = value;
+//        }
+//        scanner.close();
         
         
         i = 0;
         stage1Heuristics = new byte[4096];
-        //stage1 = new HashMap<>();
-        scanner = new Scanner(getClass().getResourceAsStream("generated/toG1_heur.txt"));
+        Scanner scanner = new Scanner(getClass().getResourceAsStream("generated/toG1_heur.txt"));
         while(scanner.hasNextLine()){
+            
+            
             
             
             String line = scanner.nextLine();
@@ -59,58 +67,63 @@ public class Solver {
             }else{
                 stage1Heuristics[i] = Byte.parseByte(line);
             }
-            
-            
             i ++;
+            
+            t.setProgress(i/41);
         }
         scanner.close();
         
+        i=0;
+        t.setStage(2);
         stage2  = new HashMap<String, String>();
         scanner = new Scanner(getClass().getResourceAsStream("generated/toG2_enc.txt"));
         while(scanner.hasNextLine()){
-            if(i++ % 50 == 0) System.out.println("2:" + i);
+            i++;
             String line = scanner.nextLine();
             String[] lines = line.split(" ");
             String key = lines[0];
             String value = lines[1];
             stage2.put(key, value);
             
+            t.setProgress(i/10826);
+            
 
         }
         scanner.close();
         
-        
+        i=0;
+        t.setStage(3);
         stage3 = new HashMap<>();
         scanner = new Scanner(getClass().getResourceAsStream("generated/toG3_enc.txt"));
         while(scanner.hasNextLine()){
-            if(i++ % 50 == 0) System.out.println("3:" + i);
+            i++;
             String line = scanner.nextLine();
             String key = line.split(" ")[0];
             String value = line.split(" ")[1];
-            
             stage3.put(key, value);
+            
+            t.setProgress(i/3528);
         }
         scanner.close();
         
+        i=0;
+        t.setStage(4);
         stage4 = new HashMap<>();
-
-
         scanner = new Scanner(getClass().getResourceAsStream("generated/toG4_enc.txt"));
         while(scanner.hasNextLine()){
             
-            if(i++ % 50 == 0) System.out.println("4:" + i);
+            i++;
             String line = scanner.nextLine();
-            
-            if(line.split(" ").length != 2){
-                System.out.println(line);
-            }
             String key = line.split(" ")[0];
             String value = line.split(" ")[1];
-            
-            
             stage4.put(key, value);
+            
+            t.setProgress(i/553);
         }
         scanner.close();
+        
+        t.hide();
+       
    
     }
     
@@ -426,38 +439,39 @@ public class Solver {
         //copy we can work on, to be able to determine next stages
         RCube copy = cube.copy();
         
+        
+        //moves that are returned
         ArrayList<Move> totalMoves = new ArrayList<>();
         
-        int index = Integer.parseInt(copy.stage1(), 2);
-//        for(Move m : Utils.parseMoves(stage1[index])){
-//            totalMoves.add(m);
-//            copy.applyMove(m);
-//        }
+
+        //get stage1 solution, adding its moves to the list
+        //while applying them to the cube, so next step can be computed
         for(Move m : this.stage1Solution(copy)){
             totalMoves.add(m);
             copy.applyMove(m);
         }
 
-        if(stage1Heuristics[index] != totalMoves.size()){
-            System.out.println(stage1Heuristics[index] + "  " + totalMoves.size());
-        }
         
-        //totalMoves.add(new Move("Xn"));
         
+
+        
+        //since the moves are encrypted in the tog2 tables, there must be a converter
         ConvG2 g2Converter = new ConvG2();
         String state = copy.stage2();
         String encodedState = g2Converter.encodeState(state);
         
+        //we encode the state of our cube, and then find the corresponding entry
+        //in the stage2 hashmap
         String encodedMoves = stage2.get(encodedState);
         
-        int i = 0;
+        
+        //same
         for(Move m : Utils.parseMoves(g2Converter.decodeMoves(encodedMoves))){
 
             totalMoves.add(m);
             copy.applyMove(m);
         }
-        //totalMoves.add(new Move("Xn"));
-        
+        //same
         ConvG3 g3Converter = new ConvG3();
         state = copy.stage3();
         encodedState = g3Converter.encodeState(state);
@@ -484,58 +498,33 @@ public class Solver {
         
         
         
-        //first step : getting into g1
         
-        ////get good / bad edges
-        //// use moves to get into g1
-        //// alternative : tables can be used to get into g1 because there is
-        //// only 2048 positions of which several can be generated by symmetry
-        //// maybe more than half
-        ////
         
-        ////tables for good edges can be generated by randomly spamming moves
-        ////from the group g1 and then creating an entry in a table for all the
-        //// possible positions of the edges
-        ////once this table is complete, if the edge pos / orientation is not
-        ////in the table, the edge is a bad edge
-        ///
-        
-        ////g1 tables are also generable by spamming 1 to 7 moves starting from
-        ////a g1 state, observing the state it creates, and getting the inverse 
-        ////of the moves that were used to get out of it.
-        //// 1 to 7 moves means that there will be 18 possible states with 1 move
-        //// and 612 million states with 7 moves. It will take about an hour to compute
-        //// The size is also probably greatly improvable by considering symmetries
-        
-        //for g2 tables, start from an arbitrary g2 state, and try spamming 1 - 10
-        //of the g1 moves. observe the state it gives, and get its inverse
-        //this means 10 - 10 billion states
-        //that'll take some time
-        //probably at least 1-2 hrs
-        //so try not to fuck it up
-        
-        //g3 tables : 8 - 594 billion
-        //that would take 60 hrs, so not a good sign
-        
-        //g4 : 6- 500 billion
-        
+        //return the move without thoses that are cancelling.
         return Utils.simplifyMoves(totalMoves);
     
     }
     public ArrayList<Move> stage1Solution(RCube cube){
         
+        //make a copy so it can be manipulazed
         RCube copy = cube.copy();
         
         ArrayList<Move> solution = new ArrayList<>();
         
+        //search finishes when the distance to G1 == 0 <=> cube in G1;
         while(stage1Heuristics[copy.edgeFlip()] != 0){
             
             
-            
+            //test each move
             for(Move m : Move.MOVES){
                 RCube copy2 = copy.copy();
                 copy2.applyMove(m);
+                
+                //and see if applying it to the cube reduces its distance to G1
                 if(stage1Heuristics[copy2.edgeFlip()] < stage1Heuristics[copy.edgeFlip()]){
+                    
+                    //if this cube is closer to the solution, replace the cube 
+                    //that we try every move on with this one.
                     copy = copy2.copy();
                     solution.add(m);
                 }
@@ -544,5 +533,9 @@ public class Solver {
         }
         return solution;
         
+    }
+    
+    public ArrayList<Move> layerWise2(RCube c){
+        RCube copy = c.copy();
     }
 }

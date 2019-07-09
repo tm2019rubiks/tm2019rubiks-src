@@ -80,6 +80,35 @@ public class Analyzer {
         
         return toReturn;
     }
+    public int getColorAt(BufferedImage img, int[] coords, int r){
+        
+        
+        //pixels in the given radius by the float rgb values
+                    float[][] pixels = new float[r*r/4][3];
+                    
+                    //in radius r
+                    for(int pos = 0; pos < r*r/4; pos ++){
+                        
+                        //get rgb value from the good position
+                        int rgb = img.getRGB(face[y][x][0] + pos % (r/2), face[y][x][1] + (int) pos / (r/2));
+                        Color col = new Color(rgb);
+                        
+                        float compR = col.getRed()/255f;
+                        float compG = col.getGreen()/255f;
+                        float compB = col.getBlue()/255f;
+                        
+                        //put it in the pixels array
+                        pixels[pos] = new float[]{compR, compG, compB};
+                        
+                    }
+                    
+                    //now  that the array is filled, get the average rgb value
+                    float[] pixelAverage = Utils.average(pixels);
+                    
+                    //in the current position of the matrix, put the good color
+                    colorMatrix[y][x] = hsvClosestColor(pixelAverage);
+        
+    }
     
     private static double distance(float[] a, float[] b){
         

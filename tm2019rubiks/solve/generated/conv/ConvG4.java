@@ -94,7 +94,7 @@ public class ConvG4 {
         //creates empty string
         String decoded = "";
         
-        //decodes the value into hex
+        //decodes the value into base7
         String decodedBase7 =  new BigInteger( Base64.getDecoder().decode(mvs.getBytes())).toString(7);
         
         
@@ -155,6 +155,28 @@ public class ConvG4 {
         
         return cornerPairs + "_" + slicesBase4;
         
+    }
+    public int getID(String decoded){
+        
+        String corners, slices;
+        String[] splitted = decoded.split("_");
+        slices = splitted[1];
+        
+        //every 4th char can be ignored, because it can be found by looking at which
+        //num (0-4) wasn't used before
+        String simplifiedSlices = "";
+        
+        char[] chars = slices.toCharArray();
+        for(byte i = 0; i < chars.length; i ++){
+            if(i%4 != 3){
+                simplifiedSlices += String.valueOf(chars[i]);
+            }
+        }
+        String slicesBase2 = Integer.toString(Integer.parseInt(simplifiedSlices, 4), 2);
+        String total = splitted[0] + slicesBase2;
+        
+        
+        return Integer.parseInt(total, 2);
     }
     
 }

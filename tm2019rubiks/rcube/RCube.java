@@ -30,6 +30,7 @@ public class RCube {
     
     
     public static final byte EDGE_FLIP = 1, CORNER_TWIST = 2, SQUARES_GROUP = 3;
+    public static final byte CENTERS_ONLY = 8, EDGES_ONLY = 9, CORNERS_ONLY = 10;
     
     
     
@@ -104,6 +105,37 @@ public class RCube {
             
             
         }
+        if(stage == RCube.CENTERS_ONLY){
+            RFace red, green, orange, blue, yellow, black;
+            red = new RFace(new byte[][]{{6, 6, 6},{6, 0, 6},{6, 6, 6}});
+            green = new RFace(new byte[][]{{7, 7, 7},{7, 1, 7},{7, 7, 7}});
+            orange = new RFace(new byte[][]{{6, 6, 6},{6, 2, 6},{6, 6, 6}});
+            blue = new RFace(new byte[][]{{7, 7, 7},{7, 3, 7},{7, 7, 7}});
+            yellow = new RFace(new byte[][]{{8, 8, 8},{8, 4, 8},{8, 8, 8}});
+            black = new RFace(new byte[][]{{8, 8, 8},{8, 5, 8},{8, 8, 8}});
+            this.faces = new RFace[]{red, green, orange, blue, yellow, black};
+        }
+        if(stage == RCube.CORNERS_ONLY){
+            RFace red, green, orange, blue, yellow, black;
+            red = new RFace(new byte[][]{{0, 6, 0},{6, 6, 6},{0, 6, 0}});
+            green = new RFace(new byte[][]{{1, 7, 1},{7, 7, 7},{1, 7, 1}});
+            orange = new RFace(new byte[][]{{2, 6, 2},{6, 6, 6},{2, 6, 2}});
+            blue = new RFace(new byte[][]{{3, 7, 3},{7, 7, 7},{3, 7, 3}});
+            yellow = new RFace(new byte[][]{{4, 8, 4},{8, 8, 8},{4, 8, 4}});
+            black = new RFace(new byte[][]{{5, 8, 5},{8, 8, 8},{5, 8, 5}});
+            this.faces = new RFace[]{red, green, orange, blue, yellow, black};
+        }
+        if(stage == RCube.EDGES_ONLY){
+            RFace red, green, orange, blue, yellow, black;
+            red = new RFace(new byte[][]{{6, 0, 6},{0, 6, 0},{6, 0, 6}});
+            green = new RFace(new byte[][]{{7, 1, 7},{1, 7, 1},{7, 1, 7}});
+            orange = new RFace(new byte[][]{{6, 2, 6},{2, 6, 2},{6, 2, 6}});
+            blue = new RFace(new byte[][]{{7, 3, 7},{3, 7, 3},{7, 3, 7}});
+            yellow = new RFace(new byte[][]{{8, 4, 8},{4, 8, 4},{8, 4, 8}});
+            black = new RFace(new byte[][]{{8, 5, 8},{5, 8, 5},{8, 5, 8}});
+            this.faces = new RFace[]{red, green, orange, blue, yellow, black};
+        }
+        
     }
     
     public RCube(RCube base, byte stage){
@@ -830,6 +862,11 @@ public class RCube {
         return thisCorners;
     }
     
+    public String zzCross(){
+        byte[] edgePerm = this.edgePerm();
+        return this.stage1()+ "" + Utils.indexOf(edgePerm, (byte)0) + "_" + Utils.indexOf(edgePerm, (byte)2);
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;
@@ -893,5 +930,41 @@ public class RCube {
         return true;
         
     }
-    
+    public short edgeFlip(){
+        return Short.parseShort(this.stage1(), 2);
+    }
+    public String ff2l(){
+        byte[] cornerPerm = this.cornerPerm();
+        byte[] edgePerm = this.edgePerm();
+        
+        byte posOfEdge6 = Utils.indexOf(edgePerm, (byte)5);
+        byte posOfCorner2 = Utils.indexOf(cornerPerm, (byte)1);
+        
+        return String.valueOf(posOfEdge6) + "_" + posOfCorner2 + "_"+ this.stage1().charAt(posOfEdge6) + this.cornerTwist().charAt(posOfCorner2);
+        
+    }
+    public String cross(){
+        
+        byte[] edgePerm = this.edgePerm();
+        String orientation = this.stage1();
+        
+        byte edge2 = Utils.indexOf(edgePerm, (byte)1);
+        byte edge10 = Utils.indexOf(edgePerm, (byte)9);
+        byte edge4 = Utils.indexOf(edgePerm, (byte)3);
+        byte edge11 = Utils.indexOf(edgePerm, (byte)10);
+        
+        char ori2 = orientation.charAt(edge2);
+        char ori10 = orientation.charAt(edge10);
+        char ori4 = orientation.charAt(edge4);
+        char ori11 = orientation.charAt(edge11);
+        
+        return String.valueOf(edge2) + "_" + ori2 + "/"+
+               String.valueOf(edge10) + "_" + ori10 + "/"+
+               String.valueOf(edge4) + "_" + ori4 + "/"+
+               String.valueOf(edge11) + "_" + ori11;
+                
+    }
+    public String f2l1CrossState(){
+        return this.cross() + "-" + this.ff2l();
+    }
 }

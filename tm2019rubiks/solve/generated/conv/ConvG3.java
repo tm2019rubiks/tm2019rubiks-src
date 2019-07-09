@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -23,6 +23,8 @@ public class ConvG3 {
     
     
     public ConvG3(){
+        
+        //this map defines which number to assign to which move
         turnConv = new HashMap<>();
         turnConv.put("F2", "1");
         turnConv.put("Rn", "2");
@@ -35,6 +37,7 @@ public class ConvG3 {
         turnConv.put("U2", "9");
         turnConv.put("D2", "a");
         
+        //the inverse of the first map
         backConv = new HashMap<>();
         for(Entry<String, String> e : turnConv.entrySet()){
             backConv.put(e.getValue(), e.getKey());
@@ -43,6 +46,8 @@ public class ConvG3 {
         
     }
     
+    
+    //write the conversion to a file
     public  void conv() throws IOException{
         
 
@@ -161,6 +166,9 @@ public class ConvG3 {
         
         return edges + "_" + cornersBase3 + "_" +parity;
         
+    }
+    public int getID(String decoded){
+        return 0;
     }
     
 }

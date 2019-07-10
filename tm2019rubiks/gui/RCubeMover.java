@@ -36,6 +36,8 @@ public class RCubeMover implements KeyListener, ActionListener{
     
     int currIt = 0;
     ArrayList<Move> m = new ArrayList<>();
+    
+    HashMap<String, String> moveTransmitStrings;
 
     //constructor when using only RCube3D
     public RCubeMover(RCube3D toMove) {
@@ -56,6 +58,20 @@ public class RCubeMover implements KeyListener, ActionListener{
         this.cube3d = cube3d;
         this.cube2d = cube2d;
         this.cube = cube2d.getRCube();
+        moveTransmitStrings = new HashMap<String, String>(){{
+            put("f", "/00/");
+            put("F", "/02/");
+            put("r", "/10/");
+            put("R", "/12/");
+            put("b", "/20/");
+            put("B", "/22/");
+            put("l", "/30/");
+            put("L", "/32/");
+            put("u", "/40/");
+            put("U", "/42/");
+            put("d", "/50/");
+            put("D", "/50/");
+        }};
     }
     
     //This function processes keyStrokes, or actionCommands that are passed
@@ -103,34 +119,20 @@ public class RCubeMover implements KeyListener, ActionListener{
             case 'D':
                 cube.applyMove(Move.DP);
                 break;
+            //scrambles the cube
             case 'S':
                 cube.scramble(1000);
                 break;
+            //solves the cube
             case 's':
+                
                 currIt = 0;
-                
                 RCube copy = cube.copy();
-                //String g2 = new RCube(copy, RCube.SQUARES_GROUP).repr();
-                
-                //System.out.println(cube.repr() + "  " + g2);
-                //System.out.println(Main.m.get(g2));
-                
                 m = solv.thistleSolution(copy);
-//                for(Move move : Utils.parseMoves(Main.m.get(g2))){
-//                    copy.applyMove(move);
-//                    m.add(move);
-//                }
-//                for(Move move : Utils.parseMoves(Main.m2.get(copy.repr()))){
-//                    
-//                    m.add(move);
-//                }
-                
-                
-                
-                System.out.println(m.size());
                 
                 
                 break;
+            //applies solution step by step
             case 'M':
                 if(currIt < m.size()){
                     cube.applyMove(m.get(currIt));
@@ -139,8 +141,8 @@ public class RCubeMover implements KeyListener, ActionListener{
                     
                 }
                 break;
+            //debugging
             case 'g':
-                //System.out.println(Arrays.toString(cube.edgePerm()) + "  " + Arrays.toString(cube.cornerPerm()) + "  " + cube.stage1() + "  " + cube.cornerTwist());
                 this.cube3d.setShotAngle();
                 Main.motor.send(Main.solver.thistleSolution(cube));
                 break;
@@ -156,6 +158,9 @@ public class RCubeMover implements KeyListener, ActionListener{
         for(Move m : Main.solver.thistleSolution(cube)) solution += m.toString();
         Main.solutionText.setText(solution);
         
+        if(moveTransmitStrings.containsKey(String.valueOf(c))){
+            Main.motor.sendString(moveTransmitStrings.get(String.valueOf(c)));
+        }
         
     }
     

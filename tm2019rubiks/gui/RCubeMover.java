@@ -70,7 +70,7 @@ public class RCubeMover implements KeyListener, ActionListener{
             put("u", "/40/");
             put("U", "/42/");
             put("d", "/50/");
-            put("D", "/50/");
+            put("D", "/52/");
         }};
     }
     

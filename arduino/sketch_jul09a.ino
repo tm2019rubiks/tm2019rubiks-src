@@ -56,8 +56,8 @@ void setup()
   lcd.createChar(cdlbor, dlBorder);
   lcd.createChar(cdrbor, drBorder);
   lcd.createChar(csepjoin, sepJoin);
-  
-  
+
+
   for (int i = 0; i < 6; i ++) {
     pinMode(stepPinStart + i, OUTPUT);
     pinMode(dirPinStart + i, OUTPUT);
@@ -65,7 +65,7 @@ void setup()
   initDisplay();
 
 }
-void initDisplay(){
+void initDisplay() {
   lcd.clear();
   lcd.home();
   lcd.print("\x03-------\x02-------\x02--\x04");
@@ -76,45 +76,46 @@ void initDisplay(){
   lcd.setCursor(0, 3);
   lcd.print("\x05-------\x01-------\x06");
 
-  
-  
+
+
 }
-void updateDisplayTime(long t){
+void updateDisplayTime(long t) {
   lcd.setCursor(1, 2);
   lcd.print("     ");
   String timeMillis = String(t);
-  lcd.setCursor(6-timeMillis.length(), 2);
+  lcd.setCursor(6 - timeMillis.length(), 2);
   lcd.print(timeMillis);
 }
-void displayTotalMoves(int moves){
+void displayTotalMoves(int moves) {
   lcd.setCursor(9, 2);
   lcd.print("       ");
-  String movesString = "/"+String(moves);
-  mvsStringStart = 16-movesString.length();
+  String movesString = "/" + String(moves);
+  mvsStringStart = 16 - movesString.length();
   lcd.setCursor(mvsStringStart, 2);
   lcd.print(movesString);
 }
-void displayMoveProgress(int progress){
+void displayMoveProgress(int progress) {
   String progressString = String(progress);
-  lcd.setCursor(mvsStringStart-progressString.length(), 2);
+  lcd.setCursor(mvsStringStart - progressString.length(), 2);
   lcd.print(progressString);
-  
+
 }
-void displayMoveString(String moveString){
-  lcd.setCursor(17,1);
+void displayMoveString(String moveString) {
+  lcd.setCursor(17, 1);
   lcd.print(moveString);
 }
 void exec() {
-  
+
   int progressHTM = 1;
 
   displayTotalMoves(solutionLengthHTM);
-  
+
 
   long startTime = millis();
   for (int i = 0; faceIndexes[i] != endCode; i ++) {
 
-    
+    //enable 0 and 1 pins with serial.end
+
     displayMoveProgress(progressHTM);
 
 
@@ -127,12 +128,22 @@ void exec() {
 
     int steps = quarterTurnSteps;
     if (mod != 1) { //half turns are the same in both dirs
-      if ((mod == 0) != currentDirs[face]) { //if the wanted dir != current durection, then switch the dir
-        currentDirs[face] = !currentDirs[face];
-        digitalWrite(dirPin, currentDirs[face]);
-        delay(30);
+      if (face == 4 || face == 5) { //these motors have a different wiring, so its inverted
+        if ((mod == 0) != currentDirs[face]) { //if the wanted dir != current durection, then switch the dir
+          currentDirs[face] = !currentDirs[face];
+          digitalWrite(dirPin, currentDirs[face]);
+          delay(30);
+        }
       }
-      
+      else {
+        if ((mod == 2) != currentDirs[face]) { //if the wanted dir != current durection, then switch the dir
+          currentDirs[face] = !currentDirs[face];
+          digitalWrite(dirPin, currentDirs[face]);
+          delay(30);
+        }
+      }
+
+
     }
     else {
       steps += quarterTurnSteps;
@@ -146,12 +157,11 @@ void exec() {
       delay(milliDelay);
     }
     progressHTM ++;
-    updateDisplayTime(millis()-startTime);
+    updateDisplayTime(millis() - startTime);
 
 
-    
+
   }
-  //updateDisplayTime(millis()-startTime);
 
 }
 
